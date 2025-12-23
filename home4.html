@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditab.by - Медицинское оборудование и расходники</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C4AE2;
+            --primary-light: #8A6DE8;
+            --primary-dark: #5A3BC0;
+            --primary-glow: rgba(108, 74, 226, 0.15);
+            --gray-light: #F5F5F5;
+            --gray: #E0E0E0;
+            --gray-dark: #757575;
+            --black: #121212;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 24px rgba(108, 74, 226, 0.25);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            --glow: 0 0 20px rgba(108, 74, 226, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--black);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1 {
+            font-size: clamp(2.3rem, 4vw, 3.2rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            color: var(--gray-dark);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 74, 226, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 74, 226, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 74, 226, 0);
+            }
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::before {
+            content: "🏥";
+            font-size: 1.5rem;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            5% {
+                transform: scale(1.1);
+            }
+
+            10% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.1);
+            }
+
+            20% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--black);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::before {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--black);
+            transition: var(--transition);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--gray-light);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 130px 0 120px;
+            background: linear-gradient(135deg, #f8f5ff 0%, #f0edff 50%, #e8e4ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(108, 74, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(108, 74, 226, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            color: var(--gray-dark);
+            max-width: 600px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px 25px;
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories {
+            padding: 100px 0;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--gray);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-light);
+        }
+
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--gray-light), var(--white));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover .category-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            transform: rotateY(180deg) scale(1.1);
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-light) 100%);
+            position: relative;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .product-badge.new {
+            background: linear-gradient(135deg, #FF4081, #FF6B9D);
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(135deg, var(--gray-light), var(--white));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--gray-dark);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1));
+        }
+
+        .product-content {
+            padding: 25px;
+            position: relative;
+        }
+
+        .product-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-price::before {
+            content: '💰';
+            font-size: 1.2rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-animation {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.5rem;
+            animation: flyToCart 1s ease-in-out forwards;
+        }
+
+        @keyframes flyToCart {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* ===== PRODUCT COUNTER ===== */
+        .product-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-counter {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .counter-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .counter-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* ===== ABOUT ===== */
+        .about {
+            padding: 100px 0;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 25px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .value-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-glow), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .value-item:hover::before {
+            opacity: 1;
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .value-item:hover .value-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* ===== REVIEWS ===== */
+        .reviews {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--gray-light) 0%, var(--white) 100%);
+            position: relative;
+        }
+
+        .reviews-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 5rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .review-card:hover .review-avatar {
+            transform: rotate(360deg);
+        }
+
+        .stars {
+            color: #FFC107;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        /* ===== CONTACTS ===== */
+        .contacts {
+            padding: 100px 0;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.1rem;
+            padding: 15px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            background: var(--gray-light);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            background: var(--gray-light);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 18px;
+            border: 2px solid var(--gray);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--black), #2a2a2a);
+            color: var(--white);
+            padding: 70px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-logo:hover {
+            color: var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .footer-links li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(108, 74, 226, 0.4);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        .nexus-credit {
+            color: #bbb;
+            margin-top: 10px;
+        }
+
+        .nexus-credit a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nexus-credit a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-light);
+            transition: var(--transition);
+        }
+
+        .nexus-credit a:hover {
+            color: white;
+        }
+
+        .nexus-credit a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gray-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray-dark);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== FLYING ITEMS ===== */
+        .floating-element {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.1;
+            font-size: 2rem;
+            animation: floatAround 20s infinite linear;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(100px, 100px) rotate(90deg);
+            }
+
+            50% {
+                transform: translate(0, 200px) rotate(180deg);
+            }
+
+            75% {
+                transform: translate(-100px, 100px) rotate(270deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* ===== CART FLOATING BUTTON ===== */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-hover);
+            z-index: 100;
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 10px 30px rgba(108, 74, 226, 0.5);
+        }
+
+        .floating-cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #FF4081;
+            color: white;
+            font-size: 0.7rem;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                padding: 20px;
+                box-shadow: var(--shadow);
+                border-radius: 0 0 var(--radius) var(--radius);
+                backdrop-filter: blur(10px);
+            }
+
+            .hero {
+                padding: 150px 0 80px;
+                text-align: center;
+            }
+
+            .hero-content {
+                margin: 0 auto;
+            }
+
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .floating-cart {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                width: 100%;
+            }
+
+            .categories-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ===== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 0 var(--radius) 0;
+            text-decoration: none;
+            z-index: 1001;
+            transition: top 0.3s;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== SKIP LINK FOR ACCESSIBILITY ===== -->
+    <a href="#main-content" class="skip-link">Перейти к основному контенту</a>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">Meditab.by</a>
+
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                ☰
+            </button>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#categories">Каталог</a></li>
+                    <li><a href="#products">Товары</a></li>
+                    <li><a href="#about">О компании</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <main id="main-content">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <h1>Медицинское оборудование и расходники — напрямую от поставщиков</h1>
+                    <p class="hero-subtitle">Быстрая доставка по Беларуси. Только сертифицированные товары с гарантией
+                        качества. Более 1000 позиций в каталоге.</p>
+
+
+                    <a href="#categories" class="btn btn-pulse">Перейти в каталог →</a>
+
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div>Товаров в каталоге</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div>Довольных клиентов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div>Поддержка клиентов</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===== CATEGORIES ===== -->
+        <section id="categories" class="categories">
+            <div class="container">
+                <h2>Категории товаров</h2>
+                <p class="section-subtitle">Все необходимое для медицинских учреждений и частных практик</p>
+
+                <div class="categories-grid">
+                    <div class="category-card fade-in">
+                        <div class="category-icon">💉</div>
+                        <h3>Расходные материалы</h3>
+                        <p>Шприцы, перчатки, бинты, маски и другие одноразовые изделия</p>
+                    </div>
+
+                    <div class="category-card fade-in">
+                        <div class="category-icon">🩺</div>
+                        <h3>Диагностика</h3>
+                        <p>Тонометры, стетоскопы, термометры, глюкометры и аналитические системы</p>
+                    </div>
+
+                    <div class="category-card fade-in">
+                        <div class="category-icon">🛠️</div>
+                        <h3>Инструменты</h3>
+                        <p>Хирургические наборы, зажимы, скальпели и специализированные инструменты</p>
+                    </div>
+
+                    <div class="category-card fade-in">
+                        <div class="category-icon">🛏️</div>
+                        <h3>Мебель</h3>
+                        <p>Медицинские кровати, столики, шкафы и кресла для процедурных</p>
+                    </div>
+
+                    <div class="category-card fade-in">
+                        <div class="category-icon">🧼</div>
+                        <h3>Стерилизация</h3>
+                        <p>Автоклавы, дезинфекторы, стерилизационные укладки и средства обработки</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== POPULAR PRODUCTS ===== 
+        <section id="products" class="products">
+            <div class="container">
+                <h2>Популярные товары</h2>
+                <p class="section-subtitle">Самые востребованные позиции среди наших клиентов</p>
+                
+                <div class="products-grid">
+                    <div class="product-card fade-in">
+                        <div class="product-badge">Хит</div>
+                        <div class="product-image">🩺</div>
+                        <div class="product-content">
+                            <h3>Тонометр электронный CS Medica</h3>
+                            <p>Автоматический тонометр с манжетой на плечо, память на 90 измерений</p>
+                            <div class="product-price">145 BYN</div>
+                            <div class="product-counter">
+                                <button class="counter-btn minus">-</button>
+                                <span class="counter-value">1</span>
+                                <button class="counter-btn plus">+</button>
+                            </div>
+                            <button class="btn add-to-cart" data-product="Тонометр CS Medica" data-price="145">В корзину</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card fade-in">
+                        <div class="product-badge new">Новинка</div>
+                        <div class="product-image">💉</div>
+                        <div class="product-content">
+                            <h3>Шприцы инсулиновые 1мл (100 шт)</h3>
+                            <p>Стерильные одноразовые шприцы с тонкой иглой для точного дозирования</p>
+                            <div class="product-price">28 BYN</div>
+                            <div class="product-counter">
+                                <button class="counter-btn minus">-</button>
+                                <span class="counter-value">1</span>
+                                <button class="counter-btn plus">+</button>
+                            </div>
+                            <button class="btn add-to-cart" data-product="Шприцы инсулиновые" data-price="28">В корзину</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card fade-in">
+                        <div class="product-image">🧤</div>
+                        <div class="product-content">
+                            <h3>Перчатки нитриловые M (100 пар)</h3>
+                            <p>Прочные нитриловые перчатки без талька, не вызывают аллергии</p>
+                            <div class="product-price">42 BYN</div>
+                            <div class="product-counter">
+                                <button class="counter-btn minus">-</button>
+                                <span class="counter-value">1</span>
+                                <button class="counter-btn plus">+</button>
+                            </div>
+                            <button class="btn add-to-cart" data-product="Перчатки нитриловые" data-price="42">В корзину</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card fade-in">
+                        <div class="product-image">🛏️</div>
+                        <div class="product-content">
+                            <h3>Кушетка медицинская с регулировкой</h3>
+                            <p>Удобная кушетка для осмотра пациентов, регулируемая высота</p>
+                            <div class="product-price">680 BYN</div>
+                            <div class="product-counter">
+                                <button class="counter-btn minus">-</button>
+                                <span class="counter-value">1</span>
+                                <button class="counter-btn plus">+</button>
+                            </div>
+                            <button class="btn add-to-cart" data-product="Кушетка медицинская" data-price="680">В корзину</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+        <!-- ===== ABOUT ===== -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content fade-in">
+                    <h2>О компании Meditab</h2>
+                    <p>Meditab — это современный маркетплейс медицинского оборудования и расходных материалов, который
+                        соединяет поставщиков и покупателей по всей Беларуси.</p>
+                    <p>Мы работаем напрямую с производителями и официальными дистрибьюторами, чтобы предложить вам
+                        лучшие цены без наценок посредников.</p>
+
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <div class="value-icon">🏆</div>
+                            <h3>Надёжность</h3>
+                            <p>Только сертифицированная продукция с гарантией качества</p>
+                        </div>
+
+                        <div class="value-item">
+                            <div class="value-icon">⚡</div>
+                            <h3>Скорость</h3>
+                            <p>Доставка по всей Беларуси за 1-3 дня в зависимости от региона</p>
+                        </div>
+
+                        <div class="value-item">
+                            <div class="value-icon">🔍</div>
+                            <h3>Прозрачность</h3>
+                            <p>Честные цены, подробные описания и отзывы покупателей</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== REVIEWS ===== -->
+        <section class="reviews">
+            <div class="container">
+                <h2>Отзывы наших клиентов</h2>
+                <p class="section-subtitle">Более 500 медицинских учреждений доверяют нам</p>
+
+                <div class="reviews-slider">
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">АИ</div>
+                            <div>
+                                <h3>Анна Иванова</h3>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p>"Заказываем расходные материалы для частной клиники уже полгода. Всегда вовремя, качество
+                            отличное. Особенно нравится система заказов через сайт - всё просто и понятно."</p>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">ПС</div>
+                            <div>
+                                <h3>Петр Сидоренко</h3>
+                                <div class="stars">★★★★☆</div>
+                            </div>
+                        </div>
+                        <p>"Как главный врач поликлиники ценю надежность поставок. Оборудование от Meditab соответствует
+                            всем стандартам, документация в порядке. Рекомендую!"</p>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">МК</div>
+                            <div>
+                                <h3>Мария Ковалева</h3>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p>"Пользуюсь для закупок в стоматологический кабинет. Широкий ассортимент, конкурентоспособные
+                            цены, быстрая доставка в Минск. Спасибо за качественный сервис!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACTS ===== -->
+        <section id="contacts" class="contacts">
+            <div class="container">
+                <h2>Контакты</h2>
+                <p class="section-subtitle">Свяжитесь с нами любым удобным способом</p>
+
+                <div class="contacts-grid">
+                    <div class="contact-info fade-in">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <strong>Адрес</strong>
+                                <p>г. Минск, ул. Медицинская, 15</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>Телефон</strong>
+                                <p><a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <strong>Email</strong>
+                                <p><a href="mailto:info@meditab.by">info@meditab.by</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <strong>Telegram</strong>
+                                <p><a href="https://t.me/meditab_by">@meditab_by</a></p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary open-modal">Написать нам сообщение</button>
+                    </div>
+
+                    <div class="contact-form fade-in">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" placeholder="Иван Иванов" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" placeholder="+375 (29) 000-00-00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" rows="5" placeholder="Ваш вопрос или заказ..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Отправить сообщение</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <a href="#" class="footer-logo">Meditab.by</a>
+                    <p>Маркетплейс медицинского оборудования №1 в Беларуси</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Telegram">📱</a>
+                        <a href="#" aria-label="Viber">📞</a>
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="YouTube">▶️</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Каталог</h3>
+                    <ul class="footer-links">
+                        <li><a href="#categories">Расходные материалы</a></li>
+                        <li><a href="#categories">Диагностика</a></li>
+                        <li><a href="#categories">Инструменты</a></li>
+                        <li><a href="#categories">Мебель</a></li>
+                        <li><a href="#categories">Стерилизация</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Компания</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#contacts">Доставка и оплата</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                        <li><a href="#">Поставщикам</a></li>
+                        <li><a href="#">Вакансии</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>© 2024 Meditab.by — Медицинское оборудование и расходники. Все права защищены.</p>
+                <p class="nexus-credit">Сайт создан командой <a href="https://nexus.by" target="_blank"
+                        rel="noopener">Nexus</a> с заботой о вашем бизнесе</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ===== MODAL ===== -->
+    <div id="contactModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Закрыть окно">×</button>
+            <h2 id="modalTitle">Связаться с нами</h2>
+            <p>Заполните форму, и наш менеджер свяжется с вами в течение 30 минут</p>
+
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="modalName">Имя</label>
+                    <input type="text" id="modalName" placeholder="Ваше имя" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalPhone">Телефон</label>
+                    <input type="tel" id="modalPhone" placeholder="+375 (__) ___ __ __" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalMessage">Сообщение</label>
+                    <textarea id="modalMessage" rows="4" placeholder="Опишите ваш вопрос..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Отправить заявку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ПЕРЕМЕННЫЕ И КЭШ ДОМ-ЭЛЕМЕНТОВ
+        const DOM = {
+            mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+            navLinks: document.querySelector('.nav-links'),
+            modal: document.getElementById('contactModal'),
+            modalClose: document.querySelector('.modal-close'),
+            openModalBtn: document.querySelector('.open-modal'),
+            addToCartBtns: document.querySelectorAll('.add-to-cart'),
+            cartCount: document.querySelector('.floating-cart-count'),
+            contactForm: document.querySelector('.contact-form'),
+            floatingCart: document.getElementById('floatingCart'),
+            counterMinusBtns: document.querySelectorAll('.counter-btn.minus'),
+            counterPlusBtns: document.querySelectorAll('.counter-btn.plus'),
+            header: document.querySelector('header')
+        };
+
+        // СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+        const state = {
+            cartItems: 0,
+            cartTotal: 0,
+            isMenuOpen: false,
+            cart: {}
+        };
+
+        // ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
+        DOM.mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+        DOM.modalClose?.addEventListener('click', closeModal);
+        DOM.openModalBtn?.addEventListener('click', openModal);
+        DOM.floatingCart?.addEventListener('click', showCartNotification);
+        window.addEventListener('click', (e) => e.target === DOM.modal && closeModal());
+        window.addEventListener('scroll', handleScroll);
+
+        // Добавление товаров в корзину
+        DOM.addToCartBtns?.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const productCard = this.closest('.product-card');
+                const productName = this.getAttribute('data-product');
+                const productPrice = parseFloat(this.getAttribute('data-price'));
+                const counterValue = productCard.querySelector('.counter-value').textContent;
+                const quantity = parseInt(counterValue);
+
+                addToCart(productName, productPrice, quantity, e);
+                animateToCart(e, productCard);
+            });
+        });
+
+        // Счетчики товаров
+        DOM.counterMinusBtns?.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const counter = this.nextElementSibling;
+                let value = parseInt(counter.textContent);
+                if (value > 1) {
+                    counter.textContent = value - 1;
+                }
+            });
+        });
+
+        DOM.counterPlusBtns?.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const counter = this.previousElementSibling;
+                let value = parseInt(counter.textContent);
+                counter.textContent = value + 1;
+            });
+        });
+
+        // Отправка формы
+        DOM.contactForm?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            showNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
+            this.reset();
+        });
+
+        // ===== ОСНОВНЫЕ ФУНКЦИИ =====
+        function toggleMobileMenu() {
+            state.isMenuOpen = !state.isMenuOpen;
+            DOM.navLinks.classList.toggle('active');
+            DOM.mobileMenuBtn.setAttribute('aria-expanded', state.isMenuOpen);
+            DOM.mobileMenuBtn.innerHTML = state.isMenuOpen ? '✕' : '☰';
+            document.body.style.overflow = state.isMenuOpen ? 'hidden' : '';
+        }
+
+        function handleScroll() {
+            // Эффект скролла для хедера
+            if (window.scrollY > 50) {
+                DOM.header.classList.add('scrolled');
+            } else {
+                DOM.header.classList.remove('scrolled');
+            }
+
+            // Активация анимаций при скролле
+            const fadeElements = document.querySelectorAll('.fade-in:not(.visible)');
+            fadeElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        function openModal() {
+            DOM.modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            DOM.modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal() {
+            DOM.modal.classList.remove('active');
+            document.body.style.overflow = '';
+            DOM.modal.setAttribute('aria-hidden', 'true');
+        }
+
+        function addToCart(productName, price, quantity = 1, event) {
+            if (!state.cart[productName]) {
+                state.cart[productName] = { quantity: 0, price: price };
+            }
+            state.cart[productName].quantity += quantity;
+            state.cartItems += quantity;
+            state.cartTotal += price * quantity;
+
+            DOM.cartCount.textContent = state.cartItems;
+
+            // Пульсация корзины
+            DOM.floatingCart.style.animation = 'none';
+            setTimeout(() => {
+                DOM.floatingCart.style.animation = 'bounce 2s infinite';
+            }, 10);
+
+            showNotification(`Добавлено ${quantity} x "${productName}" в корзину!`, 'success');
+
+            // Сохраняем в localStorage
+            saveCartToLocalStorage();
+        }
+
+        function animateToCart(event, productCard) {
+            const productImage = productCard.querySelector('.product-image');
+            const rect = productImage.getBoundingClientRect();
+            const cartRect = DOM.floatingCart.getBoundingClientRect();
+
+            // Создаем летающий элемент
+            const flyingItem = document.createElement('div');
+            flyingItem.className = 'cart-animation';
+            flyingItem.textContent = productImage.textContent;
+            flyingItem.style.cssText = `
+                position: fixed;
+                left: ${rect.left + rect.width / 2}px;
+                top: ${rect.top + rect.height / 2}px;
+                font-size: 2rem;
+                z-index: 9999;
+                pointer-events: none;
+            `;
+
+            // Рассчитываем траекторию
+            const tx = cartRect.left - rect.left;
+            const ty = cartRect.top - rect.top;
+            flyingItem.style.setProperty('--tx', `${tx}px`);
+            flyingItem.style.setProperty('--ty', `${ty}px`);
+
+            document.body.appendChild(flyingItem);
+
+            setTimeout(() => {
+                flyingItem.remove();
+            }, 1000);
+        }
+
+        function showCartNotification() {
+            if (state.cartItems === 0) {
+                showNotification('Корзина пуста! Добавьте товары.', 'info');
+                return;
+            }
+
+            let message = `В корзине ${state.cartItems} товар(ов) на сумму ${state.cartTotal} BYN\n\n`;
+            for (const [product, data] of Object.entries(state.cart)) {
+                message += `• ${product}: ${data.quantity} x ${data.price} BYN\n`;
+            }
+
+            showNotification(message, 'cart');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colors = {
+                success: '#4CAF50',
+                error: '#F44336',
+                info: '#2196F3',
+                cart: '#6C4AE2'
+            };
+
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${colors[type] || colors.info};
+                color: white;
+                padding: 20px 25px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-hover);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+                white-space: pre-line;
+                line-height: 1.5;
+                font-weight: 500;
+                backdrop-filter: blur(10px);
+                border-left: 5px solid ${colors[type] || colors.info}88;
+            `;
+
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, type === 'cart' ? 5000 : 3000);
+        }
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem('meditab_cart', JSON.stringify({
+                items: state.cart,
+                total: state.cartTotal,
+                count: state.cartItems
+            }));
+        }
+
+        function loadCartFromLocalStorage() {
+            const saved = localStorage.getItem('meditab_cart');
+            if (saved) {
+                const data = JSON.parse(saved);
+                state.cart = data.items || {};
+                state.cartTotal = data.total || 0;
+                state.cartItems = data.count || 0;
+                DOM.cartCount.textContent = state.cartItems;
+            }
+        }
+
+        // ===== АНИМАЦИИ ПРИ СКРОЛЛЕ =====
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // ===== ПЛАВНАЯ ПРОКРУТКА =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Закрываем мобильное меню если открыто
+                    if (state.isMenuOpen) toggleMobileMenu();
+
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загружаем корзину из localStorage
+            loadCartFromLocalStorage();
+
+            // Добавляем плавающие элементы
+            addFloatingElements();
+
+            // Добавляем стили для анимаций
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+                
+                @keyframes flyToCart {
+                    0% {
+                        transform: translate(0, 0) scale(1);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translate(var(--tx), var(--ty)) scale(0);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+
+            console.log('🚀 Meditab.by загружен с интерактивными функциями!');
+        });
+
+        function addFloatingElements() {
+            const elements = ['💊', '🩹', '🧬', '⚕️', '🩸', '🧪'];
+            for (let i = 0; i < 8; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-element';
+                el.textContent = elements[Math.floor(Math.random() * elements.length)];
+                el.style.cssText = `
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 10}s;
+                    animation-duration: ${15 + Math.random() * 20}s;
+                `;
+                document.querySelector('.hero').appendChild(el);
+            }
+        }
+
+        // ===== ДОСТУПНОСТЬ =====
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                if (state.isMenuOpen) toggleMobileMenu();
+            }
+        });
+
+        // Автоматически показываем элементы при загрузке
+        window.addEventListener('load', () => {
+            handleScroll();
+        });
+    </script>
+</body>
+
+</html>
