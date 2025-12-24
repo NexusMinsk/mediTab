@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Meditab | Загрузка</title>
+    <meta name="geo.region" content="BY-MI" />
+    <meta name="geo.placename" content="Минск" />
+    <meta name="geo.position" content="53.938017;27.485281" />
+    <meta name="ICBM" content="53.938017, 27.485281" />
+    <meta property="og:type" content="website">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: rgb(31, 44, 60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Фоновые медицинские иконки */
+        .medical-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.08;
+        }
+
+        .medical-icon {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.3);
+            animation: floatIcon linear infinite;
+            filter: drop-shadow(0 0 8px rgba(224, 107, 15, 0.2));
+        }
+
+        @keyframes floatIcon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Центрированный контент */
+        .loading-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Логотип и слоган */
+        .logo-container {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 0 10px rgba(224, 107, 15, 0.3));
+        }
+
+        .loading-logo {
+            font-family: 'Prata', serif;
+            font-size: 3.5rem;
+            color: white;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* Прогресс-бар */
+        .progress-container {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgb(224, 107, 15), 
+                rgb(255, 150, 50));
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 15px rgba(224, 107, 15, 0.4);
+        }
+
+        /* Процент */
+        .percentage {
+            font-size: 2.8rem;
+            color: white;
+            margin-top: 25px;
+            font-family: 'Courier New', monospace;
+            font-weight: 400;
+            text-shadow: 0 0 10px rgba(224, 107, 15, 0.3);
+        }
+
+        /* Статус загрузки */
+        .loading-status {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-top: 20px;
+            font-style: italic;
+            height: 20px;
+            min-height: 20px;
+        }
+
+        /* Коннектор - символ связи */
+        .connector {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(224, 107, 15, 0.5), 
+                transparent);
+            margin: 25px auto;
+            position: relative;
+        }
+
+        .connector::before,
+        .connector::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgb(224, 107, 15);
+            top: -5px;
+            animation: pulse 2s infinite;
+        }
+
+        .connector::before {
+            left: 0;
+        }
+
+        .connector::after {
+            right: 0;
+        }
+
+        /* Анимации */
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(224, 107, 15, 0.4);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 0 0 8px rgba(224, 107, 15, 0);
+            }
+        }
+
+        /* Плавный переход */
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Медиа-запросы */
+        @media (max-width: 600px) {
+            .loading-logo {
+                font-size: 2.5rem;
+            }
+            
+            .percentage {
+                font-size: 2.2rem;
+            }
+            
+            .logo-icon {
+                font-size: 40px;
+            }
+            
+            .loading-content {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .loading-logo {
+                font-size: 2rem;
+            }
+            
+            .percentage {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    
+    <!-- Подключение шрифта Prata -->
+    <link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Фоновые медицинские иконки -->
+    <div class="medical-icons" id="medicalIcons"></div>
+
+    <!-- Основной контент -->
+    <div class="loading-content">
+        <div class="logo-container">
+            <div class="logo-icon">🏥</div>
+            <div class="loading-logo">Meditab</div>
+            <div class="tagline">Платформа медицинских поставок</div>
+        </div>
+        
+        <!-- Символ связи -->
+        <div class="connector"></div>
+        
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Поиск поставщиков...</span>
+                <span id="currentPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="percentage" id="percentage">0%</div>
+        <div class="loading-status" id="loadingStatus">Подключаемся к базе поставщиков...</div>
+    </div>
+
+    <script>
+        // Медицинские иконки для фона
+        const medicalIcons = [
+            '💊', '🩺', '🩹', '🧬', '🧪', '🦠', '🔬', '🧫', 
+            '💉', '🩸', '🧴', '🛏️', '🚑', '🏨', '📋', '🔍',
+            '📦', '🚚', '📊', '💰', '🤝', '📞', '📧', '📍'
+        ];
+
+        // Элементы DOM
+        const medicalIconsContainer = document.getElementById('medicalIcons');
+        const progressFill = document.getElementById('progressFill');
+        const percentage = document.getElementById('percentage');
+        const currentPercent = document.getElementById('currentPercent');
+        const loadingStatus = document.getElementById('loadingStatus');
+        
+        // Сообщения статуса - тематические для медицинской платформы
+        const statusMessages = [
+            "Подключаемся к базе поставщиков...",
+            "Загружаем каталог товаров...",
+            "Анализируем предложения...",
+            "Синхронизируем цены...",
+            "Проверяем наличие...",
+            "Формируем выгодные предложения...",
+            "Оптимизируем доставку...",
+            "Готовим платформу к работе..."
+        ];
+        
+        // Создание фоновых иконок
+        function createMedicalIcons() {
+            const iconCount = 25; // Количество иконок
+            
+            for (let i = 0; i < iconCount; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'medical-icon';
+                
+                // Случайная иконка
+                const randomIcon = medicalIcons[Math.floor(Math.random() * medicalIcons.length)];
+                icon.textContent = randomIcon;
+                
+                // Позиция
+                icon.style.left = `${Math.random() * 100}%`;
+                
+                // Размер и анимация
+                const size = Math.random() * 20 + 16; // 16-36px
+                const duration = Math.random() * 15 + 10; // 10-25 секунд
+                const delay = Math.random() * 5;
+                
+                icon.style.fontSize = `${size}px`;
+                icon.style.animationDuration = `${duration}s`;
+                icon.style.animationDelay = `${delay}s`;
+                
+                // Начальная позиция (выше экрана)
+                icon.style.top = `-${size}px`;
+                
+                medicalIconsContainer.appendChild(icon);
+            }
+        }
+        
+        // Запрет скролла
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('scroll', function(e) {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+        });
+        
+        // Инициализация
+        let progress = 0;
+        let currentStatusIndex = 0;
+        const totalTime = 4500; // 4.5 секунды
+        const interval = 40;
+        const steps = totalTime / interval;
+        const increment = 100 / steps;
+        
+        // Функция обновления статуса
+        function updateStatus() {
+            const statusIndex = Math.floor(progress / 12.5); // 100 / 8 сообщений = 12.5
+            if (statusIndex !== currentStatusIndex && statusIndex < statusMessages.length) {
+                currentStatusIndex = statusIndex;
+                loadingStatus.textContent = statusMessages[statusIndex];
+                
+                // Случайная иконка для статуса
+                if (Math.random() > 0.5) {
+                    const randomIcon = medicalIcons[Math.floor(Math.random() * medicalIcons.length)];
+                    loadingStatus.innerHTML = `${randomIcon} ${statusMessages[statusIndex]}`;
+                }
+            }
+        }
+        
+        // Функция обновления прогресса
+        function updateProgress() {
+            if (progress < 100) {
+                // Плавное увеличение с бизнес-тематикой
+                const businessFactor = 0.9 + Math.random() * 0.2;
+                progress = Math.min(progress + increment * businessFactor, 100);
+                
+                const roundedProgress = Math.floor(progress);
+                
+                // Обновление отображения
+                progressFill.style.width = `${roundedProgress}%`;
+                percentage.textContent = `${roundedProgress}%`;
+                currentPercent.textContent = `${roundedProgress}%`;
+                
+                // Обновление статуса
+                updateStatus();
+                
+                // Эффект при достижении ключевых точек
+                if ([25, 50, 75, 90].includes(roundedProgress)) {
+                    progressFill.style.boxShadow = '0 0 20px rgba(224, 107, 15, 0.6)';
+                    setTimeout(() => {
+                        progressFill.style.boxShadow = '0 0 15px rgba(224, 107, 15, 0.4)';
+                    }, 300);
+                }
+                
+                // Следующий кадр
+                setTimeout(updateProgress, interval);
+            } else {
+                // Загрузка завершена
+                progressFill.style.width = '100%';
+                percentage.textContent = '100%';
+                currentPercent.textContent = '100%';
+                loadingStatus.textContent = "✅ Готово! Подключение к платформе...";
+                
+                // Плавное исчезновение
+                setTimeout(() => {
+                    document.body.classList.add('fade-out');
+                }, 600);
+                
+                // Редирект
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1200);
+            }
+        }
+        
+        // Предзагрузка home.html
+        const preloadIframe = document.createElement('iframe');
+        preloadIframe.style.display = 'none';
+        preloadIframe.src = 'home.html';
+        document.body.appendChild(preloadIframe);
+        
+        // Ускорение при загрузке iframe
+        preloadIframe.addEventListener('load', function() {
+            if (progress < 85) {
+                progress = 85;
+                loadingStatus.textContent = "⚡ Ускоренная загрузка каталога...";
+            }
+        });
+        
+        // Старт
+        setTimeout(() => {
+            createMedicalIcons();
+            updateProgress();
+        }, 300);
+        
+        // Фоллбек через 7 секунд
+        setTimeout(() => {
+            if (progress < 100) {
+                progress = 100;
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 500);
+            }
+        }, 7000);
+        
+        // Интерактив для бизнес-пользователей
+        document.addEventListener('click', function() {
+            if (progress < 85) {
+                progress = Math.min(progress + 8, 85);
+                loadingStatus.textContent = "⚡ Приоритетная загрузка...";
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Enter' && progress < 85) {
+                progress = Math.min(progress + 12, 85);
+                loadingStatus.textContent = "🚀 Экспресс-подключение...";
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
