@@ -1,1 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Каталог | Meditab - Медицинское оборудование</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poiret+One&family=Prata&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --white: #ffffff;
+            --bg-dark: #182231;
+            --accent-blue: #cddce4;
+            --text-gray: #586474;
+            --border-gray: #d9d9d9;
+            --accent-orange: #cf7911;
+            --primary-blue: #2a5c9a;
+            --shadow: 0 4px 20px rgba(24, 34, 49, 0.1);
+            --shadow-hover: 0 8px 30px rgba(24, 34, 49, 0.15);
+            --radius: 16px;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Poiret One', cursive;
+            color: var(--text-gray);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            font-weight: 400;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4 {
+            font-family: 'Prata', serif;
+            font-weight: 400;
+            color: var(--bg-dark);
+        }
+
+        h1 {
+            font-size: clamp(3rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: clamp(2.2rem, 4vw, 2.8rem);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-orange);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .section-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-spacing {
+            padding: 80px 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: var(--accent-orange);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #e06b0f;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-orange);
+            color: var(--white);
+        }
+
+        /* ===== НАВИГАЦИОННАЯ ПАНЕЛЬ СБОКУ ===== */
+        .nav-panel {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 15px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-gray);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-gray);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+            background: var(--accent-orange);
+        }
+
+        .nav-dot.active {
+            background: var(--accent-orange);
+            transform: scale(1.3);
+        }
+
+        /* ===== ОСНОВНОЙ HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(25px);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(217, 217, 217, 0.5);
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-family: 'Prata', serif;
+            font-size: 2rem;
+            color: var(--bg-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--accent-orange);
+        }
+
+        .logo::before {
+            content: "⚕";
+            font-size: 1.8rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 6px 0;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== CATALOG HERO ===== */
+        .catalog-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, #f8fafc 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .catalog-title {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ===== CATALOG FILTERS ===== */
+        .catalog-filters {
+            background: var(--white);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-gray);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            background: transparent;
+            border: 2px solid var(--border-gray);
+            border-radius: var(--radius);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--bg-dark);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: var(--white);
+        }
+
+        /* ===== CATALOG SECTIONS ===== */
+        .catalog-section {
+            padding: 60px 0;
+            scroll-margin-top: 120px;
+        }
+
+        .catalog-section:nth-child(even) {
+            background: linear-gradient(135deg, #f8fafc 0%, var(--white) 100%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-gray);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-image {
+            height: 200px;
+            background: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-content {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--bg-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .product-description {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-family: 'Prata', serif;
+            font-size: 1.8rem;
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-gray);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .availability {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .availability.in-stock {
+            color: #10b981;
+        }
+
+        .availability.out-of-stock {
+            color: #ef4444;
+        }
+
+        .availability-icon {
+            font-size: 0.8rem;
+        }
+
+        /* ===== SPECIFICATIONS ===== */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-gray);
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: var(--bg-dark);
+        }
+
+        .spec-value {
+            color: var(--text-gray);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .catalog-cta {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #2c3e50 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .catalog-cta h2 {
+            color: white;
+        }
+
+        .catalog-cta h2::after {
+            background: var(--accent-orange);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--bg-dark);
+            padding: 60px 0 20px;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Prata', serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-orange);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        /* ===== КНОПКА "ВВЕРХ" ===== */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: var(--accent-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            border: none;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(30px);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            background: #e06b0f;
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--bg-dark);
+            margin: 4px auto;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .nav-panel {
+                display: none;
+            }
+            
+            .filter-buttons {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 100px 30px 30px;
+                gap: 15px;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--border-gray);
+                width: 100%;
+            }
+
+            .catalog-hero {
+                padding: 120px 0 40px;
+                text-align: center;
+            }
+            
+            .catalog-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .catalog-filters {
+                top: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-spacing {
+                padding: 60px 0;
+            }
+            
+            .btn {
+                padding: 14px 24px;
+                font-size: 0.95rem;
+            }
+            
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .product-card {
+                padding: 15px;
+            }
+            
+            .specs-grid {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== НАВИГАЦИОННАЯ ПАНЕЛЬ ===== -->
+    <div class="nav-panel">
+        <div class="nav-dot active" data-title="Каталог" data-section="catalog-hero"></div>
+        <div class="nav-dot" data-title="Расходные материалы" data-section="consumables"></div>
+        <div class="nav-dot" data-title="Диагностика" data-section="diagnostics"></div>
+        <div class="nav-dot" data-title="Инструменты" data-section="instruments"></div>
+        <div class="nav-dot" data-title="Консультация" data-section="consultation"></div>
+    </div>
+
+    <!-- ===== КНОПКА НАВЕРХ ===== -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Вернуться наверх">
+        ↑
+    </button>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Meditab</a>
+            
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#consumables">Каталог</a></li>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== CATALOG HERO ===== -->
+    <main>
+        <section class="catalog-hero" id="catalog-hero">
+            <div class="container">
+                <div class="catalog-title">
+                    <h1>Каталог медицинского<br>оборудования</h1>
+                    <p class="section-subtitle">Полный спектр сертифицированной медицинской продукции от ведущих мировых производителей</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CATALOG FILTERS ===== -->
+        <div class="catalog-filters">
+            <div class="container">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Все товары</button>
+                    <button class="filter-btn" data-filter="consumables">Расходные материалы</button>
+                    <button class="filter-btn" data-filter="diagnostics">Диагностика</button>
+                    <button class="filter-btn" data-filter="instruments">Инструменты</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONSUMABLES SECTION ===== -->
+        <section id="consumables" class="catalog-section">
+            <div class="container">
+                <h2>Расходные материалы</h2>
+                <p class="section-subtitle">Одноразовые медицинские изделия и расходные материалы для ежедневного использования в медицинских учреждениях</p>
+                
+                <div class="products-grid">
+                    <div class="product-card" data-category="consumables">
+                        <div class="product-badge">Хит продаж</div>
+                        <div class="product-image">💉</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Шприцы инъекционные</h3>
+                            <p class="product-description">Стерильные одноразовые шприцы объемом 2мл, 5мл, 10мл с иглами. Безопасная система Luer Lock.</p>
+                            <span class="product-price">от 450 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Упаковка 100 шт.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="consumables">
+                        <div class="product-image">🧤</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Перчатки нитриловые</h3>
+                            <p class="product-description">Нестерильные нитриловые перчатки, размеры S-XXL. Высокая прочность, защита от химикатов.</p>
+                            <span class="product-price">от 1 200 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Коробка 100 пар</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="consumables">
+                        <div class="product-badge">Новинка</div>
+                        <div class="product-image">🩹</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Стерильные бинты</h3>
+                            <p class="product-description">Бинты стерильные марлевые различной ширины. Индивидуальная упаковка, гипоаллергенный материал.</p>
+                            <span class="product-price">от 280 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Упаковка 20 шт.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="consumables">
+                        <div class="product-image">😷</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Медицинские маски</h3>
+                            <p class="product-description">Трехслойные хирургические маски с фиксатором для носа. Высокая фильтрация, комфортное ношение.</p>
+                            <span class="product-price">от 350 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Упаковка 50 шт.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Стерильность:</span>
+                        <span class="spec-value">Все товары сертифицированы</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Срок годности:</span>
+                        <span class="spec-value">от 2 до 5 лет</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Упаковка:</span>
+                        <span class="spec-value">Индивидуальная и групповая</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Минимальный заказ:</span>
+                        <span class="spec-value">от 10 упаковок</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DIAGNOSTICS SECTION ===== -->
+        <section id="diagnostics" class="catalog-section">
+            <div class="container">
+                <h2>Диагностическое оборудование</h2>
+                <p class="section-subtitle">Современные приборы для точной диагностики и мониторинга состояния пациентов</p>
+                
+                <div class="products-grid">
+                    <div class="product-card" data-category="diagnostics">
+                        <div class="product-badge">Топ продаж</div>
+                        <div class="product-image">🩺</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Цифровой тонометр</h3>
+                            <p class="product-description">Автоматический тонометр с манжетой на запястье. Память на 60 измерений, определение аритмии.</p>
+                            <span class="product-price">от 4 500 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Гарантия 3 года</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="diagnostics">
+                        <div class="product-image">🌡️</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Инфракрасный термометр</h3>
+                            <p class="product-description">Бесконтактный термометр для измерения температуры тела. Результат за 1 секунду, подсветка дисплея.</p>
+                            <span class="product-price">от 3 200 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Гарантия 2 года</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="diagnostics">
+                        <div class="product-badge">Акция</div>
+                        <div class="product-image">🧬</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Глюкометр + тест-полоски</h3>
+                            <p class="product-description">Комплект глюкометра с 50 тест-полосками и ланцетами. Большой дисплей, память на 500 измерений.</p>
+                            <span class="product-price">от 6 800 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>В комплекте 50 полосок</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="diagnostics">
+                        <div class="product-image">📊</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Портативный ЭКГ аппарат</h3>
+                            <p class="product-description">6-канальный аппарат ЭКГ с сенсорным экраном. Автоматический анализ, печать на термобумаге.</p>
+                            <span class="product-price">от 45 000 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Для клиник</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Точность измерений:</span>
+                        <span class="spec-value">±1% от показаний</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Калибровка:</span>
+                        <span class="spec-value">Заводская, с сертификатом</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Электропитание:</span>
+                        <span class="spec-value">Батареи/сеть 220В</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Обучение:</span>
+                        <span class="spec-value">Бесплатное обучение персонала</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== INSTRUMENTS SECTION ===== -->
+        <section id="instruments" class="catalog-section">
+            <div class="container">
+                <h2>Медицинские инструменты</h2>
+                <p class="section-subtitle">Профессиональные хирургические инструменты и наборы для операционных и процедурных кабинетов</p>
+                
+                <div class="products-grid">
+                    <div class="product-card" data-category="instruments">
+                        <div class="product-badge">Хирургия</div>
+                        <div class="product-image">🔪</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Хирургический набор</h3>
+                            <p class="product-description">Базовый набор для малых операций: скальпели, зажимы, пинцеты, ножницы. Стерильная упаковка.</p>
+                            <span class="product-price">от 8 900 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>15 предметов</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="instruments">
+                        <div class="product-image">✂️</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Хирургические ножницы</h3>
+                            <p class="product-description">Ножницы прямые и изогнутые, из нержавеющей стали. Острота лезвия сохраняется длительное время.</p>
+                            <span class="product-price">от 2 500 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Различные размеры</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="instruments">
+                        <div class="product-badge">Премиум</div>
+                        <div class="product-image">🦷</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Стоматологический набор</h3>
+                            <p class="product-description">Полный набор инструментов для стоматологического кабинета. Эргономичные ручки, антикоррозийное покрытие.</p>
+                            <span class="product-price">от 25 000 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>32 инструмента</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="instruments">
+                        <div class="product-image">🩸</div>
+                        <div class="product-content">
+                            <h3 class="product-title">Набор для забора крови</h3>
+                            <p class="product-description">Стерильные вакуумные системы для забора крови. Различные объемы, иглы разного диаметра.</p>
+                            <span class="product-price">от 650 руб.</span>
+                            <div class="product-meta">
+                                <div class="availability in-stock">
+                                    <span class="availability-icon">✓</span> В наличии
+                                </div>
+                                <div>Упаковка 100 шт.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Материал:</span>
+                        <span class="spec-value">Нержавеющая сталь 440C</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Стерилизация:</span>
+                        <span class="spec-value">Автоклавирование до 300 циклов</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Производитель:</span>
+                        <span class="spec-value">Германия, Швейцария, Япония</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Гарантия:</span>
+                        <span class="spec-value">Пожизненная на поломки</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONSULTATION CTA ===== -->
+        <section id="consultation" class="catalog-cta section-spacing">
+            <div class="container">
+                <h2>Нужна консультация?</h2>
+                <p class="section-subtitle">Наши специалисты помогут подобрать оборудование для вашего медицинского учреждения</p>
+                
+                <div style="margin-top: 40px;">
+                    <a href="index.html#contacts" class="btn" style="margin-right: 15px;">Связаться с нами</a>
+                    <a href="tel:+375291234567" class="btn btn-secondary">Позвонить сейчас</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <a href="index.html" class="footer-logo">Meditab</a>
+                    <p>Прямые поставки медицинского оборудования и расходных материалов. Качество, проверенное временем.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Telegram">📱</a>
+                        <a href="#" aria-label="Email">✉️</a>
+                        <a href="#" aria-label="Phone">📞</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Каталог</h3>
+                    <ul class="footer-links">
+                        <li><a href="#consumables">Расходные материалы</a></li>
+                        <li><a href="#diagnostics">Диагностика</a></li>
+                        <li><a href="#instruments">Инструменты</a></li>
+                        <li><a href="#consultation">Консультация</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Компания</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="index.html#about">О нас</a></li>
+                        <li><a href="index.html#contacts">Контакты</a></li>
+                        <li><a href="#">Для поставщиков</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2024 Meditab. Медицинское оборудование. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Элементы DOM
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const header = document.querySelector('header');
+            const scrollToTop = document.getElementById('scrollToTop');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            let isMenuOpen = false;
+            let currentSection = 'catalog-hero';
+            
+            // Мобильное меню
+            mobileMenuBtn.addEventListener('click', function() {
+                isMenuOpen = !isMenuOpen;
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                this.setAttribute('aria-expanded', isMenuOpen);
+                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+            });
+            
+            // Закрытие меню при клике на ссылку
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (isMenuOpen) {
+                        mobileMenuBtn.click();
+                    }
+                });
+            });
+            
+            // Фильтрация товаров
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Обновляем активную кнопку
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Показываем/скрываем товары
+                    productCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                    
+                    // Прокручиваем к соответствующей секции
+                    if (filter !== 'all') {
+                        const section = document.getElementById(filter);
+                        if (section) {
+                            window.scrollTo({
+                                top: section.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Навигационная панель
+            function updateNavPanel() {
+                const sections = ['catalog-hero', 'consumables', 'diagnostics', 'instruments', 'consultation'];
+                let current = '';
+                let minDistance = Infinity;
+                
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        const distance = Math.abs(section.getBoundingClientRect().top);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            current = sectionId;
+                        }
+                    }
+                });
+                
+                if (current && current !== currentSection) {
+                    currentSection = current;
+                    navDots.forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.getAttribute('data-section') === current) {
+                            dot.classList.add('active');
+                        }
+                    });
+                }
+            }
+            
+            // Прокрутка по нажатию на точки
+            navDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        window.scrollTo({
+                            top: section.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Прокрутка header
+            function handleScroll() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                    scrollToTop.classList.add('visible');
+                } else {
+                    header.classList.remove('scrolled');
+                    scrollToTop.classList.remove('visible');
+                }
+                updateNavPanel();
+            }
+            
+            // Кнопка "наверх"
+            scrollToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Плавный скролл для внутренних ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Анимация появления товаров
+            function animateProducts() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                productCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(card);
+                });
+            }
+            
+            // Инициализация
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Инициализируем при загрузке
+            animateProducts();
+            
+            // Закрытие меню при нажатии Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isMenuOpen) {
+                    mobileMenuBtn.click();
+                }
+            });
+            
+            console.log('Каталог Meditab загружен');
+        });
+    </script>
+</body>
+</html>
