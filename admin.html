@@ -611,27 +611,28 @@
                             </h3>
                             
                             <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" for="productCategory">
-                                        <i class="fas fa-folder"></i> Категория товара *
-                                    </label>
-                                    <select id="productCategory" class="form-select" required>
-    <option value="">-- Загрузка категорий... --</option>
-    <!-- Категории загрузятся через JavaScript -->
-</select>
-<small style="color: var(--text-gray); margin-top: 5px; display: block;">
-    Категории настраиваются в боковой панели слева
-</small>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" for="cardTitle">
-                                        <i class="fas fa-heading"></i> Название товара *
-                                    </label>
-                                    <input type="text" id="cardTitle" class="form-input" 
-                                           placeholder="Например: Тонометр автоматический DS-500" required>
-                                </div>
-                            </div>
+    <div class="form-group">
+        <label class="form-label" for="productCategory">
+            <i class="fas fa-folder"></i> Категория товара *
+        </label>
+        <!-- НОВЫЙ ДИНАМИЧЕСКИЙ SELECT -->
+        <select id="productCategory" class="form-select" required>
+            <option value="">-- Загрузка категорий... --</option>
+            <!-- Категории загрузятся через JavaScript -->
+        </select>
+        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+            Категории настраиваются в боковой панели слева
+        </small>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label" for="cardTitle">
+            <i class="fas fa-heading"></i> Название товара *
+        </label>
+        <input type="text" id="cardTitle" class="form-input" 
+               placeholder="Например: Тонометр автоматический DS-500" required>
+    </div>
+</div>
 
                             <!-- Цена (теперь только одна) -->
                             <div class="form-group">
