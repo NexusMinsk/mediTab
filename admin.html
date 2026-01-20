@@ -335,7 +335,8 @@ https://example.com/photo2.jpg"></textarea>
             
             // Создаем объект товара
             const product = {
-                id: editingProductId || Date.now(), // Используем текущий ID или новый
+                id: editingProductId || Date.now(),
+                category: document.getElementById('productCategory').value, // Используем текущий ID или новый
                 card: {
                     title: document.getElementById('cardTitle').value,
                     price: document.getElementById('cardPrice').value,
