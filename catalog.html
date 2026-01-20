@@ -2611,53 +2611,79 @@ document.addEventListener('visibilitychange', function() {
 });
 </script>
     <script>
+// Глобальный флаг для отслеживания загрузки
+let isOtherCategoryLoaded = false;
+
+// Исправленная функция загрузки товаров категории "Другое"
 function loadOtherCategoryProducts() {
     try {
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const otherProducts = products.filter(p => p.category === 'other');
-        
-        if (otherProducts.length === 0) {
-            // Если товаров нет - показываем сообщение
-            const otherSection = document.querySelector('#other .products-grid');
-            if (otherSection) {
-                otherSection.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                        <p>Товаров в этой категории пока нет</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
-                    </div>
-                `;
-            }
+        // Если уже загружено - пропускаем
+        if (isOtherCategoryLoaded) {
+            console.log('Категория "Другое" уже загружена, пропускаем');
             return;
         }
         
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        const otherProducts = products.filter(p => p.category === 'other');
+        
         // Находим секцию "Другое"
         const otherSection = document.querySelector('#other .products-grid');
-        if (!otherSection) return;
+        if (!otherSection) {
+            console.error('Секция "Другое" не найдена');
+            return;
+        }
         
-        // ✅ ВАЖНО: ПЕРВОЕ ДЕЛО - ОЧИСТИТЬ КОНТЕЙНЕР
+        // Полностью очищаем контейнер перед добавлением
         otherSection.innerHTML = '';
         
-        // Создаем Set для отслеживания уже добавленных ID
-        const addedIds = new Set();
-        
-        // Добавляем товары (проверяем дубли)
-        otherProducts.forEach(product => {
-            // Проверяем, не добавлен ли уже этот товар
-            if (!addedIds.has(product.id)) {
-                const productCard = createProductCard(product);
-                otherSection.appendChild(productCard);
-                addedIds.add(product.id); // Запоминаем ID
+        if (otherProducts.length === 0) {
+            // Если товаров нет - показываем сообщение
+            otherSection.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+                    <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                    <p>Товаров в этой категории пока нет</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
+                </div>
+            `;
+            
+            // Обновляем заголовок
+            const categoryHeader = document.querySelector('#other .category-header h2 span');
+            if (categoryHeader) {
+                categoryHeader.textContent = `(0 товаров)`;
             }
+            
+            isOtherCategoryLoaded = true;
+            return;
+        }
+        
+        // Используем Set для отслеживания уникальных ID
+        const uniqueProductIds = new Set();
+        const validProducts = [];
+        
+        // Фильтруем товары, оставляем только уникальные
+        otherProducts.forEach(product => {
+            if (product.id && !uniqueProductIds.has(product.id)) {
+                uniqueProductIds.add(product.id);
+                validProducts.push(product);
+            }
+        });
+        
+        // Добавляем товары
+        validProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            otherSection.appendChild(productCard);
         });
         
         // Обновляем заголовок с количеством товаров
         const categoryHeader = document.querySelector('#other .category-header h2 span');
         if (categoryHeader) {
-            categoryHeader.textContent = `(${addedIds.size} товаров)`;
+            categoryHeader.textContent = `(${validProducts.length} товаров)`;
         }
         
-        console.log(`Загружено ${addedIds.size} товаров в категорию "Другое"`);
+        console.log(`Загружено ${validProducts.length} уникальных товаров в категорию "Другое"`);
+        
+        // Устанавливаем флаг загрузки
+        isOtherCategoryLoaded = true;
         
     } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
@@ -2673,24 +2699,28 @@ function createProductCard(product) {
     
     // Определяем бейдж
     let badgeHTML = '';
-    if (product.card.price && product.card.price.includes('BYN')) {
-        const priceNum = parseInt(product.card.price);
-        if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-        else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+    if (product.card && product.card.price && product.card.price.includes('BYN')) {
+        const priceMatch = product.card.price.match(/(\d+)/);
+        if (priceMatch) {
+            const priceNum = parseInt(priceMatch[0]);
+            if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
+            else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+        }
     }
     
     card.innerHTML = `
         <div class="product-image">
             ${badgeHTML}
-            <img src="${product.card.image}" alt="${product.card.title}" 
+            <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
+                 alt="${product.card?.title || 'Товар'}" 
                  onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
         </div>
         <div class="product-info">
-            <h3>${product.card.title}</h3>
+            <h3>${product.card?.title || 'Товар без названия'}</h3>
             <div class="product-price">
                 <div class="price-container">
                     <div>
-                        <span class="current-price price-retail">${product.card.price || 'Цена не указана'}</span>
+                        <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
                     </div>
                     <span class="price-type price-type-retail">Розница</span>
                 </div>
@@ -2701,24 +2731,37 @@ function createProductCard(product) {
     return card;
 }
 
-// Загружаем при загрузке страницы
+// Загружаем при загрузке страницы (с защитой от множественных вызовов)
 document.addEventListener('DOMContentLoaded', function() {
-    // Ждем немного для загрузки
-    setTimeout(loadOtherCategoryProducts, 500);
+    // Сбрасываем флаг при загрузке страницы
+    isOtherCategoryLoaded = false;
     
-    // Обновляем при изменении LocalStorage
+    // Используем requestAnimationFrame для гарантии загрузки DOM
+    requestAnimationFrame(() => {
+        // Ждем немного для загрузки DOM
+        setTimeout(() => {
+            loadOtherCategoryProducts();
+        }, 100);
+    });
+    
+    // Обновляем при изменении LocalStorage (с защитой)
     window.addEventListener('storage', function(e) {
         if (e.key === 'products') {
-            console.log('Обнаружено изменение товаров, обновляем категорию "Другое"...');
-            loadOtherCategoryProducts();
+            console.log('Обнаружено изменение товаров, сбрасываем флаг и обновляем категорию "Другое"...');
+            isOtherCategoryLoaded = false;
+            setTimeout(loadOtherCategoryProducts, 50);
         }
     });
     
-    // Обновляем при возвращении на вкладку
+    // Обновляем при возвращении на вкладку (с защитой)
+    let isPageVisible = true;
     document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            loadOtherCategoryProducts();
+        if (!document.hidden && !isPageVisible) {
+            console.log('Страница снова видима, обновляем товары...');
+            isOtherCategoryLoaded = false;
+            setTimeout(loadOtherCategoryProducts, 100);
         }
+        isPageVisible = !document.hidden;
     });
 });
 
