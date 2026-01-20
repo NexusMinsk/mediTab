@@ -608,15 +608,51 @@
                                 </small>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" for="cardImage">
-                                        <i class="fas fa-image"></i> Ссылка на фото *
-                                    </label>
-                                    <input type="text" id="cardImage" class="form-input" 
-                                           placeholder="https://example.com/photo.jpg"
-                                           value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
-                                </div>
+                            <div class="form-group">
+    <label class="form-label">
+        <i class="fas fa-image"></i> Изображение товара *
+    </label>
+    
+    <!-- Переключатель ссылка/файл -->
+    <div class="image-source-toggle" style="margin-bottom: 15px;">
+        <label class="toggle-option">
+            <input type="radio" name="imageSource" value="url" checked onclick="toggleImageSource()">
+            <span class="toggle-label">Ссылка</span>
+        </label>
+        <label class="toggle-option">
+            <input type="radio" name="imageSource" value="file" onclick="toggleImageSource()">
+            <span class="toggle-label">Файл</span>
+        </label>
+    </div>
+    
+    <!-- Поле для ссылки -->
+    <div id="urlImageField">
+        <input type="text" id="cardImageUrl" class="form-input" 
+               placeholder="https://example.com/photo.jpg"
+               value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
+        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+            Вставьте прямую ссылку на изображение
+        </small>
+    </div>
+    
+    <!-- Поле для файла -->
+    <div id="fileImageField" style="display: none;">
+        <input type="file" id="cardImageFile" class="form-input" 
+               accept="image/*" onchange="handleImageUpload(event)">
+        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+            Выберите файл с компьютера (JPG, PNG, до 2MB)
+        </small>
+        
+        <!-- Превью загруженной картинки -->
+        <div id="imagePreview" style="margin-top: 10px; display: none;">
+            <img id="previewImage" src="" alt="Превью" 
+                 style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm); border: 1px solid var(--border-gray);">
+            <div style="margin-top: 5px; font-size: 0.8rem; color: var(--text-gray);">
+                <span id="fileName"></span>
+            </div>
+        </div>
+    </div>
+</div>
                                 
                                 <div class="form-group">
                                     <label class="form-label" for="cardDesc">
