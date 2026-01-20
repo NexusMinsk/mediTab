@@ -1653,6 +1653,26 @@
     }
 }
     </style>
+    <script>
+    // Загружаем товары из LocalStorage
+    function loadCatalogProducts() {
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        
+        // Заменяем статические карточки на динамические
+        if (products.length > 0) {
+            // Будем заменять каждую секцию
+            updateCategoryWithProducts(products);
+        }
+    }
+    
+    function updateCategoryWithProducts(products) {
+        // Здесь будем добавлять товары в категории
+        console.log('Загружено товаров:', products.length);
+    }
+    
+    // Загружаем при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadCatalogProducts);
+</script>
 </head>
 
 <body>
