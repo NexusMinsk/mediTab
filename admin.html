@@ -222,6 +222,20 @@ https://example.com/photo2.jpg"></textarea>
                         </div>
                     </div>
                 </div>
+
+                <!-- Раздел Преимущества -->
+<div class="form-group">
+    <label class="form-label">Преимущества товара:</label>
+    <div id="featuresContainer">
+        <div class="feature-row" style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="text" class="feature-input" placeholder="Например: Большой дисплей" style="flex: 1;">
+            <button type="button" class="btn btn-secondary" onclick="removeFeature(this)" style="padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 5px;">×</button>
+        </div>
+    </div>
+    <button type="button" class="btn" onclick="addFeatureField()" style="margin-top: 10px; padding: 8px 15px;">
+        <i class="fas fa-plus"></i> Добавить преимущество
+    </button>
+</div>
                 
                 <div class="form-group">
                     <label>Ссылка на видео (YouTube):</label>
