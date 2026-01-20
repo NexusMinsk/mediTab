@@ -888,5 +888,266 @@
             }, 100);
         });
     </script>
+    <script>
+    // Получаем ID товара из URL
+    function getProductId() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        return id ? parseInt(id) : null;
+    }
+    
+    // Загружаем товар
+    function loadProduct() {
+        const productId = getProductId();
+        const container = document.getElementById('productContainer');
+        
+        if (!productId) {
+            showError('Товар не найден', 'Не указан ID товара в URL');
+            return;
+        }
+        
+        // Загружаем товары из LocalStorage
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        const product = products.find(p => p.id == productId);
+        
+        // Если нет в LocalStorage, проверяем статические товары (ID 1-40)
+        if (!product && productId >= 1 && productId <= 40) {
+            // Это статический товар из каталога
+            renderStaticProduct(productId);
+            return;
+        }
+        
+        if (!product) {
+            showError('Товар не найден', `Товар с ID ${productId} не существует`);
+            return;
+        }
+        
+        // Отображаем товар из админки
+        renderProduct(product);
+    }
+    
+    // Показываем ошибку
+    function showError(title, message) {
+        const container = document.getElementById('productContainer');
+        container.innerHTML = `
+            <div style="text-align: center; padding: 50px; grid-column: 1/-1;">
+                <i class="fas fa-exclamation-triangle fa-2x" style="color: #ef4444;"></i>
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <a href="catalog.html" class="order-btn" style="margin-top: 20px; display: inline-block;">
+                    <i class="fas fa-arrow-left"></i> Вернуться в каталог
+                </a>
+            </div>
+        `;
+    }
+    
+    // Рендерим товар из админки
+    function renderProduct(product) {
+        const container = document.getElementById('productContainer');
+        
+        // Обновляем title страницы
+        document.title = product.page.full_title || product.card.title;
+        
+        // Обновляем хлебные крошки
+        const breadcrumbLast = document.querySelector('.breadcrumbs span:last-child');
+        if (breadcrumbLast) {
+            breadcrumbLast.textContent = product.card.title;
+        }
+        
+        // Формируем характеристики
+        const specsHTML = product.page.specs && product.page.specs.length > 0 
+            ? `
+                <table class="compact-table">
+                    ${product.page.specs.map(spec => `
+                        <tr>
+                            <td>${spec.name}:</td>
+                            <td>${spec.value}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `
+            : '<p>Характеристики не указаны</p>';
+        
+        // Формируем HTML товара
+        const productHTML = `
+            <!-- Левая колонка -->
+            <div>
+                <div class="product-image">
+                    <img src="${product.card.image}" alt="${product.card.title}" 
+                         onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button class="order-btn" id="openOrderForm">
+                        <i class="fas fa-shopping-cart"></i> Заказать
+                    </button>
+                </div>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="product-main">
+                <h1 class="product-title">${product.page.full_title || product.card.title}</h1>
+                
+                <div class="product-price-block">
+                    <div class="current-price">${product.card.price}</div>
+                    <div class="product-code">Артикул: ${product.id}</div>
+                </div>
+
+                <!-- Описание -->
+                <div class="description-box">
+                    <h3>Описание</h3>
+                    <p class="description-text">
+                        ${product.page.description || product.card.short_desc || 'Описание отсутствует'}
+                    </p>
+                </div>
+
+                <!-- Характеристики и преимущества -->
+                <div class="specs-features">
+                    <!-- Характеристики -->
+                    <div class="specs-box">
+                        <h3>Характеристики</h3>
+                        ${specsHTML}
+                    </div>
+
+                    <!-- Преимущества -->
+                    <div class="features-box">
+                        <h3>Преимущества</h3>
+                        <ul class="features-list">
+                            ${product.page.features ? 
+                                product.page.features.map(f => `<li>${f}</li>`).join('') :
+                                `<li>Высокое качество</li>
+                                 <li>Сертифицированный товар</li>
+                                 <li>Гарантия от производителя</li>`
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = productHTML;
+        
+        // Обновляем данные в форме заказа
+        updateOrderForm(product);
+    }
+    
+    // Рендерим статический товар (ID 1-40)
+    function renderStaticProduct(productId) {
+        const container = document.getElementById('productContainer');
+        
+        // Это заглушка - в реальности здесь будет массив статических товаров
+        const staticProducts = {
+            1: {
+                title: "Тонометр автоматический DS-500 (с адаптером)",
+                price: "от 147 BYN",
+                image: "https://placehold.co/400x300/e2e8f0/475569?text=Тонометр",
+                description: "Надежный и доступный автоматический тонометр DS-500 оснащён индикатором аритмии, который сообщает потребителю о наличии нерегулярного пульса, при этом измерение будет произведено с достоверной точностью.",
+                specs: [
+                    {name: "Торговая марка", value: "Meditab"},
+                    {name: "Тип", value: "Автоматический"},
+                    {name: "Манжета", value: "22-32 см"},
+                    {name: "Питание", value: "Адаптер/батарейки"},
+                    {name: "Память", value: "2 × 30 измерений"},
+                    {name: "Гарантия", value: "3 года"}
+                ],
+                features: [
+                    "Большой дисплей с крупными цифрами",
+                    "Максимально простое использование",
+                    "Индикатор аритмии",
+                    "Стандартная манжета 22-32 см",
+                    "Адаптер питания в комплекте",
+                    "Два блока памяти по 30 измерений + среднее значение"
+                ]
+            }
+            // Можно добавить остальные 39 товаров...
+        };
+        
+        const product = staticProducts[productId];
+        
+        if (!product) {
+            showError('Товар не найден', `Статический товар с ID ${productId} не настроен`);
+            return;
+        }
+        
+        // Формируем HTML для статического товара
+        const productHTML = `
+            <!-- Левая колонка -->
+            <div>
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.title}">
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button class="order-btn" id="openOrderForm">
+                        <i class="fas fa-shopping-cart"></i> Заказать
+                    </button>
+                </div>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="product-main">
+                <h1 class="product-title">${product.title}</h1>
+                
+                <div class="product-price-block">
+                    <div class="current-price">${product.price}</div>
+                    <div class="product-code">Артикул: ${productId}</div>
+                </div>
+
+                <!-- Описание -->
+                <div class="description-box">
+                    <h3>Описание</h3>
+                    <p class="description-text">${product.description}</p>
+                </div>
+
+                <!-- Характеристики и преимущества -->
+                <div class="specs-features">
+                    <!-- Характеристики -->
+                    <div class="specs-box">
+                        <h3>Характеристики</h3>
+                        <table class="compact-table">
+                            ${product.specs.map(spec => `
+                                <tr>
+                                    <td>${spec.name}:</td>
+                                    <td>${spec.value}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    </div>
+
+                    <!-- Преимущества -->
+                    <div class="features-box">
+                        <h3>Преимущества</h3>
+                        <ul class="features-list">
+                            ${product.features.map(f => `<li>${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = productHTML;
+        document.title = product.title;
+        
+        // Обновляем хлебные крошки
+        const breadcrumbLast = document.querySelector('.breadcrumbs span:last-child');
+        if (breadcrumbLast) {
+            breadcrumbLast.textContent = product.title;
+        }
+        
+        updateOrderForm({card: {title: product.title, price: product.price}});
+    }
+    
+    // Обновляем форму заказа
+    function updateOrderForm(product) {
+        const formTitle = document.querySelector('.form-product-title');
+        const formPrice = document.querySelector('.form-product-price');
+        
+        if (formTitle) formTitle.textContent = product.card.title;
+        if (formPrice) formPrice.textContent = product.card.price;
+    }
+    
+    // Загружаем товар при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadProduct);
+</script>
 </body>
 </html>
