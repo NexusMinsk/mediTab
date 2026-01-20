@@ -609,15 +609,43 @@
                                 </small>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" for="cardImage">
-                                        <i class="fas fa-image"></i> Ссылка на фото *
-                                    </label>
-                                    <input type="text" id="cardImage" class="form-input" 
-                                           placeholder="https://example.com/photo.jpg"
-                                           value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
-                                </div>
+                            <div class="form-group">
+    <label class="form-label" for="productImageUpload">
+        <i class="fas fa-image"></i> Загрузить фото *
+    </label>
+    
+    <div style="margin-bottom: 10px;">
+        <!-- Скрытый input для загрузки файла -->
+        <input type="file" id="productImageUpload" class="form-input" 
+               accept="image/*" style="display: none;">
+        
+        <!-- Кнопка для загрузки -->
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('productImageUpload').click()" 
+                style="width: 100%; margin-bottom: 10px;">
+            <i class="fas fa-upload"></i> Выбрать файл
+        </button>
+        
+        <!-- Поле для ссылки (как запасной вариант) -->
+        <input type="text" id="cardImage" class="form-input" 
+               placeholder="Или вставьте ссылку на фото..."
+               style="margin-top: 10px;">
+    </div>
+    
+    <!-- Превью фото -->
+    <div id="imagePreview" style="margin-top: 15px; text-align: center; display: none;">
+        <img id="previewImage" src="#" alt="Превью" 
+             style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm); border: 2px solid var(--border-gray);">
+        <div style="margin-top: 10px;">
+            <button type="button" class="btn-small btn-danger" onclick="removeImagePreview()">
+                <i class="fas fa-trash"></i> Удалить фото
+            </button>
+        </div>
+    </div>
+    
+    <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+        Макс. размер: 5MB. Форматы: JPG, PNG, GIF
+    </small>
+</div>
                                 
                                 <div class="form-group">
                                     <label class="form-label" for="cardDesc">
