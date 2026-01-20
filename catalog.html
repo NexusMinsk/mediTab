@@ -1726,1067 +1726,172 @@
 
 
             <!-- Категория 1: Медицинская одежда -->
-            <section class="category-section collapsed" id="clothing">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <h2>Медицинская одежда <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(90
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+<section class="category-section collapsed" id="clothing">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <h2>Медицинская одежда <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(90
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 1 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="1">
-                        <div class="product-image">
-                            <div class="product-badge popular">Популярное</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Медицинский халат белый"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-user-md\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Халат медицинский белый</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">49.99 BYN</span>
-                                        <span class="current-price price-wholesale">39.99 BYN</span>
-                                        <span class="old-price">59.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 2 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="2">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Брюки медицинские синие"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-tshirt\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Брюки медицинские синие</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">39.99 BYN</span>
-                                        <span class="current-price price-wholesale">31.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+<!-- Категория 2: Тонометры -->
+<section class="category-section collapsed" id="tonometers">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h2>Тонометры <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(60
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                    <!-- Товар 3 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="3">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Костюм защитный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-shield-alt\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Костюм защитный одноразовый</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">89.99 BYN</span>
-                                        <span class="current-price price-wholesale">71.99 BYN</span>
-                                        <span class="old-price">99.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 4 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="4">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Шапочка хирургическая"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-head-side-mask\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Шапочка хирургическая (100 шт)</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">24.99 BYN</span>
-                                        <span class="current-price price-wholesale">19.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+<!-- Категория 3: Диабетические товары -->
+<section class="category-section collapsed" id="diabetes">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-syringe"></i>
+            </div>
+            <h2>Диабетические товары <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(120
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                    <!-- Товар 5 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="5">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Бахилы медицинские"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-shoe-prints\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Бахилы одноразовые (50 пар)</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">19.99 BYN</span>
-                                        <span class="current-price price-wholesale">15.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-            <!-- Категория 2: Тонометры -->
-            <section class="category-section collapsed" id="tonometers">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
-                        <h2>Тонометры <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(60
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+<!-- Категория 4: Ортопедические изделия -->
+<section class="category-section collapsed" id="orthopedic">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-bone"></i>
+            </div>
+            <h2>Ортопедические изделия <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(150
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 6 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="6">
-                        <div class="product-image">
-                            <div class="product-badge popular">Хит продаж</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тонометр Omron"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-heartbeat\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тонометр Omron M2 Basic</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">129.99 BYN</span>
-                                        <span class="current-price price-wholesale">99.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 7 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="7">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тонометр механический"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-stethoscope\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тонометр механический CS Medica</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">49.99 BYN</span>
-                                        <span class="current-price price-wholesale">39.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+<!-- Категория 5: Гинекологические товары -->
+<section class="category-section collapsed" id="gynecology">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-female"></i>
+            </div>
+            <h2>Гинекологические товары <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(85
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                    <!-- Товар 8 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="8">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тонометр на запястье"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-watch\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тонометр Beurer на запястье</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">89.99 BYN</span>
-                                        <span class="current-price price-wholesale">71.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 9 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="9">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тонометр детский"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-child\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тонометр детский Little Doctor</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">69.99 BYN</span>
-                                        <span class="current-price price-wholesale">55.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+<!-- Категория 6: Компрессионный трикотаж -->
+<section class="category-section collapsed" id="compression">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-socks"></i>
+            </div>
+            <h2>Компрессионный трикотаж <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(45
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                    <!-- Товар 10 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="10">
-                        <div class="product-image">
-                            <div class="product-badge discount">-20%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тонометр профессиональный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-user-md\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тонометр профессиональный Riester</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">199.99 BYN</span>
-                                        <span class="current-price price-wholesale">159.99 BYN</span>
-                                        <span class="old-price">249.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-            <!-- Категория 3: Диабетические товары -->
-            <section class="category-section collapsed" id="diabetes">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-syringe"></i>
-                        </div>
-                        <h2>Диабетические товары <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(120
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+<!-- Категория 7: Оптика -->
+<section class="category-section collapsed" id="optics">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <h2>Оптика <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(75
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 11 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="11">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Глюкометр"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-tint\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Глюкометр Accu-Chek Active</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">59.99 BYN</span>
-                                        <span class="current-price price-wholesale">45.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 12 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="12">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест-полоски"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-vial\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест-полоски для глюкометра (50 шт)</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">39.99 BYN</span>
-                                        <span class="current-price price-wholesale">31.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+<!-- Категория 8: Экспресс-тесты -->
+<section class="category-section collapsed" id="tests">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-vial"></i>
+            </div>
+            <h2>Экспресс-тесты <span
+                    style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(100
+                    товаров)</span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                    <!-- Товар 13 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="13">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Шприц-ручка"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-syringe\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Шприц-ручка для инсулина</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">29.99 BYN</span>
-                                        <span class="current-price price-wholesale">23.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут загружены динамически из LocalStorage -->
+    </div>
+</section>
 
-                    <!-- Товар 14 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="14">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Иглы для шприц-ручки"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-tools\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Иглы для шприц-ручки (100 шт)</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">19.99 BYN</span>
-                                        <span class="current-price price-wholesale">15.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 15 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="15">
-                        <div class="product-image">
-                            <div class="product-badge popular">Популярное</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Чехол для глюкометра"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-briefcase-medical\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Чехол для глюкометра и полосок</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">14.99 BYN</span>
-                                        <span class="current-price price-wholesale">11.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Категория 4: Ортопедические изделия -->
-            <section class="category-section collapsed" id="orthopedic">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-bone"></i>
-                        </div>
-                        <h2>Ортопедические изделия <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(150
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 16 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="16">
-                        <div class="product-image">
-                            <div class="product-badge popular">Популярное</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Корсет поясничный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-vest\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Корсет поясничный Orlett</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">79.99 BYN</span>
-                                        <span class="current-price price-wholesale">64.99 BYN</span>
-                                        <span class="old-price">89.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 17 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="17">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Бандаж коленный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-running\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Бандаж коленный Medi</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">49.99 BYN</span>
-                                        <span class="current-price price-wholesale">39.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 18 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="18">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Ортопедические стельки"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-shoe-prints\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Стельки ортопедические Formthotics</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">89.99 BYN</span>
-                                        <span class="current-price price-wholesale">72.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 19 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="19">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Ортез голеностопный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-walking\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Ортез голеностопный Bauerfeind</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">129.99 BYN</span>
-                                        <span class="current-price price-wholesale">104.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 20 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="20">
-                        <div class="product-image">
-                            <div class="product-badge discount">-15%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Воротник шейный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-user-injured\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Воротник шейный шина Шанца</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">59.99 BYN</span>
-                                        <span class="current-price price-wholesale">48.99 BYN</span>
-                                        <span class="old-price">69.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Категория 5: Гинекологические товары -->
-            <section class="category-section collapsed" id="gynecology">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-female"></i>
-                        </div>
-                        <h2>Гинекологические товары <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(85
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 21 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="21">
-                        <div class="product-image">
-                            <div class="product-badge popular">Популярное</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Гинекологическое зеркало"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-search\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Гинекологическое зеркало Sims</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">24.99 BYN</span>
-                                        <span class="current-price price-wholesale">19.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 22 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="22">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Набор гинекологический"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-procedures\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Набор гинекологический одноразовый</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">39.99 BYN</span>
-                                        <span class="current-price price-wholesale">32.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 23 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="23">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Цитобирш"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-brush\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Цитобирш для забора материала</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">19.99 BYN</span>
-                                        <span class="current-price price-wholesale">15.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 24 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="24">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Расширитель"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-expand-alt\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Расширитель гинекологический</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">34.99 BYN</span>
-                                        <span class="current-price price-wholesale">27.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 25 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="25">
-                        <div class="product-image">
-                            <div class="product-badge discount">-10%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Кольпоскоп"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-microscope\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Кольпоскоп портативный</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">299.99 BYN</span>
-                                        <span class="current-price price-wholesale">239.99 BYN</span>
-                                        <span class="old-price">329.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Категория 6: Компрессионный трикотаж -->
-            <section class="category-section collapsed" id="compression">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-socks"></i>
-                        </div>
-                        <h2>Компрессионный трикотаж <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(45
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 26 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="26">
-                        <div class="product-image">
-                            <div class="product-badge popular">Хит</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Компрессионные чулки"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-socks\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Чулки компрессионные Medi 2 класс</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">34.99 BYN</span>
-                                        <span class="current-price price-wholesale">27.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 27 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="27">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Гольфы компрессионные"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-shoe-prints\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Гольфы компрессионные Sigvaris</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">29.99 BYN</span>
-                                        <span class="current-price price-wholesale">23.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 28 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="28">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Колготки компрессионные"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-female\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Колготки компрессионные 1 класс</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">44.99 BYN</span>
-                                        <span class="current-price price-wholesale">35.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 29 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="29">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Бандаж компрессионный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-band-aid\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Бандаж компрессионный на руку</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">24.99 BYN</span>
-                                        <span class="current-price price-wholesale">19.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 30 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="30">
-                        <div class="product-image">
-                            <div class="product-badge discount">-25%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Рукав компрессионный"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-hand-paper\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Рукав компрессионный лимфедема</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">59.99 BYN</span>
-                                        <span class="current-price price-wholesale">47.99 BYN</span>
-                                        <span class="old-price">79.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Категория 7: Оптика -->
-            <section class="category-section collapsed" id="optics">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <h2>Оптика <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(75
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 31 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="31">
-                        <div class="product-image">
-                            <div class="product-badge popular">Популярное</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Офтальмоскоп"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-eye\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Офтальмоскоп Riester</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">299.99 BYN</span>
-                                        <span class="current-price price-wholesale">249.99 BYN</span>
-                                        <span class="old-price">349.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 32 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="32">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Отоскоп"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-ear\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Отоскоп Welch Allyn</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">249.99 BYN</span>
-                                        <span class="current-price price-wholesale">199.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 33 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="33">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Лупа хирургическая"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-search\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Лупа хирургическая с подсветкой</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">129.99 BYN</span>
-                                        <span class="current-price price-wholesale">104.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 34 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="34">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Фонарик диагностический"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-lightbulb\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Фонарик диагностический LED</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">19.99 BYN</span>
-                                        <span class="current-price price-wholesale">15.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 35 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="35">
-                        <div class="product-image">
-                            <div class="product-badge discount">-15%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Набор диагностический"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-briefcase-medical\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Набор диагностический (офт+ото)</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">499.99 BYN</span>
-                                        <span class="current-price price-wholesale">399.99 BYN</span>
-                                        <span class="old-price">589.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Категория 8: Экспресс-тесты -->
-            <section class="category-section collapsed" id="tests">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-vial"></i>
-                        </div>
-                        <h2>Экспресс-тесты <span
-                                style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">(100
-                                товаров)</span></h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-
-                <div class="products-grid" style="display: none;">
-                    <!-- Товар 36 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="36">
-                        <div class="product-image">
-                            <div class="product-badge popular">Хит</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест на беременность"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-baby\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест на беременность Frautest</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">8.99 BYN</span>
-                                        <span class="current-price price-wholesale">6.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 37 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="37">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест на COVID-19"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-virus\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест на COVID-19 Rapid</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">14.99 BYN</span>
-                                        <span class="current-price price-wholesale">11.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 38 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="38">
-                        <div class="product-image">
-                            <div class="product-badge new">Новинка</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест на стрептококк"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-bacteria\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест на стрептококк Strep A</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">12.99 BYN</span>
-                                        <span class="current-price price-wholesale">9.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 39 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="39">
-                        <div class="product-image">
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест на наркотики"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-skull-crossbones\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест на наркотики 5 параметров</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">24.99 BYN</span>
-                                        <span class="current-price price-wholesale">19.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Товар 40 -->
-                    <a href="product-detail.html" class="product-card" data-product-id="40">
-                        <div class="product-image">
-                            <div class="product-badge discount">-30%</div>
-                            <!-- Заглушка для фото -->
-                            <img src="#" alt="Тест на грипп"
-                                onerror="this.style.backgroundColor='#f0f7ff'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='<i style=\'font-size: 2rem; color: #cf7911; opacity: 0.5;\' class=\'fas fa-head-side-cough\'></i>'">
-                        </div>
-                        <div class="product-info">
-                            <h3>Тест на грипп A/B Rapid</h3>
-                            <div class="product-price">
-                                <div class="price-container">
-                                    <div>
-                                        <span class="current-price price-retail">18.99 BYN</span>
-                                        <span class="current-price price-wholesale">14.99 BYN</span>
-                                        <span class="old-price">26.99 BYN</span>
-                                    </div>
-                                    <span class="price-type price-type-retail">Розница</span>
-                                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </section>
-            <!-- Категория 9: Другое -->
+<!-- Категория 9: Другое -->
 <section class="category-section collapsed" id="other">
     <div class="category-header">
         <div style="display: flex; align-items: center; gap: 20px;">
@@ -2807,7 +1912,6 @@
         <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
             <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
             <p>Товаров в этой категории пока нет</p>
-           
         </div>
     </div>
 </section>
