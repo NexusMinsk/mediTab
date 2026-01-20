@@ -2970,6 +2970,49 @@ if (window.loadOtherCategoryProducts) {
 }
 </script>        
 </script>
+    <script>
+// Простая прокрутка к категориям
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все ссылки на категории
+    const categoryLinks = document.querySelectorAll('a[href^="#"]');
+    
+    categoryLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        
+        // Пропускаем якоря не на категории
+        if (href === '#') return;
+        if (href === '#how-to') return;
+        if (href === '#contacts') return;
+        
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Отменяем стандартный прыжок
+            
+            const targetId = href.substring(1); // Убираем решетку
+            const targetSection = document.getElementById(targetId);
+            
+            if (!targetSection) return;
+            
+            // Высота хедера для отступа
+            const headerHeight = document.querySelector('header').offsetHeight;
+            
+            // Плавная прокрутка
+            window.scrollTo({
+                top: targetSection.offsetTop - headerHeight - 20,
+                behavior: 'smooth'
+            });
+            
+            // Автоматически открываем категорию если она скрыта
+            setTimeout(() => {
+                if (targetSection.classList.contains('collapsed')) {
+                    // Кликаем на кнопку открытия категории
+                    const toggleBtn = targetSection.querySelector('.category-toggle');
+                    if (toggleBtn) toggleBtn.click();
+                }
+            }, 300); // Ждем завершения прокрутки
+        });
+    });
+});
+</script>
 </body>
 
 </html>
