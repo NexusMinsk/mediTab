@@ -366,6 +366,20 @@ function removeFeature(button) {
                     specs.push({ name, value });
                 }
             });
+
+            // Собираем преимущества
+const features = [];
+document.querySelectorAll('.feature-input').forEach(input => {
+    if (input.value.trim()) {
+        features.push(input.value.trim());
+    }
+});
+
+// Собираем галерею
+const gallery = document.getElementById('pageGallery').value
+    .split('\n')
+    .filter(url => url.trim() !== '')
+    .map(url => url.trim());
             
             // Собираем галерею
             const gallery = document.getElementById('pageGallery').value
