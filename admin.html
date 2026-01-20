@@ -608,51 +608,15 @@
                                 </small>
                             </div>
 
-                            <div class="form-group">
-    <label class="form-label">
-        <i class="fas fa-image"></i> Изображение товара *
-    </label>
-    
-    <!-- Переключатель ссылка/файл -->
-    <div class="image-source-toggle" style="margin-bottom: 15px;">
-        <label class="toggle-option">
-            <input type="radio" name="imageSource" value="url" checked onclick="toggleImageSource()">
-            <span class="toggle-label">Ссылка</span>
-        </label>
-        <label class="toggle-option">
-            <input type="radio" name="imageSource" value="file" onclick="toggleImageSource()">
-            <span class="toggle-label">Файл</span>
-        </label>
-    </div>
-    
-    <!-- Поле для ссылки -->
-    <div id="urlImageField">
-        <input type="text" id="cardImageUrl" class="form-input" 
-               placeholder="https://example.com/photo.jpg"
-               value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
-        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
-            Вставьте прямую ссылку на изображение
-        </small>
-    </div>
-    
-    <!-- Поле для файла -->
-    <div id="fileImageField" style="display: none;">
-        <input type="file" id="cardImageFile" class="form-input" 
-               accept="image/*" onchange="handleImageUpload(event)">
-        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
-            Выберите файл с компьютера (JPG, PNG, до 2MB)
-        </small>
-        
-        <!-- Превью загруженной картинки -->
-        <div id="imagePreview" style="margin-top: 10px; display: none;">
-            <img id="previewImage" src="" alt="Превью" 
-                 style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm); border: 1px solid var(--border-gray);">
-            <div style="margin-top: 5px; font-size: 0.8rem; color: var(--text-gray);">
-                <span id="fileName"></span>
-            </div>
-        </div>
-    </div>
-</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="cardImage">
+                                        <i class="fas fa-image"></i> Ссылка на фото *
+                                    </label>
+                                    <input type="text" id="cardImage" class="form-input" 
+                                           placeholder="https://example.com/photo.jpg"
+                                           value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
+                                </div>
                                 
                                 <div class="form-group">
                                     <label class="form-label" for="cardDesc">
@@ -1095,13 +1059,11 @@ https://example.com/photo2.jpg"></textarea>
                 id: editingProductId || Date.now(),
                 category: document.getElementById('productCategory').value,
                 card: {
-    title: document.getElementById('cardTitle').value.trim(),
-    price: document.getElementById('price').value.trim(),
-    image: uploadedImageBase64 || document.getElementById('cardImageUrl').value.trim(),
-    short_desc: document.getElementById('cardDesc').value.trim(),
-    // Сохраняем имя файла для информации
-    image_source: uploadedImageBase64 ? 'file' : 'url'
-},
+                    title: document.getElementById('cardTitle').value.trim(),
+                    price: document.getElementById('price').value.trim(), // ← ТОЛЬКО ОДНА ЦЕНА
+                    image: document.getElementById('cardImage').value.trim(),
+                    short_desc: document.getElementById('cardDesc').value.trim()
+                },
                 page: {
                     full_title: document.getElementById('pageTitle').value.trim() || document.getElementById('cardTitle').value.trim(),
                     gallery: gallery,
@@ -1150,48 +1112,41 @@ https://example.com/photo2.jpg"></textarea>
 
         // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function clearForm() {
-    editingProductId = null;
-    
-    // Сбрасываем форму
-    document.getElementById('productForm').reset();
-    document.getElementById('formTitle').innerHTML = `
-        <i class="fas fa-plus"></i> Добавить новый товар
-    `;
-    
-    // Сбрасываем цену
-    document.getElementById('price').value = '199 BYN';
-    
-    // Сбрасываем фото
-    uploadedImageBase64 = null;
-    uploadedImageName = null;
-    document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('cardImageFile').value = '';
-    document.querySelector('input[name="imageSource"][value="url"]').checked = true;
-    toggleImageSource(); // Переключаем на ссылку
-    
-    // Очищаем динамические поля
-    document.getElementById('specsContainer').innerHTML = `
-        <div class="list-item">
-            <input type="text" class="spec-name form-input" placeholder="Название характеристики">
-            <input type="text" class="spec-value form-input" placeholder="Значение">
-            <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-    `;
-    
-    document.getElementById('featuresContainer').innerHTML = `
-        <div class="feature-item">
-            <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
-            <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-    `;
-    
-    // Фокус на первое поле
-    document.getElementById('productCategory').focus();
-}
+            editingProductId = null;
+            
+            // Сбрасываем форму
+            document.getElementById('productForm').reset();
+            document.getElementById('formTitle').innerHTML = `
+                <i class="fas fa-plus"></i> Добавить новый товар
+            `;
+            
+            // Сбрасываем цену
+            document.getElementById('price').value = '199 BYN';
+            
+            // Очищаем динамические поля
+            document.getElementById('specsContainer').innerHTML = `
+                <div class="list-item">
+                    <input type="text" class="spec-name form-input" placeholder="Название характеристики">
+                    <input type="text" class="spec-value form-input" placeholder="Значение">
+                    <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('featuresContainer').innerHTML = `
+                <div class="feature-item">
+                    <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
+                    <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Фокус на первое поле
+            document.getElementById('productCategory').focus();
+        }
+
         function saveDraft() {
             showMessage('Черновик сохранен в LocalStorage (временное хранилище браузера)', 'success');
         }
@@ -1291,84 +1246,6 @@ https://example.com/photo2.jpg"></textarea>
             
             showMessage('Товары экспортированы в JSON файл', 'success');
         }
-
-
-        // ===== ПЕРЕМЕННЫЕ ДЛЯ ФОТО =====
-let uploadedImageBase64 = null;
-let uploadedImageName = null;
-
-// ===== ПЕРЕКЛЮЧАТЕЛЬ ССЫЛКА/ФАЙЛ =====
-function toggleImageSource() {
-    const source = document.querySelector('input[name="imageSource"]:checked').value;
-    const urlField = document.getElementById('urlImageField');
-    const fileField = document.getElementById('fileImageField');
-    
-    if (source === 'url') {
-        urlField.style.display = 'block';
-        fileField.style.display = 'none';
-        // Очищаем загруженный файл
-        uploadedImageBase64 = null;
-        uploadedImageName = null;
-    } else {
-        urlField.style.display = 'none';
-        fileField.style.display = 'block';
-    }
-}
-
-// ===== ЗАГРУЗКА И ПРЕВЬЮ ФОТО =====
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById('previewImage');
-    const previewContainer = document.getElementById('imagePreview');
-    const fileName = document.getElementById('fileName');
-    
-    if (!file) {
-        previewContainer.style.display = 'none';
-        uploadedImageBase64 = null;
-        return;
-    }
-    
-    // Проверяем размер файла (2MB)
-    if (file.size > 2 * 1024 * 1024) {
-        showMessage('Файл слишком большой (максимум 2MB)', 'error');
-        event.target.value = '';
-        previewContainer.style.display = 'none';
-        uploadedImageBase64 = null;
-        return;
-    }
-    
-    // Проверяем тип файла
-    if (!file.type.match('image.*')) {
-        showMessage('Выберите файл изображения (JPG, PNG)', 'error');
-        event.target.value = '';
-        previewContainer.style.display = 'none';
-        uploadedImageBase64 = null;
-        return;
-    }
-    
-    // Читаем файл
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        // Сохраняем base64
-        uploadedImageBase64 = e.target.result;
-        uploadedImageName = file.name;
-        
-        // Показываем превью
-        preview.src = uploadedImageBase64;
-        fileName.textContent = file.name + ` (${Math.round(file.size / 1024)} KB)`;
-        previewContainer.style.display = 'block';
-        
-        showMessage('Фото загружено! Нажмите "Опубликовать товар" для сохранения', 'success');
-    };
-    
-    reader.onerror = function() {
-        showMessage('Ошибка чтения файла', 'error');
-        uploadedImageBase64 = null;
-    };
-    
-    reader.readAsDataURL(file);
-}
     </script>
 </body>
 </html>
