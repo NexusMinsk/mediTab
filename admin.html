@@ -1,1 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #2d3748;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: #4a6fa5;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn-success {
+            background: #38a169;
+        }
+        
+        .btn-danger {
+            background: #e53e3e;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .product-list {
+            margin-top: 30px;
+        }
+        
+        .product-item {
+            background: white;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-actions button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .spec-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .spec-row input {
+            flex: 1;
+        }
+        
+        .add-spec {
+            background: #cbd5e0;
+            color: #2d3748;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚙️ Админ-панель</h1>
+        <a href="index.html" style="color: white; text-decoration: none;">← На сайт</a>
+    </div>
+    
+    <div class="container">
+        <h2>Добавить новый товар</h2>
+        
+        <form id="productForm">
+            <!-- Раздел 1: Данные для карточки -->
+            <div class="section">
+                <h3>📱 Данные для карточки товара</h3>
+                
+                <div class="form-group">
+                    <label>Название товара (для карточки):</label>
+                    <input type="text" id="cardTitle" placeholder="Например: Ноутбук Acer" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Цена:</label>
+                    <input type="text" id="cardPrice" placeholder="Например: 2500 BYN" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Главное фото (URL):</label>
+                    <input type="text" id="cardImage" placeholder="https://example.com/photo.jpg" 
+                           value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
+                </div>
+                
+                <div class="form-group">
+                    <label>Краткое описание:</label>
+                    <textarea id="cardDesc" placeholder="Краткое описание для карточки..." required></textarea>
+                </div>
+            </div>
+            
+            <!-- Раздел 2: Данные для страницы -->
+            <div class="section">
+                <h3>📄 Данные для страницы "Подробнее"</h3>
+                
+                <div class="form-group">
+                    <label>Полное название товара:</label>
+                    <input type="text" id="pageTitle" placeholder="Полное официальное название...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Галерея фото (URL, каждый с новой строки):</label>
+                    <textarea id="pageGallery" placeholder="https://example.com/photo1.jpg
+https://example.com/photo2.jpg"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Полное описание:</label>
+                    <textarea id="pageDesc" placeholder="Подробное описание товара..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Характеристики:</label>
+                    <div id="specsContainer">
+                        <div class="spec-row">
+                            <input type="text" class="spec-name" placeholder="Название характеристики">
+                            <input type="text" class="spec-value" placeholder="Значение">
+                            <button type="button" class="add-spec" onclick="addSpecField()">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ссылка на видео (YouTube):</label>
+                    <input type="text" id="pageVideo" placeholder="https://youtube.com/watch?v=...">
+                </div>
+            </div>
+            
+            <!-- Кнопки -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="button" class="btn" onclick="saveDraft()">💾 Сохранить черновик</button>
+                <button type="submit" class="btn btn-success">🚀 Опубликовать товар</button>
+                <button type="button" class="btn btn-danger" onclick="clearForm()">❌ Очистить форму</button>
+            </div>
+        </form>
+        
+        <!-- Список существующих товаров -->
+        <div class="product-list">
+            <h3>📦 Существующие товары</h3>
+            <div id="productsList">
+                <!-- Сюда вставим товары через JS -->
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // Глобальная переменная для редактирования
+        let editingProductId = null;
+        
+        // Загружаем товары при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadProductsList);
+        
+        // Функция загрузки списка товаров
+        function loadProductsList() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const listEl = document.getElementById('productsList');
+            
+            if (products.length === 0) {
+                listEl.innerHTML = '<p>Нет добавленных товаров</p>';
+                return;
+            }
+            
+            listEl.innerHTML = products.map(product => `
+                <div class="product-item">
+                    <div>
+                        <strong>${product.card.title}</strong><br>
+                        <small>${product.card.price} • ID: ${product.id}</small>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn" onclick="editProduct(${product.id})">✏️ Редактировать</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">🗑️ Удалить</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Добавление поля характеристики
+        function addSpecField() {
+            const container = document.getElementById('specsContainer');
+            const div = document.createElement('div');
+            div.className = 'spec-row';
+            div.innerHTML = `
+                <input type="text" class="spec-name" placeholder="Название характеристики">
+                <input type="text" class="spec-value" placeholder="Значение">
+                <button type="button" onclick="this.parentElement.remove()" style="background:#e53e3e;color:white;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;">×</button>
+            `;
+            container.appendChild(div);
+        }
+        
+        // Сохранение черновика
+        function saveDraft() {
+            alert('Черновик сохранен в LocalStorage');
+            // Можно реализовать сохранение отдельно
+        }
+        
+        // Очистка формы
+        function clearForm() {
+            if (confirm('Очистить всю форму?')) {
+                document.getElementById('productForm').reset();
+                editingProductId = null;
+                // Очищаем динамические поля характеристик
+                const container = document.getElementById('specsContainer');
+                container.innerHTML = `
+                    <div class="spec-row">
+                        <input type="text" class="spec-name" placeholder="Название характеристики">
+                        <input type="text" class="spec-value" placeholder="Значение">
+                        <button type="button" class="add-spec" onclick="addSpecField()">+</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Обработка отправки формы
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Собираем характеристики
+            const specs = [];
+            document.querySelectorAll('.spec-row').forEach(row => {
+                const name = row.querySelector('.spec-name').value;
+                const value = row.querySelector('.spec-value').value;
+                if (name && value) {
+                    specs.push({ name, value });
+                }
+            });
+            
+            // Собираем галерею
+            const gallery = document.getElementById('pageGallery').value
+                .split('\n')
+                .filter(url => url.trim() !== '')
+                .map(url => url.trim());
+            
+            // Создаем объект товара
+            const product = {
+                id: editingProductId || Date.now(), // Используем текущий ID или новый
+                card: {
+                    title: document.getElementById('cardTitle').value,
+                    price: document.getElementById('cardPrice').value,
+                    image: document.getElementById('cardImage').value,
+                    short_desc: document.getElementById('cardDesc').value
+                },
+                page: {
+                    full_title: document.getElementById('pageTitle').value || document.getElementById('cardTitle').value,
+                    gallery: gallery,
+                    description: document.getElementById('pageDesc').value,
+                    specs: specs,
+                    video: document.getElementById('pageVideo').value
+                }
+            };
+            
+            // Сохраняем в LocalStorage
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            if (editingProductId) {
+                // Редактируем существующий
+                const index = products.findIndex(p => p.id == editingProductId);
+                if (index !== -1) {
+                    products[index] = product;
+                }
+            } else {
+                // Добавляем новый
+                products.push(product);
+            }
+            
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            alert(editingProductId ? 'Товар обновлен!' : 'Товар добавлен!');
+            clearForm();
+            loadProductsList();
+            
+            // Обновляем главную страницу если она открыта
+            if (window.opener) {
+                window.opener.location.reload();
+            }
+        });
+        
+        // Редактирование товара
+        function editProduct(id) {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id == id);
+            
+            if (!product) {
+                alert('Товар не найден!');
+                return;
+            }
+            
+            editingProductId = id;
+            
+            // Заполняем форму данными товара
+            document.getElementById('cardTitle').value = product.card.title;
+            document.getElementById('cardPrice').value = product.card.price;
+            document.getElementById('cardImage').value = product.card.image;
+            document.getElementById('cardDesc').value = product.card.short_desc;
+            
+            document.getElementById('pageTitle').value = product.page.full_title;
+            document.getElementById('pageGallery').value = product.page.gallery.join('\n');
+            document.getElementById('pageDesc').value = product.page.description;
+            document.getElementById('pageVideo').value = product.page.video || '';
+            
+            // Заполняем характеристики
+            const container = document.getElementById('specsContainer');
+            container.innerHTML = '';
+            product.page.specs.forEach(spec => {
+                addSpecField();
+                const rows = container.querySelectorAll('.spec-row');
+                const lastRow = rows[rows.length - 1];
+                lastRow.querySelector('.spec-name').value = spec.name;
+                lastRow.querySelector('.spec-value').value = spec.value;
+            });
+            
+            if (product.page.specs.length === 0) {
+                addSpecField(); // Добавляем пустое поле если нет характеристик
+            }
+            
+            // Прокручиваем к форме
+            document.getElementById('cardTitle').focus();
+            alert('Режим редактирования. ID товара: ' + id);
+        }
+        
+        // Удаление товара
+        function deleteProduct(id) {
+            if (confirm('Удалить этот товар?')) {
+                let products = JSON.parse(localStorage.getItem('products')) || [];
+                products = products.filter(p => p.id != id);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProductsList();
+                alert('Товар удален!');
+                
+                if (editingProductId == id) {
+                    clearForm();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
