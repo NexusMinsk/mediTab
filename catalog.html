@@ -2611,36 +2611,53 @@ document.addEventListener('visibilitychange', function() {
 });
 </script>
     <script>
-// ===== ДИНАМИЧЕСКАЯ ЗАГРУЗКА ТОВАРОВ В КАТЕГОРИЮ "ДРУГОЕ" =====
 function loadOtherCategoryProducts() {
     try {
         const products = JSON.parse(localStorage.getItem('products')) || [];
         const otherProducts = products.filter(p => p.category === 'other');
         
         if (otherProducts.length === 0) {
-            return; // Нет товаров в категории "Другое"
+            // Если товаров нет - показываем сообщение
+            const otherSection = document.querySelector('#other .products-grid');
+            if (otherSection) {
+                otherSection.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Товаров в этой категории пока нет</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
+                    </div>
+                `;
+            }
+            return;
         }
         
         // Находим секцию "Другое"
         const otherSection = document.querySelector('#other .products-grid');
         if (!otherSection) return;
         
-        // Удаляем сообщение "нет товаров"
+        // ✅ ВАЖНО: ПЕРВОЕ ДЕЛО - ОЧИСТИТЬ КОНТЕЙНЕР
         otherSection.innerHTML = '';
         
-        // Добавляем товары
+        // Создаем Set для отслеживания уже добавленных ID
+        const addedIds = new Set();
+        
+        // Добавляем товары (проверяем дубли)
         otherProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            otherSection.appendChild(productCard);
+            // Проверяем, не добавлен ли уже этот товар
+            if (!addedIds.has(product.id)) {
+                const productCard = createProductCard(product);
+                otherSection.appendChild(productCard);
+                addedIds.add(product.id); // Запоминаем ID
+            }
         });
         
         // Обновляем заголовок с количеством товаров
         const categoryHeader = document.querySelector('#other .category-header h2 span');
         if (categoryHeader) {
-            categoryHeader.textContent = `(${otherProducts.length} товаров)`;
+            categoryHeader.textContent = `(${addedIds.size} товаров)`;
         }
         
-        console.log(`Загружено ${otherProducts.length} товаров в категорию "Другое"`);
+        console.log(`Загружено ${addedIds.size} товаров в категорию "Другое"`);
         
     } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
@@ -2704,6 +2721,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+        
 </script>
 </body>
 
