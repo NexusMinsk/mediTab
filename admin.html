@@ -537,6 +537,48 @@
                         </div>
                     </div>
 
+
+
+
+
+
+<div style="margin-top: 30px; border-top: 1px solid var(--border-gray); padding-top: 20px;">
+        <h3 style="color: var(--bg-dark); margin-bottom: 15px;">
+            <i class="fas fa-folder"></i> Управление категориями
+        </h3>
+        
+        <!-- Список категорий -->
+        <div id="categoriesList" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;">
+            <!-- Категории загрузятся здесь -->
+        </div>
+        
+        <!-- Форма добавления новой категории -->
+        <div style="background: rgba(205, 220, 228, 0.2); padding: 15px; border-radius: var(--radius-sm);">
+            <h4 style="color: var(--bg-dark); margin-bottom: 10px; font-size: 1rem;">
+                <i class="fas fa-plus"></i> Новая категория
+            </h4>
+            
+            <input type="text" id="newCategoryName" 
+                   placeholder="Название категории" 
+                   style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--border-gray); border-radius: var(--radius-sm);">
+            
+            <input type="text" id="newCategoryIcon" 
+                   placeholder="Иконка (например: 🩺)" 
+                   style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--border-gray); border-radius: var(--radius-sm);">
+            
+            <button onclick="addCategory()" 
+                    style="width: 100%; padding: 10px; background: var(--accent-orange); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer;">
+                <i class="fas fa-plus"></i> Добавить категорию
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+                    
+
                     <div>
                         <h3 style="color: var(--bg-dark); margin-bottom: 15px;">Быстрые действия</h3>
                         <button class="btn btn-secondary" onclick="clearForm()" style="width: 100%; margin-bottom: 10px;">
