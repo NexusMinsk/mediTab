@@ -3389,6 +3389,121 @@ document.addEventListener('DOMContentLoaded', function() {
 
         
     </script>
+    <script>
+// Добавляем динамические товары в категории
+function addDynamicProductsToCategories() {
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    
+    if (products.length === 0) {
+        console.log('Нет товаров из админки');
+        return;
+    }
+    
+    console.log(`Найдено ${products.length} товаров из админки`);
+    
+    // Карта категорий: ID категории → элемент грида
+    const categoryGrids = {
+        'clothing': document.querySelector('#clothing .products-grid'),
+        'tonometers': document.querySelector('#tonometers .products-grid'),
+        'diabetes': document.querySelector('#diabetes .products-grid'),
+        'orthopedic': document.querySelector('#orthopedic .products-grid'),
+        'gynecology': document.querySelector('#gynecology .products-grid'),
+        'compression': document.querySelector('#compression .products-grid'),
+        'optics': document.querySelector('#optics .products-grid'),
+        'tests': document.querySelector('#tests .products-grid')
+    };
+    
+    // Для каждого товара из админки
+    products.forEach(product => {
+        if (!product.category) {
+            console.warn('Товар без категории:', product.id);
+            return;
+        }
+        
+        const grid = categoryGrids[product.category];
+        
+        if (!grid) {
+            console.warn('Неизвестная категория:', product.category, 'для товара', product.id);
+            return;
+        }
+        
+        // Проверяем, нет ли уже такого товара
+        const existingCard = grid.querySelector(`[data-admin-id="${product.id}"]`);
+        if (existingCard) {
+            existingCard.remove(); // Удаляем старую версию
+        }
+        
+        // Создаем карточку товара
+        const productCard = createProductCard(product);
+        
+        // Добавляем в начало грида
+        grid.insertBefore(productCard, grid.firstChild);
+        
+        console.log(`Добавлен товар "${product.card.title}" в категорию ${product.category}`);
+    });
+}
+
+// Создаем HTML карточки товара
+function createProductCard(product) {
+    const card = document.createElement('a');
+    card.href = `product.html?id=${product.id}`;
+    card.className = 'product-card';
+    card.setAttribute('data-product-id', product.id);
+    card.setAttribute('data-admin-id', product.id); // Для идентификации из админки
+    
+    // Определяем бейдж
+    let badgeHTML = '';
+    if (product.card.price.includes('BYN')) {
+        const priceNum = parseInt(product.card.price);
+        if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
+        else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+    }
+    
+    card.innerHTML = `
+        <div class="product-image">
+            ${badgeHTML}
+            <img src="${product.card.image}" alt="${product.card.title}" 
+                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+        </div>
+        <div class="product-info">
+            <h3>${product.card.title}</h3>
+            <div class="product-price">
+                <div class="price-container">
+                    <div>
+                        <span class="current-price price-retail">${product.card.price}</span>
+                        <span class="current-price price-wholesale" style="display: none;">${product.card.price.replace('BYN', 'BYN опт')}</span>
+                    </div>
+                    <span class="price-type price-type-retail">Розница</span>
+                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Загружаем динамические товары при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Ждем немного, чтобы статические товары загрузились
+    setTimeout(addDynamicProductsToCategories, 500);
+    
+    // Обновляем при изменении LocalStorage (если открыто несколько вкладок)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'products') {
+            console.log('Обнаружено изменение в товарах, обновляем...');
+            addDynamicProductsToCategories();
+        }
+    });
+});
+
+// Также обновляем при фокусе на вкладке
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        addDynamicProductsToCategories();
+    }
+});
+</script>
 </body>
 
 </html>
