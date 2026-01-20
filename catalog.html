@@ -2765,7 +2765,209 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+<!-- Вставьте этот исправленный скрипт в конец файла перед </body> -->
+
+<script>
+// Глобальный объект для управления состоянием загрузки
+window.CatalogManager = {
+    isLoaded: false,
+    isLoading: false,
+    otherProductsCache: null,
+    
+    // Основная функция загрузки категории "Другое"
+    loadOtherCategoryProducts: function() {
+        try {
+            // Если уже загружается или загружено - пропускаем
+            if (this.isLoading || this.isLoaded) {
+                console.log('Категория уже загружается или загружена, пропускаем');
+                return;
+            }
+            
+            this.isLoading = true;
+            
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const otherProducts = products.filter(p => p.category === 'other');
+            
+            // Кешируем результат
+            this.otherProductsCache = otherProducts;
+            
+            // Находим секцию "Другое"
+            const otherSection = document.querySelector('#other .products-grid');
+            if (!otherSection) {
+                console.error('Секция "Другое" не найдена');
+                this.isLoading = false;
+                return;
+            }
+            
+            // Запоминаем текущее состояние (скрыта/открыта)
+            const isExpanded = !otherSection.closest('.category-section').classList.contains('collapsed');
+            
+            // Полностью очищаем и перестраиваем контейнер
+            otherSection.innerHTML = '';
+            
+            if (otherProducts.length === 0) {
+                // Если товаров нет - показываем сообщение
+                otherSection.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Товаров в этой категории пока нет</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
+                    </div>
+                `;
+                
+                // Обновляем заголовок
+                this.updateCategoryHeader(0);
+            } else {
+                // Используем Set для отслеживания уникальных ID
+                const uniqueProductIds = new Set();
+                const validProducts = [];
+                
+                // Фильтруем товары, оставляем только уникальные
+                otherProducts.forEach(product => {
+                    if (product.id && !uniqueProductIds.has(product.id)) {
+                        uniqueProductIds.add(product.id);
+                        validProducts.push(product);
+                    }
+                });
+                
+                // Добавляем товары
+                validProducts.forEach(product => {
+                    const productCard = this.createProductCard(product);
+                    otherSection.appendChild(productCard);
+                });
+                
+                // Обновляем заголовок с количеством товаров
+                this.updateCategoryHeader(validProducts.length);
+                
+                console.log(`Загружено ${validProducts.length} уникальных товаров в категорию "Другое"`);
+            }
+            
+            // Восстанавливаем состояние (скрыта/открыта)
+            if (!isExpanded) {
+                otherSection.style.display = 'none';
+            }
+            
+            this.isLoaded = true;
+            this.isLoading = false;
+            
+        } catch (error) {
+            console.error('Ошибка загрузки товаров:', error);
+            this.isLoading = false;
+        }
+    },
+    
+    // Обновление заголовка категории
+    updateCategoryHeader: function(count) {
+        const categoryHeader = document.querySelector('#other .category-header h2 span');
+        if (categoryHeader) {
+            categoryHeader.textContent = `(${count} товаров)`;
+        }
+    },
+    
+    // Создание карточки товара
+    createProductCard: function(product) {
+        const card = document.createElement('a');
+        card.href = `product.html?id=${product.id}`;
+        card.className = 'product-card';
+        card.setAttribute('data-product-id', product.id);
         
+        // Определяем бейдж
+        let badgeHTML = '';
+        if (product.card && product.card.price && product.card.price.includes('BYN')) {
+            const priceMatch = product.card.price.match(/(\d+)/);
+            if (priceMatch) {
+                const priceNum = parseInt(priceMatch[0]);
+                if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
+                else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+            }
+        }
+        
+        card.innerHTML = `
+            <div class="product-image">
+                ${badgeHTML}
+                <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
+                     alt="${product.card?.title || 'Товар'}" 
+                     onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+            </div>
+            <div class="product-info">
+                <h3>${product.card?.title || 'Товар без названия'}</h3>
+                <div class="product-price">
+                    <div class="price-container">
+                        <div>
+                            <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
+                        </div>
+                        <span class="price-type price-type-retail">Розница</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        return card;
+    },
+    
+    // Принудительное обновление (при изменении данных)
+    refresh: function() {
+        console.log('Принудительное обновление категории "Другое"');
+        this.isLoaded = false;
+        this.isLoading = false;
+        this.loadOtherCategoryProducts();
+    }
+};
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Используем debounce для предотвращения множественных вызовов
+    let loadTimeout;
+    
+    function debouncedLoad() {
+        clearTimeout(loadTimeout);
+        loadTimeout = setTimeout(function() {
+            window.CatalogManager.loadOtherCategoryProducts();
+        }, 100);
+    }
+    
+    // Загружаем после полной загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', debouncedLoad);
+    } else {
+        debouncedLoad();
+    }
+    
+    // Обновляем при изменении LocalStorage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'products') {
+            console.log('Обнаружено изменение товаров в LocalStorage');
+            setTimeout(function() {
+                window.CatalogManager.refresh();
+            }, 200);
+        }
+    });
+    
+    // Обновляем при возвращении на вкладку (только если страница была скрыта более 5 секунд)
+    let lastHiddenTime = 0;
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            const now = Date.now();
+            if (now - lastHiddenTime > 5000) { // 5 секунд
+                console.log('Возврат на вкладку после долгого отсутствия, обновляем');
+                setTimeout(function() {
+                    window.CatalogManager.refresh();
+                }, 300);
+            }
+        } else {
+            lastHiddenTime = Date.now();
+        }
+    });
+});
+
+// Отключаем старые обработчики если они есть
+if (window.loadOtherCategoryProducts) {
+    console.log('Отключаем старую функцию loadOtherCategoryProducts');
+    window.loadOtherCategoryProducts = function() {
+        console.log('Старая функция заблокирована, используем CatalogManager');
+    };
+}
+</script>        
 </script>
 </body>
 
