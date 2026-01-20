@@ -303,6 +303,32 @@ https://example.com/photo2.jpg"></textarea>
             `;
             container.appendChild(div);
         }
+
+        // Добавление поля преимущества
+function addFeatureField() {
+    const container = document.getElementById('featuresContainer');
+    const div = document.createElement('div');
+    div.className = 'feature-row';
+    div.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px;';
+    div.innerHTML = `
+        <input type="text" class="feature-input" placeholder="Например: Гарантия 3 года" style="flex: 1;">
+        <button type="button" onclick="removeFeature(this)" style="padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 5px; cursor: pointer;">×</button>
+    `;
+    container.appendChild(div);
+}
+
+// Удаление поля преимущества
+function removeFeature(button) {
+    const container = document.getElementById('featuresContainer');
+    const rows = container.querySelectorAll('.feature-row');
+    
+    if (rows.length > 1) {
+        button.parentElement.remove();
+    } else {
+        // Не удаляем последнее поле, просто очищаем
+        button.parentElement.querySelector('.feature-input').value = '';
+    }
+}
         
         // Сохранение черновика
         function saveDraft() {
