@@ -907,8 +907,15 @@
         }
         
         // Загружаем товары из LocalStorage
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const product = products.find(p => p.id == productId);
+const products = JSON.parse(localStorage.getItem('products')) || [];
+let product = products.find(p => p.id == productId);
+
+// Если не нашли в LocalStorage, проверяем статические товары
+if (!product) {
+    // Это либо статический товар, либо товар удален
+    renderStaticProduct(productId);
+    return;
+}
         
         // Если нет в LocalStorage, проверяем статические товары (ID 1-40)
         if (!product && productId >= 1 && productId <= 40) {
