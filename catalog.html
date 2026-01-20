@@ -3495,6 +3495,186 @@ document.addEventListener('visibilitychange', function() {
     }
 });
 </script>
+    <script>
+// ===== СИСТЕМА ДИНАМИЧЕСКИХ ТОВАРОВ =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Загрузка динамических товаров...');
+    loadDynamicProducts();
+    
+    // Обновляем при изменении в LocalStorage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'products') {
+            console.log('Обнаружены изменения в товарах, обновляем...');
+            loadDynamicProducts();
+        }
+    });
+});
+
+function loadDynamicProducts() {
+    try {
+        // Получаем товары из админки
+        const adminProducts = JSON.parse(localStorage.getItem('products')) || [];
+        const categories = JSON.parse(localStorage.getItem('categories')) || [];
+        
+        console.log(`Найдено товаров из админки: ${adminProducts.length}`);
+        
+        if (adminProducts.length === 0) {
+            console.log('Товаров из админки нет');
+            return;
+        }
+        
+        // Группируем товары по категориям
+        const productsByCategory = {};
+        adminProducts.forEach(product => {
+            if (!product.category) return;
+            
+            if (!productsByCategory[product.category]) {
+                productsByCategory[product.category] = [];
+            }
+            productsByCategory[product.category].push(product);
+        });
+        
+        // Добавляем товары в каждую категорию
+        Object.keys(productsByCategory).forEach(categoryId => {
+            const categoryElement = document.getElementById(categoryId);
+            if (!categoryElement) {
+                console.warn(`Категория #${categoryId} не найдена на странице`);
+                return;
+            }
+            
+            const productsGrid = categoryElement.querySelector('.products-grid');
+            if (!productsGrid) {
+                console.warn(`Сетка товаров не найдена в категории #${categoryId}`);
+                return;
+            }
+            
+            // Удаляем старые динамические товары (помеченные data-admin-id)
+            const oldDynamicCards = productsGrid.querySelectorAll('[data-admin-id]');
+            oldDynamicCards.forEach(card => card.remove());
+            
+            // Добавляем новые товары
+            productsByCategory[categoryId].forEach(product => {
+                const productCard = createProductCard(product);
+                // Вставляем в начало сетки
+                productsGrid.insertBefore(productCard, productsGrid.firstChild);
+            });
+            
+            console.log(`Добавлено ${productsByCategory[categoryId].length} товаров в категорию ${categoryId}`);
+        });
+        
+        // Обновляем счетчики товаров в заголовках категорий
+        updateCategoryCounts(adminProducts, categories);
+        
+    } catch (error) {
+        console.error('Ошибка загрузки динамических товаров:', error);
+    }
+}
+
+function createProductCard(product) {
+    const card = document.createElement('a');
+    card.href = `product.html?id=${product.id}`;
+    card.className = 'product-card';
+    card.setAttribute('data-product-id', product.id);
+    card.setAttribute('data-admin-id', product.id); // Метка что товар из админки
+    
+    // Определяем бейдж в зависимости от цены
+    let badgeHTML = '';
+    if (product.card && product.card.price) {
+        const priceMatch = product.card.price.match(/(\d+)/);
+        if (priceMatch) {
+            const priceNum = parseInt(priceMatch[0]);
+            if (priceNum > 100) {
+                badgeHTML = '<div class="product-badge popular">Премиум</div>';
+            } else if (priceNum < 50) {
+                badgeHTML = '<div class="product-badge discount">Эконом</div>';
+            }
+        }
+    }
+    
+    // Обрабатываем изображение (может быть base64 или ссылкой)
+    let imageSrc = 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара';
+    if (product.card && product.card.image) {
+        if (product.card.image.startsWith('data:image')) {
+            // Это base64 изображение
+            imageSrc = product.card.image;
+        } else if (product.card.image.startsWith('http')) {
+            // Это обычная ссылка
+            imageSrc = product.card.image;
+        }
+    }
+    
+    // Используем только розничную цену (опт убран)
+    const price = product.card && product.card.price ? product.card.price : 'Цена не указана';
+    
+    card.innerHTML = `
+        <div class="product-image">
+            ${badgeHTML}
+            <img src="${imageSrc}" alt="${product.card ? product.card.title : 'Товар'}" 
+                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+        </div>
+        <div class="product-info">
+            <h3>${product.card ? product.card.title : 'Название не указано'}</h3>
+            <div class="product-price">
+                <div class="price-container">
+                    <div>
+                        <span class="current-price price-retail">${price}</span>
+                    </div>
+                    <span class="price-type price-type-retail">Розница</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function updateCategoryCounts(products, categories) {
+    // Считаем сколько товаров в каждой категории
+    const counts = {};
+    products.forEach(product => {
+        if (product.category) {
+            counts[product.category] = (counts[product.category] || 0) + 1;
+        }
+    });
+    
+    // Обновляем заголовки категорий
+    categories.forEach(category => {
+        const categoryElement = document.getElementById(category.id);
+        if (!categoryElement) return;
+        
+        // Считаем статические товары в HTML
+        const staticProducts = categoryElement.querySelectorAll('.product-card:not([data-admin-id])').length;
+        // Динамические товары из админки
+        const dynamicProducts = counts[category.id] || 0;
+        const totalProducts = staticProducts + dynamicProducts;
+        
+        // Обновляем заголовок
+        const header = categoryElement.querySelector('.category-header h2');
+        if (header) {
+            // Удаляем старый счетчик если есть
+            const oldCounter = header.querySelector('.product-count');
+            if (oldCounter) oldCounter.remove();
+            
+            // Добавляем новый
+            const counterSpan = document.createElement('span');
+            counterSpan.className = 'product-count';
+            counterSpan.style.cssText = 'font-size: 0.9rem; color: var(--text-gray); font-weight: normal; margin-left: 10px;';
+            counterSpan.textContent = `(${totalProducts} товаров)`;
+            header.appendChild(counterSpan);
+        }
+    });
+}
+
+// Автообновление при возвращении на вкладку
+let lastUpdate = Date.now();
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && (Date.now() - lastUpdate) > 5000) {
+        console.log('Вкладка активна, проверяем обновления...');
+        loadDynamicProducts();
+        lastUpdate = Date.now();
+    }
+});
+</script>
 </body>
 
 </html>
