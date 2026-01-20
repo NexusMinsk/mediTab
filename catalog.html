@@ -2181,7 +2181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // Кнопки опт/розница
+            // Кнопки опт/
             purchaseTypeBtns.forEach(btn => {
                 btn.addEventListener('click', function () {
                     const type = this.getAttribute('data-type');
@@ -2603,7 +2603,7 @@ function createProductCard(product) {
                         <span class="current-price price-retail">${product.card.price}</span>
                         <span class="current-price price-wholesale" style="display: none;">${product.card.price.replace('BYN', 'BYN опт')}</span>
                     </div>
-                    <span class="price-type price-type-retail">Розница</span>
+                    <span class="price-type price-type-retail">Прим. цена</span>
                     <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
                 </div>
             </div>
