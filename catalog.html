@@ -3628,39 +3628,45 @@ function createProductCard(product) {
     return card;
 }
 
-function updateCategoryCounts(products, categories) {
-    // Считаем сколько товаров в каждой категории
-    const counts = {};
-    products.forEach(product => {
-        if (product.category) {
-            counts[product.category] = (counts[product.category] || 0) + 1;
-        }
-    });
+function updateCategoryCounts() {
+    // Загружаем и товары И категории
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    const categories = JSON.parse(localStorage.getItem('categories')) || [];
     
-    // Обновляем заголовки категорий
+    if (!categories || categories.length === 0) {
+        console.log('Категории не найдены в localStorage');
+        return;
+    }
+    
+    console.log('Загружены категории:', categories);
+    
+    // Для каждой категории в админке
     categories.forEach(category => {
+        // Находим элемент на странице
         const categoryElement = document.getElementById(category.id);
-        if (!categoryElement) return;
         
-        // Считаем статические товары в HTML
+        if (!categoryElement) {
+            console.warn(`Секция категории #${category.id} не найдена в HTML!`);
+            // Можно автоматически создать, но это сложнее
+            return;
+        }
+        
+        // Считаем товары в этой категории
+        const productsInCategory = products.filter(p => p.category === category.id);
         const staticProducts = categoryElement.querySelectorAll('.product-card:not([data-admin-id])').length;
-        // Динамические товары из админки
-        const dynamicProducts = counts[category.id] || 0;
-        const totalProducts = staticProducts + dynamicProducts;
+        const totalProducts = staticProducts + productsInCategory.length;
         
         // Обновляем заголовок
         const header = categoryElement.querySelector('.category-header h2');
         if (header) {
-            // Удаляем старый счетчик если есть
-            const oldCounter = header.querySelector('.product-count');
-            if (oldCounter) oldCounter.remove();
-            
-            // Добавляем новый
-            const counterSpan = document.createElement('span');
-            counterSpan.className = 'product-count';
-            counterSpan.style.cssText = 'font-size: 0.9rem; color: var(--text-gray); font-weight: normal; margin-left: 10px;';
-            counterSpan.textContent = `(${totalProducts} товаров)`;
-            header.appendChild(counterSpan);
+            // Обновляем счетчик
+            const countSpan = header.querySelector('.product-count') || document.createElement('span');
+            if (!countSpan.className.includes('product-count')) {
+                countSpan.className = 'product-count';
+                countSpan.style.cssText = 'font-size: 0.9rem; color: var(--text-gray); font-weight: normal; margin-left: 10px;';
+                header.appendChild(countSpan);
+            }
+            countSpan.textContent = `(${totalProducts} товаров)`;
         }
     });
 }
