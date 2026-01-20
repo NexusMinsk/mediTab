@@ -166,7 +166,7 @@
 
         /* ===== КОНТЕНТ АДМИНКИ ===== */
         .admin-content {
-            display: none; /* Скрыто пока не войдешь */
+            display: none;
         }
 
         .admin-grid {
@@ -473,6 +473,179 @@
                 justify-content: center;
             }
         }
+
+        /* ===== НОВЫЕ СТИЛИ ДЛЯ ВКЛАДОК И КАТЕГОРИЙ ===== */
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-gray);
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-weight: 600;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: var(--accent-orange);
+            background: rgba(207, 121, 17, 0.1);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-orange);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -7px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-orange);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Стили для списка категорий */
+        .categories-list {
+            margin-top: 20px;
+        }
+
+        .category-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            background: rgba(205, 220, 228, 0.1);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+            border: 1px solid var(--border-gray);
+            transition: var(--transition);
+        }
+
+        .category-item:hover {
+            background: rgba(205, 220, 228, 0.2);
+            border-color: var(--accent-orange);
+        }
+
+        .category-icon-preview {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent-orange);
+        }
+
+        .category-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--bg-dark);
+        }
+
+        .category-id {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Кнопки управления категориями */
+        .category-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit {
+            background: var(--accent-blue);
+            color: var(--bg-dark);
+        }
+
+        .btn-edit:hover {
+            background: #b8c9d4;
+        }
+
+        .btn-delete-cat {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete-cat:hover {
+            background: #dc2626;
+        }
+
+        /* Форма категории */
+        .icon-selector {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .icon-option {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--bg-dark);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .icon-option:hover {
+            transform: scale(1.1);
+            background: var(--gradient-orange);
+            color: white;
+        }
+
+        .icon-option.selected {
+            border-color: var(--accent-orange);
+            background: var(--gradient-orange);
+            color: white;
+        }
+
+        /* Сообщение о пустых категориях */
+        .empty-categories {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+        }
+
+        .empty-categories i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body>
@@ -529,7 +702,7 @@
                         </div>
                         <div class="stat-card">
                             <h3>Категории</h3>
-                            <div class="number">8</div>
+                            <div class="number" id="totalCategories">8</div>
                         </div>
                         <div class="stat-card">
                             <h3>Последнее обновление</h3>
@@ -541,6 +714,9 @@
                         <h3 style="color: var(--bg-dark); margin-bottom: 15px;">Быстрые действия</h3>
                         <button class="btn btn-secondary" onclick="clearForm()" style="width: 100%; margin-bottom: 10px;">
                             <i class="fas fa-broom"></i> Очистить форму
+                        </button>
+                        <button class="btn btn-secondary" onclick="switchTab('categories')" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-folder"></i> Управление категориями
                         </button>
                         <button class="btn btn-secondary" onclick="importDemoProducts()" style="width: 100%; margin-bottom: 10px;">
                             <i class="fas fa-download"></i> Добавить демо-товары
@@ -556,186 +732,328 @@
                     <!-- Сообщения -->
                     <div id="messageBox" class="message"></div>
 
-                    <!-- Форма товара -->
-                    <h2 class="section-title" id="formTitle">
-                        <i class="fas fa-plus"></i> Добавить новый товар
-                    </h2>
+                    <!-- Вкладки -->
+                    <div class="admin-tabs">
+                        <button class="tab-btn active" onclick="switchTab('products')">
+                            <i class="fas fa-box"></i> Товары
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('categories')">
+                            <i class="fas fa-folder"></i> Категории
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('import')">
+                            <i class="fas fa-upload"></i> Импорт
+                        </button>
+                    </div>
 
-                    <form id="productForm">
-                        <!-- Раздел 1: Основная информация -->
-                        <div class="form-section">
-                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
-                                <i class="fas fa-info-circle"></i> Основная информация
-                            </h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" for="productCategory">
-                                        <i class="fas fa-folder"></i> Категория товара *
-                                    </label>
-                                    <select id="productCategory" class="form-select" required>
-                                        <option value="">-- Выберите категорию --</option>
-                                        <option value="clothing">👨‍⚕️ Медицинская одежда</option>
-                                        <option value="tonometers">❤️ Тонометры</option>
-                                        <option value="diabetes">💉 Диабетические товары</option>
-                                        <option value="orthopedic">🦴 Ортопедические изделия</option>
-                                        <option value="gynecology">👩 Гинекологические товары</option>
-                                        <option value="compression">🧦 Компрессионный трикотаж</option>
-                                        <option value="optics">👁️ Оптика</option>
-                                        <option value="tests">🧪 Экспресс-тесты</option>
-                                    </select>
-                                </div>
+                    <!-- Вкладка Товары -->
+                    <div id="productsTab" class="tab-content active">
+                        <!-- Форма товара -->
+                        <h2 class="section-title" id="formTitle">
+                            <i class="fas fa-plus"></i> Добавить новый товар
+                        </h2>
+
+                        <form id="productForm">
+                            <!-- Раздел 1: Основная информация -->
+                            <div class="form-section">
+                                <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                    <i class="fas fa-info-circle"></i> Основная информация
+                                </h3>
                                 
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="productCategory">
+                                            <i class="fas fa-folder"></i> Категория товара *
+                                        </label>
+                                        <select id="productCategory" class="form-select" required>
+                                            <option value="">-- Выберите категорию --</option>
+                                            <!-- Категории будут загружены динамически -->
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="cardTitle">
+                                            <i class="fas fa-heading"></i> Название товара *
+                                        </label>
+                                        <input type="text" id="cardTitle" class="form-input" 
+                                               placeholder="Например: Тонометр автоматический DS-500" required>
+                                    </div>
+                                </div>
+
+                                <!-- Цена -->
                                 <div class="form-group">
-                                    <label class="form-label" for="cardTitle">
-                                        <i class="fas fa-heading"></i> Название товара *
+                                    <label class="form-label" for="price">
+                                        <i class="fas fa-tag"></i> Цена товара *
                                     </label>
-                                    <input type="text" id="cardTitle" class="form-input" 
-                                           placeholder="Например: Тонометр автоматический DS-500" required>
+                                    <input type="text" id="price" class="form-input" 
+                                           placeholder="Например: 199 BYN" 
+                                           value="199 BYN" required>
+                                    <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+                                        Введите цену в формате "199 BYN"
+                                    </small>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cardImage">
+                                            <i class="fas fa-image"></i> Ссылка на фото *
+                                        </label>
+                                        <input type="text" id="cardImage" class="form-input" 
+                                               placeholder="https://example.com/photo.jpg"
+                                               value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="cardDesc">
+                                            <i class="fas fa-align-left"></i> Краткое описание *
+                                        </label>
+                                        <textarea id="cardDesc" class="form-textarea" 
+                                                  placeholder="Краткое описание для карточки товара..." 
+                                                  required></textarea>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Цена (теперь только одна) -->
+                            <!-- Раздел 2: Детальная информация -->
+                            <div class="form-section">
+                                <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                    <i class="fas fa-file-alt"></i> Детальная информация
+                                </h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="pageTitle">
+                                        <i class="fas fa-heading"></i> Полное название
+                                    </label>
+                                    <input type="text" id="pageTitle" class="form-input" 
+                                           placeholder="Полное официальное название товара...">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="pageDesc">
+                                        <i class="fas fa-align-left"></i> Полное описание
+                                    </label>
+                                    <textarea id="pageDesc" class="form-textarea" 
+                                              placeholder="Подробное описание товара..."></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="pageGallery">
+                                        <i class="fas fa-images"></i> Галерея фото (каждая ссылка с новой строки)
+                                    </label>
+                                    <textarea id="pageGallery" class="form-textarea" 
+                                              placeholder="https://example.com/photo1.jpg
+https://example.com/photo2.jpg"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="pageVideo">
+                                        <i class="fas fa-video"></i> Ссылка на видео (YouTube)
+                                    </label>
+                                    <input type="text" id="pageVideo" class="form-input" 
+                                           placeholder="https://youtube.com/watch?v=...">
+                                </div>
+                            </div>
+
+                            <!-- Раздел 3: Характеристики -->
+                            <div class="form-section">
+                                <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                    <i class="fas fa-list"></i> Характеристики
+                                </h3>
+                                
+                                <div class="list-container" id="specsContainer">
+                                    <div class="list-item">
+                                        <input type="text" class="spec-name form-input" placeholder="Название характеристики">
+                                        <input type="text" class="spec-value form-input" placeholder="Значение">
+                                        <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-secondary" onclick="addSpecField()">
+                                    <i class="fas fa-plus"></i> Добавить характеристику
+                                </button>
+                            </div>
+
+                            <!-- Раздел 4: Преимущества -->
+                            <div class="form-section">
+                                <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                    <i class="fas fa-star"></i> Преимущества
+                                </h3>
+                                
+                                <div class="list-container" id="featuresContainer">
+                                    <div class="feature-item">
+                                        <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
+                                        <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-secondary" onclick="addFeatureField()">
+                                    <i class="fas fa-plus"></i> Добавить преимущество
+                                </button>
+                            </div>
+
+                            <!-- Кнопки управления -->
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="clearForm()">
+                                    <i class="fas fa-times"></i> Очистить
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="saveDraft()">
+                                    <i class="fas fa-save"></i> Черновик
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-rocket"></i> Опубликовать товар
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Список существующих товаров -->
+                        <div class="products-list">
+                            <h3 class="section-title">
+                                <i class="fas fa-boxes"></i> Существующие товары
+                            </h3>
+                            
+                            <div id="productsTable">
+                                <!-- Сюда загрузится таблица товаров -->
+                                <div style="text-align: center; padding: 40px; color: var(--text-gray);">
+                                    <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                                    <p>Товаров пока нет</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Вкладка Категории -->
+                    <div id="categoriesTab" class="tab-content">
+                        <h2 class="section-title">
+                            <i class="fas fa-folder"></i> Управление категориями
+                        </h2>
+
+                        <!-- Форма добавления/редактирования категории -->
+                        <div class="form-section">
+                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                <i class="fas fa-folder-plus"></i> <span id="categoryFormTitle">Добавить новую категорию</span>
+                            </h3>
+                            
+                            <form id="categoryForm">
+                                <input type="hidden" id="categoryId">
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="categoryName">
+                                            <i class="fas fa-heading"></i> Название категории *
+                                        </label>
+                                        <input type="text" id="categoryName" class="form-input" 
+                                               placeholder="Например: Тонометры" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="categorySlug">
+                                            <i class="fas fa-link"></i> ID категории (латиница) *
+                                        </label>
+                                        <input type="text" id="categorySlug" class="form-input" 
+                                               placeholder="Например: tonometers" required>
+                                        <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+                                            Используется в URL и коде (только латинские буквы и дефисы)
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-icons"></i> Иконка категории *
+                                    </label>
+                                    <div class="icon-selector" id="iconSelector">
+                                        <!-- Иконки будут добавлены через JS -->
+                                    </div>
+                                    <input type="hidden" id="selectedIcon" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="categoryDescription">
+                                        <i class="fas fa-align-left"></i> Описание категории
+                                    </label>
+                                    <textarea id="categoryDescription" class="form-textarea" 
+                                              placeholder="Краткое описание категории..."></textarea>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" onclick="clearCategoryForm()">
+                                        <i class="fas fa-times"></i> Отмена
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="categorySubmitBtn">
+                                        <i class="fas fa-plus"></i> Добавить категорию
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Список существующих категорий -->
+                        <div class="categories-list">
+                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                <i class="fas fa-list"></i> Существующие категории
+                            </h3>
+                            
+                            <div id="categoriesContainer">
+                                <!-- Сюда загрузится список категорий -->
+                                <div class="empty-categories">
+                                    <i class="fas fa-folder-open"></i>
+                                    <p>Категорий пока нет. Добавьте первую категорию.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Вкладка Импорт -->
+                    <div id="importTab" class="tab-content">
+                        <h2 class="section-title">
+                            <i class="fas fa-upload"></i> Импорт товаров
+                        </h2>
+
+                        <div class="form-section">
+                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
+                                <i class="fas fa-file-import"></i> Импорт из JSON
+                            </h3>
+                            
                             <div class="form-group">
-                                <label class="form-label" for="price">
-                                    <i class="fas fa-tag"></i> Цена товара *
+                                <label class="form-label">
+                                    <i class="fas fa-file-code"></i> JSON данные товаров
                                 </label>
-                                <input type="text" id="price" class="form-input" 
-                                       placeholder="Например: 199 BYN" 
-                                       value="199 BYN" required>
+                                <textarea id="importJson" class="form-textarea" 
+                                          placeholder='[{"id": 1, "category": "tonometers", "card": {"title": "Тонометр", "price": "199 BYN"...}}]'
+                                          style="min-height: 300px; font-family: monospace;"></textarea>
                                 <small style="color: var(--text-gray); margin-top: 5px; display: block;">
-                                    Введите цену в формате "199 BYN"
+                                    Вставьте JSON массив товаров. Внимание: существующие товары будут заменены!
                                 </small>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" for="cardImage">
-                                        <i class="fas fa-image"></i> Ссылка на фото *
-                                    </label>
-                                    <input type="text" id="cardImage" class="form-input" 
-                                           placeholder="https://example.com/photo.jpg"
-                                           value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" for="cardDesc">
-                                        <i class="fas fa-align-left"></i> Краткое описание *
-                                    </label>
-                                    <textarea id="cardDesc" class="form-textarea" 
-                                              placeholder="Краткое описание для карточки товара..." 
-                                              required></textarea>
-                                </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="clearImportForm()">
+                                    <i class="fas fa-times"></i> Очистить
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="importProductsFromJson()">
+                                    <i class="fas fa-file-import"></i> Импортировать товары
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Раздел 2: Детальная информация -->
                         <div class="form-section">
                             <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
-                                <i class="fas fa-file-alt"></i> Детальная информация
+                                <i class="fas fa-file-export"></i> Экспорт текущих товаров
                             </h3>
                             
                             <div class="form-group">
-                                <label class="form-label" for="pageTitle">
-                                    <i class="fas fa-heading"></i> Полное название
+                                <label class="form-label">
+                                    <i class="fas fa-code"></i> Текущие данные в JSON
                                 </label>
-                                <input type="text" id="pageTitle" class="form-input" 
-                                       placeholder="Полное официальное название товара...">
+                                <textarea id="exportJson" class="form-textarea" 
+                                          style="min-height: 200px; font-family: monospace;" readonly></textarea>
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="pageDesc">
-                                    <i class="fas fa-align-left"></i> Полное описание
-                                </label>
-                                <textarea id="pageDesc" class="form-textarea" 
-                                          placeholder="Подробное описание товара..."></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="pageGallery">
-                                    <i class="fas fa-images"></i> Галерея фото (каждая ссылка с новой строки)
-                                </label>
-                                <textarea id="pageGallery" class="form-textarea" 
-                                          placeholder="https://example.com/photo1.jpg
-https://example.com/photo2.jpg"></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="pageVideo">
-                                    <i class="fas fa-video"></i> Ссылка на видео (YouTube)
-                                </label>
-                                <input type="text" id="pageVideo" class="form-input" 
-                                       placeholder="https://youtube.com/watch?v=...">
-                            </div>
-                        </div>
 
-                        <!-- Раздел 3: Характеристики -->
-                        <div class="form-section">
-                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
-                                <i class="fas fa-list"></i> Характеристики
-                            </h3>
-                            
-                            <div class="list-container" id="specsContainer">
-                                <div class="list-item">
-                                    <input type="text" class="spec-name form-input" placeholder="Название характеристики">
-                                    <input type="text" class="spec-value form-input" placeholder="Значение">
-                                    <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <button type="button" class="btn btn-secondary" onclick="addSpecField()">
-                                <i class="fas fa-plus"></i> Добавить характеристику
+                            <button type="button" class="btn btn-secondary" onclick="copyExportJson()">
+                                <i class="fas fa-copy"></i> Скопировать JSON
                             </button>
-                        </div>
-
-                        <!-- Раздел 4: Преимущества -->
-                        <div class="form-section">
-                            <h3 style="color: var(--bg-dark); margin-bottom: 20px;">
-                                <i class="fas fa-star"></i> Преимущества
-                            </h3>
-                            
-                            <div class="list-container" id="featuresContainer">
-                                <div class="feature-item">
-                                    <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
-                                    <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <button type="button" class="btn btn-secondary" onclick="addFeatureField()">
-                                <i class="fas fa-plus"></i> Добавить преимущество
-                            </button>
-                        </div>
-
-                        <!-- Кнопки управления -->
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-outline" onclick="clearForm()">
-                                <i class="fas fa-times"></i> Очистить
-                            </button>
-                            <button type="button" class="btn btn-outline" onclick="saveDraft()">
-                                <i class="fas fa-save"></i> Черновик
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-rocket"></i> Опубликовать товар
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- Список существующих товаров -->
-                    <div class="products-list">
-                        <h3 class="section-title">
-                            <i class="fas fa-boxes"></i> Существующие товары
-                        </h3>
-                        
-                        <div id="productsTable">
-                            <!-- Сюда загрузится таблица товаров -->
-                            <div style="text-align: center; padding: 40px; color: var(--text-gray);">
-                                <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                                <p>Товаров пока нет</p>
-                            </div>
                         </div>
                     </div>
                 </main>
@@ -745,9 +1063,11 @@ https://example.com/photo2.jpg"></textarea>
 
     <script>
         // ===== НАСТРОЙКИ =====
-        const ADMIN_PASSWORD = "admin123"; // Пароль можно поменять здесь
+        const ADMIN_PASSWORD = "admin123";
         let editingProductId = null;
+        let editingCategoryId = null;
         let currentProducts = [];
+        let currentCategories = [];
 
         // ===== СИСТЕМА ВХОДА =====
         function checkPassword() {
@@ -755,24 +1075,17 @@ https://example.com/photo2.jpg"></textarea>
             const errorEl = document.getElementById('loginError');
             
             if (password === ADMIN_PASSWORD) {
-                // Сохраняем сессию
                 sessionStorage.setItem('adminLoggedIn', 'true');
-                
-                // Показываем админ-панель
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                
-                // Загружаем данные
+                loadCategories();
                 loadProducts();
                 updateStats();
-                
                 showMessage('Добро пожаловать в админ-панель!', 'success');
             } else {
                 errorEl.style.display = 'block';
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('passwordInput').focus();
-                
-                // Анимация ошибки
                 errorEl.style.transform = 'translateX(10px)';
                 setTimeout(() => errorEl.style.transform = 'translateX(0)', 300);
             }
@@ -788,19 +1101,46 @@ https://example.com/photo2.jpg"></textarea>
             if (sessionStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
+                loadCategories();
                 loadProducts();
                 updateStats();
             } else {
                 document.getElementById('passwordInput').focus();
             }
             
-            // Enter для входа
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') checkPassword();
             });
+
+            // Инициализация иконок
+            initIconSelector();
         });
 
-        // ===== УПРАВЛЕНИЕ ХАРАКТЕРИСТИКАМИ =====
+        // ===== УПРАВЛЕНИЕ ВКЛАДКАМИ =====
+        function switchTab(tabName) {
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убираем активный класс со всех кнопок
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Показываем нужную вкладку
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Активируем кнопку
+            document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            
+            // Особые действия для вкладок
+            if (tabName === 'import') {
+                updateExportJson();
+            }
+        }
+
+        // ===== УПРАВЛЕНИЕ ХАРАКТЕРИСТИКАМИ И ПРЕИМУЩЕСТВАМИ =====
         function addSpecField() {
             const container = document.getElementById('specsContainer');
             const div = document.createElement('div');
@@ -818,18 +1158,15 @@ https://example.com/photo2.jpg"></textarea>
         function removeSpec(button) {
             const container = document.getElementById('specsContainer');
             const items = container.querySelectorAll('.list-item');
-            
             if (items.length > 1) {
                 button.closest('.list-item').remove();
             } else {
-                // Очищаем последнее поле
                 const item = button.closest('.list-item');
                 item.querySelector('.spec-name').value = '';
                 item.querySelector('.spec-value').value = '';
             }
         }
 
-        // ===== УПРАВЛЕНИЕ ПРЕИМУЩЕСТВАМИ =====
         function addFeatureField() {
             const container = document.getElementById('featuresContainer');
             const div = document.createElement('div');
@@ -846,13 +1183,333 @@ https://example.com/photo2.jpg"></textarea>
         function removeFeature(button) {
             const container = document.getElementById('featuresContainer');
             const items = container.querySelectorAll('.feature-item');
-            
             if (items.length > 1) {
                 button.closest('.feature-item').remove();
             } else {
-                // Очищаем последнее поле
                 const item = button.closest('.feature-item');
                 item.querySelector('.feature-input').value = '';
+            }
+        }
+
+        // ===== УПРАВЛЕНИЕ КАТЕГОРИЯМИ =====
+        function initIconSelector() {
+            const icons = [
+                'fa-user-md', 'fa-heartbeat', 'fa-syringe', 'fa-bone', 'fa-female',
+                'fa-socks', 'fa-eye', 'fa-vial', 'fa-stethoscope', 'fa-thermometer',
+                'fa-band-aid', 'fa-crutch', 'fa-procedures', 'fa-hospital', 'fa-pills',
+                'fa-prescription-bottle', 'fa-clinic-medical', 'fa-ambulance', 'fa-head-side-mask',
+                'fa-hand-holding-medical', 'fa-shield-virus', 'fa-virus', 'fa-lungs', 'fa-brain'
+            ];
+            
+            const container = document.getElementById('iconSelector');
+            container.innerHTML = '';
+            
+            icons.forEach(icon => {
+                const div = document.createElement('div');
+                div.className = 'icon-option';
+                div.innerHTML = `<i class="fas ${icon}"></i>`;
+                div.onclick = () => selectIcon(icon);
+                container.appendChild(div);
+            });
+            
+            // Выбираем первую иконку по умолчанию
+            if (icons.length > 0) {
+                selectIcon(icons[0]);
+            }
+        }
+
+        function selectIcon(iconName) {
+            // Убираем выделение со всех иконок
+            document.querySelectorAll('.icon-option').forEach(icon => {
+                icon.classList.remove('selected');
+            });
+            
+            // Выделяем выбранную иконку
+            document.querySelectorAll('.icon-option').forEach(icon => {
+                if (icon.querySelector('i').classList.contains(iconName)) {
+                    icon.classList.add('selected');
+                }
+            });
+            
+            // Сохраняем выбранную иконку
+            document.getElementById('selectedIcon').value = iconName;
+        }
+
+        function loadCategories() {
+            try {
+                // Пытаемся загрузить из LocalStorage
+                currentCategories = JSON.parse(localStorage.getItem('categories')) || [];
+                
+                // Если категорий нет, создаем стандартные
+                if (currentCategories.length === 0) {
+                    createDefaultCategories();
+                }
+                
+                renderCategoriesList();
+                updateCategorySelect();
+            } catch (error) {
+                console.error('Ошибка загрузки категорий:', error);
+                createDefaultCategories();
+            }
+        }
+
+        function createDefaultCategories() {
+            currentCategories = [
+                {
+                    id: 'clothing',
+                    name: 'Медицинская одежда',
+                    icon: 'fa-user-md',
+                    description: 'Халаты, брюки, костюмы и другая медицинская одежда'
+                },
+                {
+                    id: 'tonometers',
+                    name: 'Тонометры',
+                    icon: 'fa-heartbeat',
+                    description: 'Автоматические, механические и запястные тонометры'
+                },
+                {
+                    id: 'diabetes',
+                    name: 'Диабетические товары',
+                    icon: 'fa-syringe',
+                    description: 'Глюкометры, тест-полоски, шприц-ручки'
+                },
+                {
+                    id: 'orthopedic',
+                    name: 'Ортопедические изделия',
+                    icon: 'fa-bone',
+                    description: 'Корсеты, бандажи, стельки, ортезы'
+                },
+                {
+                    id: 'gynecology',
+                    name: 'Гинекологические товары',
+                    icon: 'fa-female',
+                    description: 'Гинекологические инструменты и наборы'
+                },
+                {
+                    id: 'compression',
+                    name: 'Компрессионный трикотаж',
+                    icon: 'fa-socks',
+                    description: 'Чулки, гольфы, колготки компрессионные'
+                },
+                {
+                    id: 'optics',
+                    name: 'Оптика',
+                    icon: 'fa-eye',
+                    description: 'Офтальмоскопы, отоскопы, лупы'
+                },
+                {
+                    id: 'tests',
+                    name: 'Экспресс-тесты',
+                    icon: 'fa-vial',
+                    description: 'Тесты на беременность, COVID-19, стрептококк и др.'
+                }
+            ];
+            
+            localStorage.setItem('categories', JSON.stringify(currentCategories));
+        }
+
+        function renderCategoriesList() {
+            const container = document.getElementById('categoriesContainer');
+            
+            if (currentCategories.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-categories">
+                        <i class="fas fa-folder-open"></i>
+                        <p>Категорий пока нет. Добавьте первую категорию.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            currentCategories.forEach(category => {
+                html += `
+                    <div class="category-item" data-category-id="${category.id}">
+                        <div class="category-icon-preview">
+                            <i class="fas ${category.icon}"></i>
+                        </div>
+                        <div class="category-info">
+                            <div class="category-name">${category.name}</div>
+                            <div class="category-id">ID: ${category.id}</div>
+                            ${category.description ? `<div style="font-size: 0.9rem; color: var(--text-gray); margin-top: 5px;">${category.description}</div>` : ''}
+                        </div>
+                        <div class="category-controls">
+                            <button class="btn-small btn-edit" onclick="editCategory('${category.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-small btn-danger" onclick="deleteCategory('${category.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateCategorySelect() {
+            const select = document.getElementById('productCategory');
+            select.innerHTML = '<option value="">-- Выберите категорию --</option>';
+            
+            currentCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                select.appendChild(option);
+            });
+        }
+
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('categorySlug').value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+            const name = document.getElementById('categoryName').value.trim();
+            const icon = document.getElementById('selectedIcon').value;
+            const description = document.getElementById('categoryDescription').value.trim();
+            
+            if (!id || !name || !icon) {
+                showMessage('Заполните все обязательные поля', 'error');
+                return;
+            }
+            
+            // Проверяем уникальность ID
+            if (!editingCategoryId && currentCategories.find(cat => cat.id === id)) {
+                showMessage('Категория с таким ID уже существует', 'error');
+                return;
+            }
+            
+            const category = {
+                id: id,
+                name: name,
+                icon: icon,
+                description: description
+            };
+            
+            if (editingCategoryId) {
+                // Обновляем существующую категорию
+                const index = currentCategories.findIndex(cat => cat.id === editingCategoryId);
+                if (index !== -1) {
+                    // Обновляем товары, которые использовали старый ID
+                    updateProductsCategoryId(editingCategoryId, id);
+                    currentCategories[index] = category;
+                }
+            } else {
+                // Добавляем новую категорию
+                currentCategories.push(category);
+            }
+            
+            localStorage.setItem('categories', JSON.stringify(currentCategories));
+            
+            const message = editingCategoryId ? 'Категория обновлена!' : 'Категория добавлена!';
+            showMessage(message, 'success');
+            
+            // Обновляем интерфейс
+            renderCategoriesList();
+            updateCategorySelect();
+            clearCategoryForm();
+            
+            // Обновляем статистику
+            updateStats();
+            
+            // Обновляем каталог если открыт
+            if (window.opener) {
+                window.opener.location.reload();
+            }
+        });
+
+        function editCategory(categoryId) {
+            const category = currentCategories.find(cat => cat.id === categoryId);
+            
+            if (!category) {
+                showMessage('Категория не найдена', 'error');
+                return;
+            }
+            
+            editingCategoryId = categoryId;
+            
+            // Заполняем форму
+            document.getElementById('categoryId').value = categoryId;
+            document.getElementById('categoryName').value = category.name;
+            document.getElementById('categorySlug').value = category.id;
+            document.getElementById('categoryDescription').value = category.description || '';
+            
+            // Выбираем иконку
+            selectIcon(category.icon);
+            
+            // Обновляем заголовок формы
+            document.getElementById('categoryFormTitle').textContent = 'Редактировать категорию';
+            document.getElementById('categorySubmitBtn').innerHTML = '<i class="fas fa-save"></i> Сохранить изменения';
+            
+            // Переключаемся на вкладку категорий
+            switchTab('categories');
+            
+            // Прокручиваем к форме
+            document.getElementById('categoryForm').scrollIntoView({ behavior: 'smooth' });
+            
+            showMessage(`Режим редактирования категории "${category.name}"`, 'success');
+        }
+
+        function deleteCategory(categoryId) {
+            // Проверяем, есть ли товары в этой категории
+            const productsInCategory = currentProducts.filter(p => p.category === categoryId);
+            
+            if (productsInCategory.length > 0) {
+                if (!confirm(`В категории "${categoryId}" есть ${productsInCategory.length} товаров. Удалить категорию вместе с товарами?`)) {
+                    return;
+                }
+                
+                // Удаляем товары этой категории
+                currentProducts = currentProducts.filter(p => p.category !== categoryId);
+                localStorage.setItem('products', JSON.stringify(currentProducts));
+            } else {
+                if (!confirm(`Удалить категорию "${categoryId}"?`)) {
+                    return;
+                }
+            }
+            
+            // Удаляем категорию
+            currentCategories = currentCategories.filter(cat => cat.id !== categoryId);
+            localStorage.setItem('categories', JSON.stringify(currentCategories));
+            
+            // Если удаляем редактируемую категорию - очищаем форму
+            if (editingCategoryId === categoryId) {
+                clearCategoryForm();
+            }
+            
+            // Обновляем интерфейс
+            renderCategoriesList();
+            updateCategorySelect();
+            loadProducts(); // Перезагружаем товары
+            
+            showMessage('Категория удалена', 'success');
+            
+            // Обновляем каталог если открыт
+            if (window.opener) {
+                window.opener.location.reload();
+            }
+        }
+
+        function updateProductsCategoryId(oldId, newId) {
+            currentProducts.forEach(product => {
+                if (product.category === oldId) {
+                    product.category = newId;
+                }
+            });
+            localStorage.setItem('products', JSON.stringify(currentProducts));
+        }
+
+        function clearCategoryForm() {
+            editingCategoryId = null;
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryFormTitle').textContent = 'Добавить новую категорию';
+            document.getElementById('categorySubmitBtn').innerHTML = '<i class="fas fa-plus"></i> Добавить категорию';
+            
+            // Выбираем первую иконку
+            const firstIcon = document.querySelector('.icon-option i');
+            if (firstIcon) {
+                selectIcon(firstIcon.classList[1]);
             }
         }
 
@@ -896,25 +1553,15 @@ https://example.com/photo2.jpg"></textarea>
             `;
             
             currentProducts.forEach(product => {
-                const categoryNames = {
-                    'clothing': 'Одежда',
-                    'tonometers': 'Тонометры',
-                    'diabetes': 'Диабетика',
-                    'orthopedic': 'Ортопедия',
-                    'gynecology': 'Гинекология',
-                    'compression': 'Трикотаж',
-                    'optics': 'Оптика',
-                    'tests': 'Тесты'
-                };
-                
-                // Используем price вместо retail_price
+                const category = currentCategories.find(cat => cat.id === product.category);
+                const categoryName = category ? category.name : product.category;
                 const price = product.card.price || product.card.retail_price || '—';
                 
                 html += `
                     <tr>
                         <td><strong>${product.id}</strong></td>
                         <td>${product.card.title}</td>
-                        <td>${categoryNames[product.category] || product.category}</td>
+                        <td>${categoryName}</td>
                         <td><strong>${price}</strong></td>
                         <td class="product-actions">
                             <button class="btn-small" onclick="editProduct(${product.id})">
@@ -953,8 +1600,6 @@ https://example.com/photo2.jpg"></textarea>
             document.getElementById('cardTitle').value = product.card.title || '';
             document.getElementById('cardImage').value = product.card.image || '';
             document.getElementById('cardDesc').value = product.card.short_desc || '';
-            
-            // Цена (теперь просто price)
             document.getElementById('price').value = product.card.price || product.card.retail_price || '';
             
             // Детальная информация
@@ -1000,6 +1645,9 @@ https://example.com/photo2.jpg"></textarea>
                 }
             }
             
+            // Переключаемся на вкладку товаров
+            switchTab('products');
+            
             // Прокручиваем к форме
             document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
             showMessage(`Режим редактирования товара #${id}`, 'success');
@@ -1012,7 +1660,6 @@ https://example.com/photo2.jpg"></textarea>
             currentProducts = currentProducts.filter(p => p.id != id);
             localStorage.setItem('products', JSON.stringify(currentProducts));
             
-            // Если удаляем редактируемый товар - очищаем форму
             if (editingProductId == id) {
                 clearForm();
             }
@@ -1020,13 +1667,12 @@ https://example.com/photo2.jpg"></textarea>
             loadProducts();
             showMessage('Товар удален', 'success');
             
-            // Обновляем каталог если открыт
             if (window.opener) {
                 window.opener.location.reload();
             }
         }
 
-        // ===== СОХРАНЕНИЕ ТОВАРА (УПРОЩЕННАЯ СТРУКТУРА БЕЗ ОПТА) =====
+        // ===== СОХРАНЕНИЕ ТОВАРА =====
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1054,13 +1700,13 @@ https://example.com/photo2.jpg"></textarea>
                 .filter(url => url.trim() !== '')
                 .map(url => url.trim());
             
-            // СОЗДАЕМ УПРОЩЕННЫЙ ОБЪЕКТ ТОВАРА (БЕЗ ОПТА)
+            // Создаем объект товара
             const product = {
                 id: editingProductId || Date.now(),
                 category: document.getElementById('productCategory').value,
                 card: {
                     title: document.getElementById('cardTitle').value.trim(),
-                    price: document.getElementById('price').value.trim(), // ← ТОЛЬКО ОДНА ЦЕНА
+                    price: document.getElementById('price').value.trim(),
                     image: document.getElementById('cardImage').value.trim(),
                     short_desc: document.getElementById('cardDesc').value.trim()
                 },
@@ -1082,48 +1728,96 @@ https://example.com/photo2.jpg"></textarea>
             
             // Сохраняем
             if (editingProductId) {
-                // Обновляем существующий
                 const index = currentProducts.findIndex(p => p.id == editingProductId);
                 if (index !== -1) {
                     currentProducts[index] = product;
                 }
             } else {
-                // Добавляем новый
                 currentProducts.push(product);
             }
             
             localStorage.setItem('products', JSON.stringify(currentProducts));
             
-            // Уведомляем
             const message = editingProductId ? 'Товар обновлен!' : 'Товар добавлен!';
             showMessage(message, 'success');
             
-            // Сбрасываем форму
             clearForm();
-            
-            // Обновляем список
             loadProducts();
             
-            // Обновляем каталог если открыт
             if (window.opener) {
                 window.opener.location.reload();
             }
         });
 
+        // ===== ИМПОРТ/ЭКСПОРТ =====
+        function updateExportJson() {
+            const data = {
+                products: currentProducts,
+                categories: currentCategories
+            };
+            document.getElementById('exportJson').value = JSON.stringify(data, null, 2);
+        }
+
+        function importProductsFromJson() {
+            const jsonInput = document.getElementById('importJson').value.trim();
+            
+            if (!jsonInput) {
+                showMessage('Введите JSON данные', 'error');
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(jsonInput);
+                
+                // Проверяем структуру данных
+                if (Array.isArray(data)) {
+                    // Это массив товаров
+                    if (confirm(`Импортировать ${data.length} товаров? Существующие товары будут заменены.`)) {
+                        currentProducts = data;
+                        localStorage.setItem('products', JSON.stringify(currentProducts));
+                        loadProducts();
+                        showMessage(`${data.length} товаров успешно импортированы!`, 'success');
+                        clearImportForm();
+                    }
+                } else if (data.products && data.categories) {
+                    // Это полная структура с товарами и категориями
+                    if (confirm(`Импортировать ${data.products.length} товаров и ${data.categories.length} категорий? Существующие данные будут заменены.`)) {
+                        currentProducts = data.products;
+                        currentCategories = data.categories;
+                        localStorage.setItem('products', JSON.stringify(currentProducts));
+                        localStorage.setItem('categories', JSON.stringify(currentCategories));
+                        loadCategories();
+                        loadProducts();
+                        showMessage(`Данные успешно импортированы!`, 'success');
+                        clearImportForm();
+                    }
+                } else {
+                    showMessage('Неправильный формат JSON данных', 'error');
+                }
+            } catch (error) {
+                showMessage('Ошибка в JSON формате: ' + error.message, 'error');
+            }
+        }
+
+        function copyExportJson() {
+            const textarea = document.getElementById('exportJson');
+            textarea.select();
+            document.execCommand('copy');
+            showMessage('JSON скопирован в буфер обмена', 'success');
+        }
+
+        function clearImportForm() {
+            document.getElementById('importJson').value = '';
+        }
+
         // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function clearForm() {
             editingProductId = null;
-            
-            // Сбрасываем форму
             document.getElementById('productForm').reset();
             document.getElementById('formTitle').innerHTML = `
                 <i class="fas fa-plus"></i> Добавить новый товар
             `;
-            
-            // Сбрасываем цену
             document.getElementById('price').value = '199 BYN';
-            
-            // Очищаем динамические поля
             document.getElementById('specsContainer').innerHTML = `
                 <div class="list-item">
                     <input type="text" class="spec-name form-input" placeholder="Название характеристики">
@@ -1133,7 +1827,6 @@ https://example.com/photo2.jpg"></textarea>
                     </button>
                 </div>
             `;
-            
             document.getElementById('featuresContainer').innerHTML = `
                 <div class="feature-item">
                     <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
@@ -1142,8 +1835,6 @@ https://example.com/photo2.jpg"></textarea>
                     </button>
                 </div>
             `;
-            
-            // Фокус на первое поле
             document.getElementById('productCategory').focus();
         }
 
@@ -1153,6 +1844,7 @@ https://example.com/photo2.jpg"></textarea>
 
         function updateStats() {
             document.getElementById('totalProducts').textContent = currentProducts.length;
+            document.getElementById('totalCategories').textContent = currentCategories.length;
             document.getElementById('lastUpdate').textContent = new Date().toLocaleString('ru-RU');
         }
 
@@ -1179,7 +1871,7 @@ https://example.com/photo2.jpg"></textarea>
                     category: 'tonometers',
                     card: {
                         title: 'Тонометр автоматический Premium',
-                        price: '199 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
+                        price: '199 BYN',
                         image: 'https://placehold.co/400x300/e2e8f0/475569?text=Тонометр+Premium',
                         short_desc: 'Автоматический тонометр с функцией измерения аритмии'
                     },
@@ -1203,7 +1895,7 @@ https://example.com/photo2.jpg"></textarea>
                     category: 'diabetes',
                     card: {
                         title: 'Глюкометр Smart Check',
-                        price: '89 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
+                        price: '89 BYN',
                         image: 'https://placehold.co/400x300/e2e8f0/475569?text=Глюкометр+Smart',
                         short_desc: 'Точный глюкометр с Bluetooth'
                     },
