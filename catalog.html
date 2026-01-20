@@ -2786,21 +2786,31 @@
                     </a>
                 </div>
             </section>
-            <section class="category-section collapsed" id="tests">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-vial"></i>
-                        </div>
-                        <h2>Другое </h2>
-                    </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+            <!-- Категория 9: Другое -->
+<section class="category-section collapsed" id="other">
+    <div class="category-header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="category-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <h2>Другое <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">
+                (Товары не вошедшие в основные категории)
+            </span></h2>
+        </div>
+        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
-                
-            </section>
+    <div class="products-grid" style="display: none;">
+        <!-- Товары будут добавлены динамически через JavaScript -->
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+            <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+            <p>Товаров в этой категории пока нет</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
+        </div>
+    </div>
+</section>
 
         </div>
     </main>
