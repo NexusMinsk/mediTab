@@ -1282,6 +1282,84 @@ https://example.com/photo2.jpg"></textarea>
             
             showMessage('Товары экспортированы в JSON файл', 'success');
         }
+
+
+        // ===== ПЕРЕМЕННЫЕ ДЛЯ ФОТО =====
+let uploadedImageBase64 = null;
+let uploadedImageName = null;
+
+// ===== ПЕРЕКЛЮЧАТЕЛЬ ССЫЛКА/ФАЙЛ =====
+function toggleImageSource() {
+    const source = document.querySelector('input[name="imageSource"]:checked').value;
+    const urlField = document.getElementById('urlImageField');
+    const fileField = document.getElementById('fileImageField');
+    
+    if (source === 'url') {
+        urlField.style.display = 'block';
+        fileField.style.display = 'none';
+        // Очищаем загруженный файл
+        uploadedImageBase64 = null;
+        uploadedImageName = null;
+    } else {
+        urlField.style.display = 'none';
+        fileField.style.display = 'block';
+    }
+}
+
+// ===== ЗАГРУЗКА И ПРЕВЬЮ ФОТО =====
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('previewImage');
+    const previewContainer = document.getElementById('imagePreview');
+    const fileName = document.getElementById('fileName');
+    
+    if (!file) {
+        previewContainer.style.display = 'none';
+        uploadedImageBase64 = null;
+        return;
+    }
+    
+    // Проверяем размер файла (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        showMessage('Файл слишком большой (максимум 2MB)', 'error');
+        event.target.value = '';
+        previewContainer.style.display = 'none';
+        uploadedImageBase64 = null;
+        return;
+    }
+    
+    // Проверяем тип файла
+    if (!file.type.match('image.*')) {
+        showMessage('Выберите файл изображения (JPG, PNG)', 'error');
+        event.target.value = '';
+        previewContainer.style.display = 'none';
+        uploadedImageBase64 = null;
+        return;
+    }
+    
+    // Читаем файл
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        // Сохраняем base64
+        uploadedImageBase64 = e.target.result;
+        uploadedImageName = file.name;
+        
+        // Показываем превью
+        preview.src = uploadedImageBase64;
+        fileName.textContent = file.name + ` (${Math.round(file.size / 1024)} KB)`;
+        previewContainer.style.display = 'block';
+        
+        showMessage('Фото загружено! Нажмите "Опубликовать товар" для сохранения', 'success');
+    };
+    
+    reader.onerror = function() {
+        showMessage('Ошибка чтения файла', 'error');
+        uploadedImageBase64 = null;
+    };
+    
+    reader.readAsDataURL(file);
+}
     </script>
 </body>
 </html>
