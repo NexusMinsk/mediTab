@@ -1038,8 +1038,7 @@
             if (product.page) {
                 document.getElementById('pageTitle').value = product.page.full_title || '';
                 document.getElementById('pageDesc').value = product.page.description || '';
-                document.getElementById('pageGallery').value = product.page.gallery?.join('\n') || '';
-                document.getElementById('pageVideo').value = product.page.video || '';
+                
                 
                 // Характеристики
                 const specsContainer = document.getElementById('specsContainer');
@@ -1125,11 +1124,8 @@
                 }
             });
             
-            // Собираем галерею
-            const gallery = document.getElementById('pageGallery').value
-                .split('\n')
-                .filter(url => url.trim() !== '')
-                .map(url => url.trim());
+           // Галерея пустая (убрали)
+            const gallery = [];
             
             // Определяем фото (приоритет у загруженного файла)
             let productImage = document.getElementById('cardImage').value.trim();
@@ -1150,13 +1146,11 @@
                     short_desc: document.getElementById('cardDesc').value.trim()
                 },
                 page: {
-                    full_title: document.getElementById('pageTitle').value.trim() || document.getElementById('cardTitle').value.trim(),
-                    gallery: gallery,
-                    description: document.getElementById('pageDesc').value.trim(),
-                    specs: specs,
-                    features: features,
-                    video: document.getElementById('pageVideo').value.trim()
-                }
+             full_title: document.getElementById('pageTitle').value.trim() || document.getElementById('cardTitle').value.trim(),
+             description: document.getElementById('pageDesc').value.trim(),
+             specs: specs,
+             features: features
+              }
             };
             
             // Проверяем обязательные поля
