@@ -573,90 +573,16 @@
         </div>
 
         <!-- Карточка товара -->
-        <div class="product-card">
-            <div class="product-compact">
-                <!-- Левая колонка -->
-                <div>
-                    <div class="product-image">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 24 24' fill='%23182231'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1z'/%3E%3Cpath d='M8 12h8v2H8z'/%3E%3C/svg%3E" alt="Тонометр DS-500">
-                    </div>
-                    
-                    <div style="margin-top: 15px;">
-                        <button class="order-btn" id="openOrderForm">
-                            <i class="fas fa-shopping-cart"></i> Заказать
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Правая колонка -->
-                <div class="product-main">
-                    <h1 class="product-title">Тонометр автоматический DS-500 (с адаптером)</h1>
-                    
-                    <div class="product-price-block">
-                        <div class="current-price">от 147 BYN</div>
-                        <div class="product-code">Артикул: DS-500-BL</div>
-                    </div>
-
-                    <!-- Описание -->
-                    <div class="description-box">
-                        <h3>Описание</h3>
-                        <p class="description-text">
-                            Надежный и доступный автоматический тонометр DS-500 оснащён индикатором аритмии, который сообщает потребителю о наличии нерегулярного пульса, при этом измерение будет произведено с достоверной точностью.
-                        </p>
-                        <p class="description-text">
-                            В комплекте имеется прибор адаптера сети. Это делает модель ещё более удобной в практическом применении. Это современный тонометр с большим 4-х строчным дисплеем, одновременной индикацией давления и пульса, двумя отдельными блоками памяти, в каждом из которых хранится по 30 измерений и их среднее значение.
-                        </p>
-                    </div>
-
-                    <!-- Характеристики и преимущества рядом -->
-                    <div class="specs-features">
-                        <!-- Характеристики -->
-                        <div class="specs-box">
-                            <h3>Характеристики</h3>
-                            <table class="compact-table">
-                                <tr>
-                                    <td>Торговая марка:</td>
-                                    <td>Meditab</td>
-                                </tr>
-                                <tr>
-                                    <td>Тип:</td>
-                                    <td>Автоматический</td>
-                                </tr>
-                                <tr>
-                                    <td>Манжета:</td>
-                                    <td>22-32 см</td>
-                                </tr>
-                                <tr>
-                                    <td>Питание:</td>
-                                    <td>Адаптер/батарейки</td>
-                                </tr>
-                                <tr>
-                                    <td>Память:</td>
-                                    <td>2 × 30 измерений</td>
-                                </tr>
-                                <tr>
-                                    <td>Гарантия:</td>
-                                    <td>3 года</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <!-- Преимущества -->
-                        <div class="features-box">
-                            <h3>Преимущества</h3>
-                            <ul class="features-list">
-                                <li>Большой дисплей с крупными цифрами</li>
-                                <li>Максимально простое использование</li>
-                                <li>Индикатор аритмии</li>
-                                <li>Стандартная манжета 22-32 см</li>
-                                <li>Адаптер питания в комплекте</li>
-                                <li>Два блока памяти по 30 измерений + среднее значение</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Карточка товара -->
+<div class="product-card">
+    <div class="product-compact" id="productContainer">
+        <!-- Здесь будет загружен товар через JavaScript -->
+        <div style="text-align: center; padding: 50px;">
+            <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-orange);"></i>
+            <p>Загрузка товара...</p>
         </div>
+    </div>
+</div>
     </div>
 
     <!-- ФОРМА ЗАКАЗА (МОДАЛЬНОЕ ОКНО) -->
