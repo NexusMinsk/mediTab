@@ -2989,7 +2989,22 @@
             </form>
         </div>
     </div>
-
+<script>
+// Автоматически обновляет все ссылки в каталоге
+document.addEventListener('DOMContentLoaded', function() {
+    const productCards = document.querySelectorAll('.product-card[data-product-id]');
+    
+    productCards.forEach(card => {
+        const productId = card.getAttribute('data-product-id');
+        if (productId) {
+            card.href = `product.html?id=${productId}`;
+            console.log(`Обновлена ссылка для товара ID: ${productId}`);
+        }
+    });
+    
+    console.log(`Обновлено ${productCards.length} ссылок на товары`);
+});
+</script>
     <!-- ===== JAVASCRIPT ===== -->
     <script>
 
