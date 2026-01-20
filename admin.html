@@ -605,16 +605,53 @@
                             </div>
 
                             <div class="form-group">
-    
+                                <label class="form-label" for="productImageUpload">
+                                    <i class="fas fa-image"></i> Загрузить фото *
+                                </label>
                                 
-                                <div class="form-group">
-                                    <label class="form-label" for="cardDesc">
-                                        <i class="fas fa-align-left"></i> Краткое описание *
-                                    </label>
-                                    <textarea id="cardDesc" class="form-textarea" 
-                                              placeholder="Краткое описание для карточки товара..." 
-                                              required></textarea>
+                                <div style="margin-bottom: 10px;">
+                                    <!-- Скрытый input для загрузки файла -->
+                                    <input type="file" id="productImageUpload" class="form-input" 
+                                           accept="image/*" style="display: none;">
+                                    
+                                    <!-- Кнопка для загрузки -->
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('productImageUpload').click()" 
+                                            style="width: 100%; margin-bottom: 10px;">
+                                        <i class="fas fa-upload"></i> Выбрать файл
+                                    </button>
+                                    
+                                    <!-- Поле для ссылки (как запасной вариант) -->
+                                    <input type="text" id="cardImage" class="form-input" 
+                                           placeholder="Или вставьте ссылку на фото..."
+                                           style="margin-top: 10px;">
                                 </div>
+                                
+                                <!-- Превью фото -->
+                                <div id="imagePreview" style="margin-top: 15px; text-align: center; display: none;">
+                                    <img id="previewImage" src="#" alt="Превью" 
+                                         style="max-width: 200px; max-height: 150px; border-radius: var(--radius-sm); border: 2px solid var(--border-gray);">
+                                    <div style="margin-top: 10px;">
+                                        <button type="button" class="btn-small btn-danger" onclick="removeImagePreview()">
+                                            <i class="fas fa-trash"></i> Удалить фото
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <small style="color: var(--text-gray); margin-top: 5px; display: block;">
+                                    Макс. размер: 5MB. Форматы: JPG, PNG, GIF
+                                </small>
+                                
+                                <!-- Скрытое поле для хранения base64 фото -->
+                                <input type="hidden" id="productImageBase64">
+                            </div>
+                                
+                            <div class="form-group">
+                                <label class="form-label" for="cardDesc">
+                                    <i class="fas fa-align-left"></i> Краткое описание *
+                                </label>
+                                <textarea id="cardDesc" class="form-textarea" 
+                                          placeholder="Краткое описание для карточки товара..." 
+                                          required></textarea>
                             </div>
                         </div>
 
@@ -737,6 +774,7 @@ https://example.com/photo2.jpg"></textarea>
         const ADMIN_PASSWORD = "admin123"; // Пароль можно поменять здесь
         let editingProductId = null;
         let currentProducts = [];
+        let currentImageBase64 = null;
 
         // ===== СИСТЕМА ВХОДА =====
         function checkPassword() {
@@ -772,6 +810,57 @@ https://example.com/photo2.jpg"></textarea>
             location.reload();
         }
 
+        // ===== УПРАВЛЕНИЕ ЗАГРУЗКОЙ ФОТО =====
+        function initImageUpload() {
+            const fileInput = document.getElementById('productImageUpload');
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Проверка размера (макс 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        showMessage('Файл слишком большой. Максимальный размер: 5MB', 'error');
+                        return;
+                    }
+                    
+                    // Проверка типа файла
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!validTypes.includes(file.type)) {
+                        showMessage('Неправильный формат файла. Используйте JPG, PNG или GIF', 'error');
+                        return;
+                    }
+                    
+                    // Конвертация в base64
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        currentImageBase64 = event.target.result;
+                        document.getElementById('productImageBase64').value = currentImageBase64;
+                        
+                        // Показываем превью
+                        const preview = document.getElementById('previewImage');
+                        preview.src = currentImageBase64;
+                        document.getElementById('imagePreview').style.display = 'block';
+                        
+                        // Заполняем поле ссылки с информацией
+                        document.getElementById('cardImage').value = `[ЗАГРУЖЕНО] ${file.name} (${Math.round(file.size/1024)}KB)`;
+                        
+                        showMessage('Фото загружено успешно!', 'success');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function removeImagePreview() {
+            currentImageBase64 = null;
+            document.getElementById('productImageBase64').value = '';
+            document.getElementById('productImageUpload').value = '';
+            document.getElementById('cardImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            
+            showMessage('Фото удалено', 'info');
+        }
+
         // Проверяем авторизацию при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             if (sessionStorage.getItem('adminLoggedIn') === 'true') {
@@ -787,6 +876,9 @@ https://example.com/photo2.jpg"></textarea>
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') checkPassword();
             });
+            
+            // Инициализация загрузки фото
+            initImageUpload();
         });
 
         // ===== УПРАВЛЕНИЕ ХАРАКТЕРИСТИКАМИ =====
@@ -947,6 +1039,16 @@ https://example.com/photo2.jpg"></textarea>
             // Цена (теперь просто price)
             document.getElementById('price').value = product.card.price || product.card.retail_price || '';
             
+            // Проверяем, есть ли base64 фото в данных
+            if (product.card.image && product.card.image.startsWith('data:image')) {
+                currentImageBase64 = product.card.image;
+                document.getElementById('productImageBase64').value = currentImageBase64;
+                document.getElementById('previewImage').src = currentImageBase64;
+                document.getElementById('imagePreview').style.display = 'block';
+            } else {
+                removeImagePreview();
+            }
+            
             // Детальная информация
             if (product.page) {
                 document.getElementById('pageTitle').value = product.page.full_title || '';
@@ -1044,14 +1146,22 @@ https://example.com/photo2.jpg"></textarea>
                 .filter(url => url.trim() !== '')
                 .map(url => url.trim());
             
+            // Определяем фото (приоритет у загруженного файла)
+            let productImage = document.getElementById('cardImage').value.trim();
+            if (currentImageBase64) {
+                productImage = currentImageBase64; // Используем загруженное фото
+            } else if (!productImage) {
+                productImage = 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара';
+            }
+            
             // СОЗДАЕМ УПРОЩЕННЫЙ ОБЪЕКТ ТОВАРА (БЕЗ ОПТА)
             const product = {
                 id: editingProductId || Date.now(),
                 category: document.getElementById('productCategory').value,
                 card: {
                     title: document.getElementById('cardTitle').value.trim(),
-                    price: document.getElementById('price').value.trim(), // ← ТОЛЬКО ОДНА ЦЕНА
-                    image: document.getElementById('cardImage').value.trim(),
+                    price: document.getElementById('price').value.trim(),
+                    image: productImage,
                     short_desc: document.getElementById('cardDesc').value.trim()
                 },
                 page: {
@@ -1103,6 +1213,7 @@ https://example.com/photo2.jpg"></textarea>
         // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function clearForm() {
             editingProductId = null;
+            currentImageBase64 = null;
             
             // Сбрасываем форму
             document.getElementById('productForm').reset();
@@ -1112,6 +1223,9 @@ https://example.com/photo2.jpg"></textarea>
             
             // Сбрасываем цену
             document.getElementById('price').value = '199 BYN';
+            
+            // Удаляем фото
+            removeImagePreview();
             
             // Очищаем динамические поля
             document.getElementById('specsContainer').innerHTML = `
@@ -1158,83 +1272,6 @@ https://example.com/photo2.jpg"></textarea>
                     box.style.opacity = '1';
                 }, 300);
             }, 3000);
-        }
-
-        function importDemoProducts() {
-            if (!confirm('Добавить 2 демо-товара для тестирования?')) return;
-            
-            const demoProducts = [
-                {
-                    id: Date.now() + 1,
-                    category: 'tonometers',
-                    card: {
-                        title: 'Тонометр автоматический Premium',
-                        price: '199 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
-                        image: 'https://placehold.co/400x300/e2e8f0/475569?text=Тонометр+Premium',
-                        short_desc: 'Автоматический тонометр с функцией измерения аритмии'
-                    },
-                    page: {
-                        full_title: 'Тонометр автоматический Premium Pro',
-                        gallery: [],
-                        description: 'Профессиональный автоматический тонометр с расширенным функционалом.',
-                        specs: [
-                            {name: 'Тип', value: 'Автоматический'},
-                            {name: 'Манжета', value: '22-42 см'}
-                        ],
-                        features: [
-                            'Интеллектуальное измерение',
-                            'Память на 90 измерений'
-                        ],
-                        video: ''
-                    }
-                },
-                {
-                    id: Date.now() + 2,
-                    category: 'diabetes',
-                    card: {
-                        title: 'Глюкометр Smart Check',
-                        price: '89 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
-                        image: 'https://placehold.co/400x300/e2e8f0/475569?text=Глюкометр+Smart',
-                        short_desc: 'Точный глюкометр с Bluetooth'
-                    },
-                    page: {
-                        full_title: 'Глюкометр Smart Check',
-                        description: 'Современный глюкометр с Bluetooth.',
-                        specs: [
-                            {name: 'Тип', value: 'Электрохимический'},
-                            {name: 'Время анализа', value: '5 секунд'}
-                        ],
-                        features: [
-                            'Bluetooth синхронизация',
-                            'Большой дисплей'
-                        ]
-                    }
-                }
-            ];
-            
-            demoProducts.forEach(product => {
-                if (!currentProducts.find(p => p.id === product.id)) {
-                    currentProducts.push(product);
-                }
-            });
-            
-            localStorage.setItem('products', JSON.stringify(currentProducts));
-            loadProducts();
-            showMessage('Демо-товары добавлены!', 'success');
-        }
-
-        function exportProducts() {
-            const dataStr = JSON.stringify(currentProducts, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `products_${new Date().toISOString().split('T')[0]}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showMessage('Товары экспортированы в JSON файл', 'success');
         }
     </script>
 </body>
