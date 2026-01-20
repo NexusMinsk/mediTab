@@ -1095,11 +1095,13 @@ https://example.com/photo2.jpg"></textarea>
                 id: editingProductId || Date.now(),
                 category: document.getElementById('productCategory').value,
                 card: {
-                    title: document.getElementById('cardTitle').value.trim(),
-                    price: document.getElementById('price').value.trim(), // ← ТОЛЬКО ОДНА ЦЕНА
-                    image: document.getElementById('cardImage').value.trim(),
-                    short_desc: document.getElementById('cardDesc').value.trim()
-                },
+    title: document.getElementById('cardTitle').value.trim(),
+    price: document.getElementById('price').value.trim(),
+    image: uploadedImageBase64 || document.getElementById('cardImageUrl').value.trim(),
+    short_desc: document.getElementById('cardDesc').value.trim(),
+    // Сохраняем имя файла для информации
+    image_source: uploadedImageBase64 ? 'file' : 'url'
+},
                 page: {
                     full_title: document.getElementById('pageTitle').value.trim() || document.getElementById('cardTitle').value.trim(),
                     gallery: gallery,
