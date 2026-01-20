@@ -26,6 +26,26 @@
             scroll-behavior: smooth;
        }
 
+        .product-card {
+    text-decoration: none; /* Убрал подчеркивания */
+    color: inherit;
+}
+
+.price-container {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.current-price {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.price-label.estimated {
+    background: rgba(42, 92, 154, 0.1);
+    color: var(--primary-blue);
+}
+
         :root {
             --white: #ffffff;
             --bg-dark: #182231;
