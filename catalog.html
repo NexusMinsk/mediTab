@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Каталог товаров | Meditab - Медицинское оборудование</title>
+    <title>Каталон товаров | Meditab - Медицинское оборудование</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -427,6 +427,7 @@
             overflow: hidden;
             border: 1px solid rgba(217, 217, 217, 0.5);
             transition: var(--transition);
+            scroll-margin-top: 100px; /* Отступ для якорных ссылок */
         }
 
         .category-section:hover {
@@ -1696,10 +1697,14 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Главная</a></li>
                     <li><a href="catalog.html" class="active">Каталог</a></li>
-                    <li><a href="#clothing">Мед. одежда</a></li>
-                    <li><a href="#tonometers">Тонометры</a></li>
-                    <li><a href="#diabetes">Диабетические</a></li>
-                    <li><a href="#orthopedic">Ортопедия</a></li>
+                    <li><a href="#clothing" class="category-nav-link" data-category="clothing">Мед. одежда</a></li>
+                    <li><a href="#tonometers" class="category-nav-link" data-category="tonometers">Тонометры</a></li>
+                    <li><a href="#diabetes" class="category-nav-link" data-category="diabetes">Диабетические</a></li>
+                    <li><a href="#orthopedic" class="category-nav-link" data-category="orthopedic">Ортопедия</a></li>
+                    <li><a href="#gynecology" class="category-nav-link" data-category="gynecology">Гинекология</a></li>
+                    <li><a href="#compression" class="category-nav-link" data-category="compression">Трикотаж</a></li>
+                    <li><a href="#optics" class="category-nav-link" data-category="optics">Оптика</a></li>
+                    <li><a href="#tests" class="category-nav-link" data-category="tests">Тесты</a></li>
                     <li><a href="index.html#contacts">Контакты</a></li>
                     <li style="margin-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px;">
     <a href="admin.html" style="color: #cf7911; font-weight: bold; background: rgba(207, 121, 17, 0.1); padding: 8px 15px; border-radius: 5px;">
@@ -2046,14 +2051,14 @@
                 <div>
                     <h3 style="color: white; font-size: 1.2rem; margin-bottom: 20px;">Каталог</h3>
                     <ul class="footer-links">
-                        <li><a href="#clothing">Медицинская одежда</a></li>
-                        <li><a href="#tonometers">Тонометры</a></li>
-                        <li><a href="#diabetes">Диабетические товары</a></li>
-                        <li><a href="#orthopedic">Ортопедические изделия</a></li>
-                        <li><a href="#gynecology">Гинекологические товары</a></li>
-                        <li><a href="#compression">Компрессионный трикотаж</a></li>
-                        <li><a href="#optics">Оптика</a></li>
-                        <li><a href="#tests">Экспресс-тесты</a></li>
+                        <li><a href="#clothing" class="category-nav-link" data-category="clothing">Медицинская одежда</a></li>
+                        <li><a href="#tonometers" class="category-nav-link" data-category="tonometers">Тонометры</a></li>
+                        <li><a href="#diabetes" class="category-nav-link" data-category="diabetes">Диабетические товары</a></li>
+                        <li><a href="#orthopedic" class="category-nav-link" data-category="orthopedic">Ортопедические изделия</a></li>
+                        <li><a href="#gynecology" class="category-nav-link" data-category="gynecology">Гинекологические товары</a></li>
+                        <li><a href="#compression" class="category-nav-link" data-category="compression">Компрессионный трикотаж</a></li>
+                        <li><a href="#optics" class="category-nav-link" data-category="optics">Оптика</a></li>
+                        <li><a href="#tests" class="category-nav-link" data-category="tests">Экспресс-тесты</a></li>
                     </ul>
                 </div>
 
@@ -2100,26 +2105,9 @@
             </form>
         </div>
     </div>
-<script>
-// Автоматически обновляет все ссылки в каталоге
-document.addEventListener('DOMContentLoaded', function() {
-    const productCards = document.querySelectorAll('.product-card[data-product-id]');
-    
-    productCards.forEach(card => {
-        const productId = card.getAttribute('data-product-id');
-        if (productId) {
-            card.href = `product.html?id=${productId}`;
-            console.log(`Обновлена ссылка для товара ID: ${productId}`);
-        }
-    });
-    
-    console.log(`Обновлено ${productCards.length} ссылок на товары`);
-});
-</script>
+
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-
-
         document.addEventListener('DOMContentLoaded', function () {
             // Элементы DOM
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -2132,6 +2120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const modalClose = document.getElementById('modalClose');
             const openOrderModal = document.getElementById('openOrderModal');
             const orderForm = document.getElementById('orderForm');
+            const categoryNavLinks = document.querySelectorAll('.category-nav-link');
             const expandAllBtn = document.getElementById('expandAllBtn');
             const collapseAllBtn = document.getElementById('collapseAllBtn');
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -2139,6 +2128,105 @@ document.addEventListener('DOMContentLoaded', function() {
             let isMenuOpen = false;
             let currentPriceType = 'retail';
 
+            // === 1. Улучшенная функция прокрутки к категории ===
+            function scrollToCategory(categoryId, shouldOpen = true) {
+                const targetSection = document.getElementById(categoryId);
+                if (!targetSection) {
+                    console.error('Категория не найдена:', categoryId);
+                    return;
+                }
+
+                // 1. Открываем категорию если она скрыта
+                if (shouldOpen) {
+                    openCategory(targetSection);
+                }
+
+                // 2. Рассчитываем отступ с учетом высоты навбара
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetSection.offsetTop - headerHeight - 20; // -20 для небольшого отступа
+
+                // 3. Плавная прокрутка
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // 4. Добавляем подсветку
+                highlightCategory(targetSection);
+
+                console.log(`Прокручиваем к категории: ${categoryId}, отступ: ${headerHeight}px`);
+            }
+
+            // === 2. Функция открытия категории ===
+            function openCategory(categorySection) {
+                if (categorySection.classList.contains('collapsed')) {
+                    const toggle = categorySection.querySelector('.category-toggle');
+                    const productsGrid = categorySection.querySelector('.products-grid');
+                    
+                    // Убираем класс collapsed
+                    categorySection.classList.remove('collapsed');
+                    toggle.classList.remove('collapsed');
+                    
+                    // Поворачиваем стрелку
+                    const icon = toggle.querySelector('i');
+                    icon.style.transform = 'rotate(90deg)';
+                    
+                    // Показываем товары
+                    productsGrid.style.display = 'grid';
+                    setTimeout(() => {
+                        productsGrid.style.opacity = '1';
+                    }, 10);
+                }
+            }
+
+            // === 3. Функция подсветки категории ===
+            function highlightCategory(categorySection) {
+                // Убираем подсветку у всех категорий
+                categorySections.forEach(section => {
+                    section.style.boxShadow = '';
+                    section.style.transform = '';
+                });
+                
+                // Подсвечиваем целевую категорию
+                categorySection.style.boxShadow = '0 8px 40px rgba(207, 121, 17, 0.3)';
+                categorySection.style.transform = 'translateY(-5px)';
+                
+                // Убираем подсветку через 3 секунды
+                setTimeout(() => {
+                    categorySection.style.boxShadow = '';
+                    categorySection.style.transform = '';
+                }, 3000);
+            }
+
+            // === 4. Обработчики для навигационных ссылок категорий ===
+            categoryNavLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const categoryId = this.getAttribute('href').replace('#', '');
+                    const shouldOpen = this.classList.contains('category-nav-link');
+                    
+                    // Прокручиваем к категории
+                    scrollToCategory(categoryId, shouldOpen);
+                    
+                    // Закрываем мобильное меню если открыто
+                    if (isMenuOpen) {
+                        mobileMenuBtn.click();
+                    }
+                });
+            });
+
+            // === 5. Обработчики для ссылок в футере ===
+            document.querySelectorAll('.footer-links .category-nav-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const categoryId = this.getAttribute('href').replace('#', '');
+                    scrollToCategory(categoryId, true);
+                });
+            });
+
+            // === 6. Остальной существующий код ===
             // Бургер меню
             mobileMenuBtn.addEventListener('click', function () {
                 isMenuOpen = !isMenuOpen;
@@ -2261,48 +2349,54 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Кнопка "Раскрыть все"
-            expandAllBtn.addEventListener('click', function () {
-                categorySections.forEach(section => {
-                    section.classList.remove('collapsed');
-                    const toggle = section.querySelector('.category-toggle');
-                    toggle.classList.remove('collapsed');
-                    const icon = toggle.querySelector('i');
-                    icon.style.transform = 'rotate(90deg)';
+            if (expandAllBtn) {
+                expandAllBtn.addEventListener('click', function () {
+                    categorySections.forEach(section => {
+                        section.classList.remove('collapsed');
+                        const toggle = section.querySelector('.category-toggle');
+                        toggle.classList.remove('collapsed');
+                        const icon = toggle.querySelector('i');
+                        icon.style.transform = 'rotate(90deg)';
 
-                    const productsGrid = section.querySelector('.products-grid');
-                    productsGrid.style.display = 'grid';
-                    setTimeout(() => {
-                        productsGrid.style.opacity = '1';
-                    }, 10);
+                        const productsGrid = section.querySelector('.products-grid');
+                        productsGrid.style.display = 'grid';
+                        setTimeout(() => {
+                            productsGrid.style.opacity = '1';
+                        }, 10);
+                    });
+                    showNotification('Все категории раскрыты', 'success');
                 });
-                showNotification('Все категории раскрыты', 'success');
-            });
+            }
 
             // Кнопка "Скрыть все"
-            collapseAllBtn.addEventListener('click', function () {
-                categorySections.forEach(section => {
-                    section.classList.add('collapsed');
-                    const toggle = section.querySelector('.category-toggle');
-                    toggle.classList.add('collapsed');
-                    const icon = toggle.querySelector('i');
-                    icon.style.transform = 'rotate(0deg)';
+            if (collapseAllBtn) {
+                collapseAllBtn.addEventListener('click', function () {
+                    categorySections.forEach(section => {
+                        section.classList.add('collapsed');
+                        const toggle = section.querySelector('.category-toggle');
+                        toggle.classList.add('collapsed');
+                        const icon = toggle.querySelector('i');
+                        icon.style.transform = 'rotate(0deg)';
 
-                    const productsGrid = section.querySelector('.products-grid');
-                    productsGrid.style.opacity = '0';
-                    setTimeout(() => {
-                        productsGrid.style.display = 'none';
-                    }, 300);
+                        const productsGrid = section.querySelector('.products-grid');
+                        productsGrid.style.opacity = '0';
+                        setTimeout(() => {
+                            productsGrid.style.display = 'none';
+                        }, 300);
+                    });
+                    showNotification('Все категории скрыты', 'info');
                 });
-                showNotification('Все категории скрыты', 'info');
-            });
+            }
 
             // Кнопка "Наверх" в категориях
-            scrollToTopBtn.addEventListener('click', function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+            if (scrollToTopBtn) {
+                scrollToTopBtn.addEventListener('click', function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
-            });
+            }
 
             // Модальное окно заказа
             openOrderModal.addEventListener('click', () => {
@@ -2350,42 +2444,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // Плавный скролл для якорных ссылок
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        // Раскрываем категорию, если она скрыта
-                        if (targetElement.classList.contains('category-section')) {
-                            if (targetElement.classList.contains('collapsed')) {
-                                const toggle = targetElement.querySelector('.category-toggle');
-                                const productsGrid = targetElement.querySelector('.products-grid');
-
-                                targetElement.classList.remove('collapsed');
-                                toggle.classList.remove('collapsed');
-
-                                const icon = toggle.querySelector('i');
-                                icon.style.transform = 'rotate(90deg)';
-                                productsGrid.style.display = 'grid';
-
-                                setTimeout(() => {
-                                    productsGrid.style.opacity = '1';
-                                }, 10);
-                            }
-                        }
-
-                        // Прокручиваем к элементу
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
+            // === 7. Обработка якорных ссылок при загрузке страницы ===
+            if (window.location.hash) {
+                const hash = window.location.hash.replace('#', '');
+                // Проверяем, что это ID категории
+                if (document.getElementById(hash)) {
+                    // Ждем немного чтобы страница загрузилась
+                    setTimeout(() => {
+                        scrollToCategory(hash, true);
+                    }, 500);
+                }
+            }
 
             // Функция для показа уведомлений
             function showNotification(message, type = 'info') {
@@ -2479,295 +2548,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.observe(card);
             });
 
-            console.log('Каталог Meditab загружен!');
+            console.log('Каталог Meditab загружен! Улучшенная навигация активна.');
 
-            console.log('Все 8 категорий добавлены:');
-            console.log('1. Медицинская одежда - 90 товаров');
-            console.log('2. Тонометры - 60 товаров');
-            console.log('3. Диабетические товары - 120 товаров');
-            console.log('4. Ортопедические изделия - 150 товаров');
-            console.log('5. Гинекологические товары - 85 товаров');
-            console.log('6. Компрессионный трикотаж - 45 товаров');
-            console.log('7. Оптика - 75 товаров');
-            console.log('8. Экспресс-тесты - 100 товаров');
-            console.log('Все категории изначально скрыты!');
+            // === 8. Дебаг информация ===
+            console.log('Доступные категории для навигации:');
+            categorySections.forEach(section => {
+                console.log(`- #${section.id}`);
+            });
         });
-
-        
     </script>
+
     <script>
-// Добавляем динамические товары в категории
-function addDynamicProductsToCategories() {
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    
-    if (products.length === 0) {
-        console.log('Нет товаров из админки');
-        return;
-    }
-    
-    console.log(`Найдено ${products.length} товаров из админки`);
-    
-    // Карта категорий: ID категории → элемент грида
-    const categoryGrids = {
-        'clothing': document.querySelector('#clothing .products-grid'),
-        'tonometers': document.querySelector('#tonometers .products-grid'),
-        'diabetes': document.querySelector('#diabetes .products-grid'),
-        'orthopedic': document.querySelector('#orthopedic .products-grid'),
-        'gynecology': document.querySelector('#gynecology .products-grid'),
-        'compression': document.querySelector('#compression .products-grid'),
-        'optics': document.querySelector('#optics .products-grid'),
-        'tests': document.querySelector('#tests .products-grid')
-    };
-    
-    // Для каждого товара из админки
-    products.forEach(product => {
-        if (!product.category) {
-            console.warn('Товар без категории:', product.id);
-            return;
-        }
-        
-        const grid = categoryGrids[product.category];
-        
-        if (!grid) {
-            console.warn('Неизвестная категория:', product.category, 'для товара', product.id);
-            return;
-        }
-        
-        // Проверяем, нет ли уже такого товара
-        const existingCard = grid.querySelector(`[data-admin-id="${product.id}"]`);
-        if (existingCard) {
-            existingCard.remove(); // Удаляем старую версию
-        }
-        
-        // Создаем карточку товара
-        const productCard = createProductCard(product);
-        
-        // Добавляем в начало грида
-        grid.insertBefore(productCard, grid.firstChild);
-        
-        console.log(`Добавлен товар "${product.card.title}" в категорию ${product.category}`);
-    });
-}
-
-// Создаем HTML карточки товара
-function createProductCard(product) {
-    const card = document.createElement('a');
-    card.href = `product.html?id=${product.id}`;
-    card.className = 'product-card';
-    card.setAttribute('data-product-id', product.id);
-    card.setAttribute('data-admin-id', product.id); // Для идентификации из админки
-    
-    // Определяем бейдж
-    let badgeHTML = '';
-    if (product.card.price.includes('BYN')) {
-        const priceNum = parseInt(product.card.price);
-        if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-        else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
-    }
-    
-    card.innerHTML = `
-        <div class="product-image">
-            ${badgeHTML}
-            <img src="${product.card.image}" alt="${product.card.title}" 
-                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
-        </div>
-        <div class="product-info">
-            <h3>${product.card.title}</h3>
-            <div class="product-price">
-                <div class="price-container">
-                    <div>
-                        <span class="current-price price-retail">${product.card.price}</span>
-                        <span class="current-price price-wholesale" style="display: none;">${product.card.price.replace('BYN', 'BYN опт')}</span>
-                    </div>
-                    <span class="price-type price-type-retail">Розница</span>
-                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Загружаем динамические товары при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    // Ждем немного, чтобы статические товары загрузились
-    setTimeout(addDynamicProductsToCategories, 500);
-    
-    // Обновляем при изменении LocalStorage (если открыто несколько вкладок)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'products') {
-            console.log('Обнаружено изменение в товарах, обновляем...');
-            addDynamicProductsToCategories();
-        }
-    });
-});
-
-// Также обновляем при фокусе на вкладке
-document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) {
-        addDynamicProductsToCategories();
-    }
-});
-</script>
-    <script>
-// Глобальный флаг для отслеживания загрузки
-let isOtherCategoryLoaded = false;
-
-// Исправленная функция загрузки товаров категории "Другое"
-function loadOtherCategoryProducts() {
-    try {
-        // Если уже загружено - пропускаем
-        if (isOtherCategoryLoaded) {
-            console.log('Категория "Другое" уже загружена, пропускаем');
-            return;
-        }
-        
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const otherProducts = products.filter(p => p.category === 'other');
-        
-        // Находим секцию "Другое"
-        const otherSection = document.querySelector('#other .products-grid');
-        if (!otherSection) {
-            console.error('Секция "Другое" не найдена');
-            return;
-        }
-        
-        // Полностью очищаем контейнер перед добавлением
-        otherSection.innerHTML = '';
-        
-        if (otherProducts.length === 0) {
-            // Если товаров нет - показываем сообщение
-            otherSection.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-                    <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                    <p>Товаров в этой категории пока нет</p>
-                    <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
-                </div>
-            `;
-            
-            // Обновляем заголовок
-            const categoryHeader = document.querySelector('#other .category-header h2 span');
-            if (categoryHeader) {
-                categoryHeader.textContent = `(0 товаров)`;
-            }
-            
-            isOtherCategoryLoaded = true;
-            return;
-        }
-        
-        // Используем Set для отслеживания уникальных ID
-        const uniqueProductIds = new Set();
-        const validProducts = [];
-        
-        // Фильтруем товары, оставляем только уникальные
-        otherProducts.forEach(product => {
-            if (product.id && !uniqueProductIds.has(product.id)) {
-                uniqueProductIds.add(product.id);
-                validProducts.push(product);
-            }
-        });
-        
-        // Добавляем товары
-        validProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            otherSection.appendChild(productCard);
-        });
-        
-        // Обновляем заголовок с количеством товаров
-        const categoryHeader = document.querySelector('#other .category-header h2 span');
-        if (categoryHeader) {
-            categoryHeader.textContent = `(${validProducts.length} товаров)`;
-        }
-        
-        console.log(`Загружено ${validProducts.length} уникальных товаров в категорию "Другое"`);
-        
-        // Устанавливаем флаг загрузки
-        isOtherCategoryLoaded = true;
-        
-    } catch (error) {
-        console.error('Ошибка загрузки товаров:', error);
-    }
-}
-
-// Создаем карточку товара
-function createProductCard(product) {
-    const card = document.createElement('a');
-    card.href = `product.html?id=${product.id}`;
-    card.className = 'product-card';
-    card.setAttribute('data-product-id', product.id);
-    
-    // Определяем бейдж
-    let badgeHTML = '';
-    if (product.card && product.card.price && product.card.price.includes('BYN')) {
-        const priceMatch = product.card.price.match(/(\d+)/);
-        if (priceMatch) {
-            const priceNum = parseInt(priceMatch[0]);
-            if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-            else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
-        }
-    }
-    
-    card.innerHTML = `
-        <div class="product-image">
-            ${badgeHTML}
-            <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
-                 alt="${product.card?.title || 'Товар'}" 
-                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
-        </div>
-        <div class="product-info">
-            <h3>${product.card?.title || 'Товар без названия'}</h3>
-            <div class="product-price">
-                <div class="price-container">
-                    <div>
-                        <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
-                    </div>
-                    <span class="price-type price-type-retail">Розница</span>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Загружаем при загрузке страницы (с защитой от множественных вызовов)
-document.addEventListener('DOMContentLoaded', function() {
-    // Сбрасываем флаг при загрузке страницы
-    isOtherCategoryLoaded = false;
-    
-    // Используем requestAnimationFrame для гарантии загрузки DOM
-    requestAnimationFrame(() => {
-        // Ждем немного для загрузки DOM
-        setTimeout(() => {
-            loadOtherCategoryProducts();
-        }, 100);
-    });
-    
-    // Обновляем при изменении LocalStorage (с защитой)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'products') {
-            console.log('Обнаружено изменение товаров, сбрасываем флаг и обновляем категорию "Другое"...');
-            isOtherCategoryLoaded = false;
-            setTimeout(loadOtherCategoryProducts, 50);
-        }
-    });
-    
-    // Обновляем при возвращении на вкладку (с защитой)
-    let isPageVisible = true;
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden && !isPageVisible) {
-            console.log('Страница снова видима, обновляем товары...');
-            isOtherCategoryLoaded = false;
-            setTimeout(loadOtherCategoryProducts, 100);
-        }
-        isPageVisible = !document.hidden;
-    });
-});
-
-<!-- Вставьте этот исправленный скрипт в конец файла перед </body> -->
-
-<script>
 // Глобальный объект для управления состоянием загрузки
 window.CatalogManager = {
     isLoaded: false,
@@ -2967,8 +2758,6 @@ if (window.loadOtherCategoryProducts) {
         console.log('Старая функция заблокирована, используем CatalogManager');
     };
 }
-</script>        
 </script>
 </body>
-
 </html>
