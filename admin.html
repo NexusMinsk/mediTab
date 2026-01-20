@@ -1150,41 +1150,48 @@ https://example.com/photo2.jpg"></textarea>
 
         // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function clearForm() {
-            editingProductId = null;
-            
-            // Сбрасываем форму
-            document.getElementById('productForm').reset();
-            document.getElementById('formTitle').innerHTML = `
-                <i class="fas fa-plus"></i> Добавить новый товар
-            `;
-            
-            // Сбрасываем цену
-            document.getElementById('price').value = '199 BYN';
-            
-            // Очищаем динамические поля
-            document.getElementById('specsContainer').innerHTML = `
-                <div class="list-item">
-                    <input type="text" class="spec-name form-input" placeholder="Название характеристики">
-                    <input type="text" class="spec-value form-input" placeholder="Значение">
-                    <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('featuresContainer').innerHTML = `
-                <div class="feature-item">
-                    <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
-                    <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            
-            // Фокус на первое поле
-            document.getElementById('productCategory').focus();
-        }
-
+    editingProductId = null;
+    
+    // Сбрасываем форму
+    document.getElementById('productForm').reset();
+    document.getElementById('formTitle').innerHTML = `
+        <i class="fas fa-plus"></i> Добавить новый товар
+    `;
+    
+    // Сбрасываем цену
+    document.getElementById('price').value = '199 BYN';
+    
+    // Сбрасываем фото
+    uploadedImageBase64 = null;
+    uploadedImageName = null;
+    document.getElementById('imagePreview').style.display = 'none';
+    document.getElementById('cardImageFile').value = '';
+    document.querySelector('input[name="imageSource"][value="url"]').checked = true;
+    toggleImageSource(); // Переключаем на ссылку
+    
+    // Очищаем динамические поля
+    document.getElementById('specsContainer').innerHTML = `
+        <div class="list-item">
+            <input type="text" class="spec-name form-input" placeholder="Название характеристики">
+            <input type="text" class="spec-value form-input" placeholder="Значение">
+            <button type="button" class="btn-small btn-danger" onclick="removeSpec(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('featuresContainer').innerHTML = `
+        <div class="feature-item">
+            <input type="text" class="feature-input form-input" placeholder="Например: Большой дисплей">
+            <button type="button" class="btn-small btn-danger" onclick="removeFeature(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    
+    // Фокус на первое поле
+    document.getElementById('productCategory').focus();
+}
         function saveDraft() {
             showMessage('Черновик сохранен в LocalStorage (временное хранилище браузера)', 'success');
         }
