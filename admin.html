@@ -473,78 +473,6 @@
                 justify-content: center;
             }
         }
-
-        /* ===== ПЕРЕКЛЮЧАТЕЛЬ ФОТО ===== */
-        .image-source-toggle {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-gray);
-            border-radius: var(--radius-sm);
-            padding: 5px;
-            background: white;
-        }
-
-        .toggle-option {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            color: var(--text-gray);
-        }
-
-        .toggle-option input[type="radio"] {
-            display: none;
-        }
-
-        .toggle-option.active {
-            background: var(--gradient-orange);
-            color: white;
-            box-shadow: var(--shadow);
-        }
-
-        /* ===== ПОЛЕ ДЛЯ КАТЕГОРИЙ ===== */
-        .categories-manager {
-            background: white;
-            border-radius: var(--radius-sm);
-            padding: 15px;
-            border: 1px solid var(--border-gray);
-            margin-bottom: 15px;
-        }
-
-        .category-item {
-            display: grid;
-            grid-template-columns: 1fr auto auto;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(205, 220, 228, 0.1);
-            border-radius: var(--radius-sm);
-            align-items: center;
-        }
-
-        /* ===== ПРЕВЬЮ ИЗОБРАЖЕНИЯ ===== */
-        .image-preview {
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .image-preview img {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-gray);
-            object-fit: contain;
-        }
-
-        .file-info {
-            font-size: 0.8rem;
-            color: var(--text-gray);
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body>
@@ -566,7 +494,7 @@
             
             <div style="margin-top: 20px; font-size: 0.9rem; color: var(--text-gray);">
                 <p><strong>Пароль по умолчанию:</strong> admin123</p>
-                <p style="margin-top: 10px;">Изменить пароль можно в коде</p>
+                <p style="margin-top: 10px;">Изменить пароль можно в коде (строка 650)</p>
             </div>
         </div>
     </div>
@@ -601,7 +529,7 @@
                         </div>
                         <div class="stat-card">
                             <h3>Категории</h3>
-                            <div class="number" id="totalCategories">8</div>
+                            <div class="number">8</div>
                         </div>
                         <div class="stat-card">
                             <h3>Последнее обновление</h3>
@@ -614,11 +542,11 @@
                         <button class="btn btn-secondary" onclick="clearForm()" style="width: 100%; margin-bottom: 10px;">
                             <i class="fas fa-broom"></i> Очистить форму
                         </button>
-                        <button class="btn btn-secondary" onclick="importExistingProducts()" style="width: 100%; margin-bottom: 10px;">
-                            <i class="fas fa-download"></i> Импорт из каталога
+                        <button class="btn btn-secondary" onclick="importDemoProducts()" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-download"></i> Добавить демо-товары
                         </button>
-                        <button class="btn btn-secondary" onclick="openCategoryManager()" style="width: 100%;">
-                            <i class="fas fa-folder-plus"></i> Управление категориями
+                        <button class="btn btn-secondary" onclick="exportProducts()" style="width: 100%;">
+                            <i class="fas fa-file-export"></i> Экспорт в JSON
                         </button>
                     </div>
                 </aside>
@@ -646,7 +574,15 @@
                                         <i class="fas fa-folder"></i> Категория товара *
                                     </label>
                                     <select id="productCategory" class="form-select" required>
-                                        <!-- Категории загружаются динамически -->
+                                        <option value="">-- Выберите категорию --</option>
+                                        <option value="clothing">👨‍⚕️ Медицинская одежда</option>
+                                        <option value="tonometers">❤️ Тонометры</option>
+                                        <option value="diabetes">💉 Диабетические товары</option>
+                                        <option value="orthopedic">🦴 Ортопедические изделия</option>
+                                        <option value="gynecology">👩 Гинекологические товары</option>
+                                        <option value="compression">🧦 Компрессионный трикотаж</option>
+                                        <option value="optics">👁️ Оптика</option>
+                                        <option value="tests">🧪 Экспресс-тесты</option>
                                     </select>
                                 </div>
                                 
@@ -659,7 +595,7 @@
                                 </div>
                             </div>
 
-                            <!-- Цена -->
+                            <!-- Цена (теперь только одна) -->
                             <div class="form-group">
                                 <label class="form-label" for="price">
                                     <i class="fas fa-tag"></i> Цена товара *
@@ -672,54 +608,24 @@
                                 </small>
                             </div>
 
-                            <!-- Поле для фото (ССЫЛКА ИЛИ ФАЙЛ) -->
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-image"></i> Изображение товара *
-                                </label>
-                                
-                                <!-- Переключатель ссылка/файл -->
-                                <div class="image-source-toggle" id="imageToggle">
-                                    <label class="toggle-option active" onclick="toggleImageSource('url')">
-                                        <input type="radio" name="imageSource" value="url" checked>
-                                        <span class="toggle-label">Ссылка</span>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="cardImage">
+                                        <i class="fas fa-image"></i> Ссылка на фото *
                                     </label>
-                                    <label class="toggle-option" onclick="toggleImageSource('file')">
-                                        <input type="radio" name="imageSource" value="file">
-                                        <span class="toggle-label">Файл</span>
-                                    </label>
-                                </div>
-                                
-                                <!-- Поле для ссылки -->
-                                <div id="urlImageField">
-                                    <input type="text" id="cardImageUrl" class="form-input" 
+                                    <input type="text" id="cardImage" class="form-input" 
                                            placeholder="https://example.com/photo.jpg"
                                            value="https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара">
                                 </div>
                                 
-                                <!-- Поле для файла -->
-                                <div id="fileImageField" style="display: none;">
-                                    <input type="file" id="cardImageFile" class="form-input" 
-                                           accept="image/*" onchange="previewImage(event)">
-                                    <small style="color: var(--text-gray); margin-top: 5px; display: block;">
-                                        Выберите файл (JPG, PNG, до 2MB)
-                                    </small>
-                                    
-                                    <!-- Превью -->
-                                    <div id="imagePreview" class="image-preview" style="display: none;">
-                                        <img id="previewImage" src="" alt="Превью">
-                                        <div class="file-info" id="fileInfo"></div>
-                                    </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cardDesc">
+                                        <i class="fas fa-align-left"></i> Краткое описание *
+                                    </label>
+                                    <textarea id="cardDesc" class="form-textarea" 
+                                              placeholder="Краткое описание для карточки товара..." 
+                                              required></textarea>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="cardDesc">
-                                    <i class="fas fa-align-left"></i> Краткое описание *
-                                </label>
-                                <textarea id="cardDesc" class="form-textarea" 
-                                          placeholder="Краткое описание для карточки товара..." 
-                                          required></textarea>
                             </div>
                         </div>
 
@@ -809,8 +715,11 @@ https://example.com/photo2.jpg"></textarea>
                             <button type="button" class="btn btn-outline" onclick="clearForm()">
                                 <i class="fas fa-times"></i> Очистить
                             </button>
+                            <button type="button" class="btn btn-outline" onclick="saveDraft()">
+                                <i class="fas fa-save"></i> Черновик
+                            </button>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-rocket"></i> Сохранить товар
+                                <i class="fas fa-rocket"></i> Опубликовать товар
                             </button>
                         </div>
                     </form>
@@ -818,7 +727,7 @@ https://example.com/photo2.jpg"></textarea>
                     <!-- Список существующих товаров -->
                     <div class="products-list">
                         <h3 class="section-title">
-                            <i class="fas fa-boxes"></i> Товары в базе
+                            <i class="fas fa-boxes"></i> Существующие товары
                         </h3>
                         
                         <div id="productsTable">
@@ -834,73 +743,11 @@ https://example.com/photo2.jpg"></textarea>
         </div>
     </div>
 
-    <!-- Модальное окно управления категориями -->
-    <div id="categoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 30px; border-radius: var(--radius); width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--bg-dark);"><i class="fas fa-folder"></i> Управление категориями</h3>
-                <button onclick="closeCategoryManager()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-gray);">&times;</button>
-            </div>
-            
-            <div class="categories-manager" id="categoriesList">
-                <!-- Категории загружаются динамически -->
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 20px;">
-                <input type="text" id="newCategoryName" class="form-input" placeholder="Новая категория">
-                <button onclick="addNewCategory()" class="btn btn-secondary">
-                    <i class="fas fa-plus"></i> Добавить
-                </button>
-            </div>
-            
-            <button onclick="closeCategoryManager()" class="btn" style="width: 100%; margin-top: 20px;">
-                <i class="fas fa-check"></i> Готово
-            </button>
-        </div>
-    </div>
-
     <script>
         // ===== НАСТРОЙКИ =====
-        const ADMIN_PASSWORD = "admin123";
+        const ADMIN_PASSWORD = "admin123"; // Пароль можно поменять здесь
         let editingProductId = null;
         let currentProducts = [];
-        let currentCategories = [];
-        let uploadedImageBase64 = null;
-        let currentImageSource = 'url'; // 'url' или 'file'
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем авторизацию
-            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                initAdmin();
-            } else {
-                document.getElementById('passwordInput').focus();
-            }
-            
-            // Enter для входа
-            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') checkPassword();
-            });
-        });
-
-        function initAdmin() {
-            // Загружаем категории
-            loadCategories();
-            
-            // Загружаем товары
-            loadProducts();
-            
-            // Обновляем статистику
-            updateStats();
-            
-            // Импортируем существующие товары при первом входе
-            if (!localStorage.getItem('existingProductsImported')) {
-                importExistingProducts();
-                localStorage.setItem('existingProductsImported', 'true');
-            }
-        }
 
         // ===== СИСТЕМА ВХОДА =====
         function checkPassword() {
@@ -908,15 +755,24 @@ https://example.com/photo2.jpg"></textarea>
             const errorEl = document.getElementById('loginError');
             
             if (password === ADMIN_PASSWORD) {
+                // Сохраняем сессию
                 sessionStorage.setItem('adminLoggedIn', 'true');
+                
+                // Показываем админ-панель
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                initAdmin();
+                
+                // Загружаем данные
+                loadProducts();
+                updateStats();
+                
                 showMessage('Добро пожаловать в админ-панель!', 'success');
             } else {
                 errorEl.style.display = 'block';
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('passwordInput').focus();
+                
+                // Анимация ошибки
                 errorEl.style.transform = 'translateX(10px)';
                 setTimeout(() => errorEl.style.transform = 'translateX(0)', 300);
             }
@@ -927,323 +783,24 @@ https://example.com/photo2.jpg"></textarea>
             location.reload();
         }
 
-        // ===== УПРАВЛЕНИЕ КАТЕГОРИЯМИ =====
-        function loadCategories() {
-            try {
-                // Пробуем загрузить из localStorage
-                const savedCategories = JSON.parse(localStorage.getItem('categories'));
-                
-                if (savedCategories && savedCategories.length > 0) {
-                    currentCategories = savedCategories;
-                } else {
-                    // Стандартные категории
-                    currentCategories = [
-                        {id: 'clothing', name: 'Медицинская одежда', icon: '👨‍⚕️'},
-                        {id: 'tonometers', name: 'Тонометры', icon: '❤️'},
-                        {id: 'diabetes', name: 'Диабетические товары', icon: '💉'},
-                        {id: 'orthopedic', name: 'Ортопедические изделия', icon: '🦴'},
-                        {id: 'gynecology', name: 'Гинекологические товары', icon: '👩'},
-                        {id: 'compression', name: 'Компрессионный трикотаж', icon: '🧦'},
-                        {id: 'optics', name: 'Оптика', icon: '👁️'},
-                        {id: 'tests', name: 'Экспресс-тесты', icon: '🧪'}
-                    ];
-                    saveCategories();
-                }
-                
-                updateCategorySelect();
-                updateCategoriesList();
-            } catch (error) {
-                console.error('Ошибка загрузки категорий:', error);
-            }
-        }
-
-        function saveCategories() {
-            localStorage.setItem('categories', JSON.stringify(currentCategories));
-            updateStats();
-        }
-
-        function updateCategorySelect() {
-            const select = document.getElementById('productCategory');
-            select.innerHTML = '<option value="">-- Выберите категорию --</option>';
-            
-            currentCategories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.id;
-                option.textContent = `${category.icon} ${category.name}`;
-                select.appendChild(option);
-            });
-        }
-
-        function updateCategoriesList() {
-            const list = document.getElementById('categoriesList');
-            if (!list) return;
-            
-            list.innerHTML = '';
-            
-            currentCategories.forEach(category => {
-                const div = document.createElement('div');
-                div.className = 'category-item';
-                div.innerHTML = `
-                    <input type="text" class="form-input category-name" value="${category.name}" 
-                           onchange="updateCategoryName('${category.id}', this.value)">
-                    <button class="btn-small" onclick="editCategoryIcon('${category.id}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-small btn-danger" onclick="deleteCategory('${category.id}')" 
-                            ${currentCategories.length <= 1 ? 'disabled' : ''}>
-                        <i class="fas fa-trash"></i>
-                    </button>
-                `;
-                list.appendChild(div);
-            });
-            
-            // Обновляем статистику
-            document.getElementById('totalCategories').textContent = currentCategories.length;
-        }
-
-        function openCategoryManager() {
-            updateCategoriesList();
-            document.getElementById('categoryModal').style.display = 'flex';
-        }
-
-        function closeCategoryManager() {
-            document.getElementById('categoryModal').style.display = 'none';
-            saveCategories();
-            updateCategorySelect();
-        }
-
-        function addNewCategory() {
-            const nameInput = document.getElementById('newCategoryName');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                showMessage('Введите название категории', 'error');
-                return;
-            }
-            
-            // Создаем ID из названия (латиница, маленькие буквы)
-            const id = name.toLowerCase().replace(/[^a-zа-я0-9]/g, '-').replace(/-+/g, '-');
-            
-            // Проверяем, нет ли уже такой категории
-            if (currentCategories.find(c => c.id === id)) {
-                showMessage('Категория с таким названием уже существует', 'error');
-                return;
-            }
-            
-            // Добавляем новую категорию
-            currentCategories.push({
-                id: id,
-                name: name,
-                icon: '📁'
-            });
-            
-            saveCategories();
-            updateCategoriesList();
-            updateCategorySelect();
-            
-            nameInput.value = '';
-            showMessage(`Категория "${name}" добавлена`, 'success');
-        }
-
-        function updateCategoryName(id, newName) {
-            const category = currentCategories.find(c => c.id === id);
-            if (category) {
-                category.name = newName.trim();
-                saveCategories();
-                updateCategorySelect();
-            }
-        }
-
-        function editCategoryIcon(id) {
-            const emojis = ['👨‍⚕️', '❤️', '💉', '🦴', '👩', '🧦', '👁️', '🧪', '📁', '💊', '🏥', '🩺', '💊', '🩹', '🧴'];
-            const category = currentCategories.find(c => c.id === id);
-            
-            if (category) {
-                const currentIndex = emojis.indexOf(category.icon);
-                const nextIndex = (currentIndex + 1) % emojis.length;
-                category.icon = emojis[nextIndex];
-                saveCategories();
-                updateCategorySelect();
-                updateCategoriesList();
-            }
-        }
-
-        function deleteCategory(id) {
-            if (currentCategories.length <= 1) {
-                showMessage('Нельзя удалить последнюю категорию', 'error');
-                return;
-            }
-            
-            // Проверяем, есть ли товары в этой категории
-            const productsInCategory = currentProducts.filter(p => p.category === id);
-            if (productsInCategory.length > 0) {
-                if (!confirm(`В категории ${productsInCategory.length} товаров. Удалить категорию и все товары в ней?`)) {
-                    return;
-                }
-                // Удаляем товары этой категории
-                currentProducts = currentProducts.filter(p => p.category !== id);
-                saveProducts();
-            }
-            
-            // Удаляем категорию
-            currentCategories = currentCategories.filter(c => c.id !== id);
-            saveCategories();
-            updateCategoriesList();
-            updateCategorySelect();
-            
-            showMessage('Категория удалена', 'success');
-        }
-
-        // ===== УПРАВЛЕНИЕ ФОТО =====
-        function toggleImageSource(source) {
-            currentImageSource = source;
-            
-            // Обновляем переключатель
-            document.querySelectorAll('#imageToggle .toggle-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            document.querySelector(`#imageToggle [value="${source}"]`).parentElement.classList.add('active');
-            
-            // Показываем нужное поле
-            if (source === 'url') {
-                document.getElementById('urlImageField').style.display = 'block';
-                document.getElementById('fileImageField').style.display = 'none';
-                uploadedImageBase64 = null;
+        // Проверяем авторизацию при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadProducts();
+                updateStats();
             } else {
-                document.getElementById('urlImageField').style.display = 'none';
-                document.getElementById('fileImageField').style.display = 'block';
-            }
-        }
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('previewImage');
-            const previewContainer = document.getElementById('imagePreview');
-            const fileInfo = document.getElementById('fileInfo');
-            
-            if (!file) {
-                previewContainer.style.display = 'none';
-                uploadedImageBase64 = null;
-                return;
+                document.getElementById('passwordInput').focus();
             }
             
-            // Проверяем размер файла (2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                showMessage('Файл слишком большой (максимум 2MB)', 'error');
-                event.target.value = '';
-                previewContainer.style.display = 'none';
-                uploadedImageBase64 = null;
-                return;
-            }
-            
-            // Проверяем тип файла
-            if (!file.type.match('image.*')) {
-                showMessage('Выберите файл изображения (JPG, PNG)', 'error');
-                event.target.value = '';
-                previewContainer.style.display = 'none';
-                uploadedImageBase64 = null;
-                return;
-            }
-            
-            // Читаем файл
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                uploadedImageBase64 = e.target.result;
-                
-                // Показываем превью
-                preview.src = uploadedImageBase64;
-                fileInfo.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
-                previewContainer.style.display = 'block';
-            };
-            
-            reader.onerror = function() {
-                showMessage('Ошибка чтения файла', 'error');
-                uploadedImageBase64 = null;
-            };
-            
-            reader.readAsDataURL(file);
-        }
-
-        // ===== ИМПОРТ СУЩЕСТВУЮЩИХ ТОВАРОВ ИЗ КАТАЛОГА =====
-        function importExistingProducts() {
-            // Создаем массив товаров из каталога (40 товаров)
-            const existingProducts = [
-                // Медицинская одежда (5 товаров)
-                {
-                    id: 1,
-                    category: 'clothing',
-                    card: {
-                        title: 'Халат медицинский белый',
-                        price: '49.99 BYN',
-                        image: '',
-                        short_desc: 'Качественный медицинский халат'
-                    },
-                    page: {
-                        full_title: 'Халат медицинский белый профессиональный',
-                        gallery: [],
-                        description: 'Профессиональный медицинский халат из качественной ткани',
-                        specs: [{name: 'Материал', value: 'Хлопок'}, {name: 'Размер', value: 'Универсальный'}],
-                        features: ['Комфортный', 'Износостойкий'],
-                        video: ''
-                    }
-                },
-                {
-                    id: 2,
-                    category: 'clothing',
-                    card: {
-                        title: 'Брюки медицинские синие',
-                        price: '39.99 BYN',
-                        image: '',
-                        short_desc: 'Удобные медицинские брюки'
-                    },
-                    page: {
-                        full_title: 'Брюки медицинские синие',
-                        description: 'Комфортные брюки для медицинского персонала',
-                        specs: [{name: 'Материал', value: 'Смесовая ткань'}],
-                        features: ['Удобные', 'Практичные'],
-                        video: ''
-                    }
-                },
-                // Тонометры (5 товаров)
-                {
-                    id: 6,
-                    category: 'tonometers',
-                    card: {
-                        title: 'Тонометр Omron M2 Basic',
-                        price: '129.99 BYN',
-                        image: '',
-                        short_desc: 'Автоматический тонометр'
-                    },
-                    page: {
-                        full_title: 'Тонометр автоматический Omron M2 Basic',
-                        description: 'Точный автоматический тонометр с манжетой на плечо',
-                        specs: [{name: 'Тип', value: 'Автоматический'}, {name: 'Память', value: '30 измерений'}],
-                        features: ['Точность', 'Надежность'],
-                        video: ''
-                    }
-                },
-                // Добавь остальные 35 товаров по аналогии...
-            ];
-
-            // Добавляем только если их еще нет
-            let addedCount = 0;
-            existingProducts.forEach(product => {
-                if (!currentProducts.find(p => p.id === product.id)) {
-                    currentProducts.push(product);
-                    addedCount++;
-                }
+            // Enter для входа
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
             });
+        });
 
-            if (addedCount > 0) {
-                saveProducts();
-                showMessage(`Импортировано ${addedCount} товаров из каталога`, 'success');
-            } else {
-                showMessage('Все товары уже импортированы', 'info');
-            }
-        }
-
-        // ===== УПРАВЛЕНИЕ ХАРАКТЕРИСТИКАМИ И ПРЕИМУЩЕСТВАМИ =====
+        // ===== УПРАВЛЕНИЕ ХАРАКТЕРИСТИКАМИ =====
         function addSpecField() {
             const container = document.getElementById('specsContainer');
             const div = document.createElement('div');
@@ -1261,11 +818,18 @@ https://example.com/photo2.jpg"></textarea>
         function removeSpec(button) {
             const container = document.getElementById('specsContainer');
             const items = container.querySelectorAll('.list-item');
+            
             if (items.length > 1) {
                 button.closest('.list-item').remove();
+            } else {
+                // Очищаем последнее поле
+                const item = button.closest('.list-item');
+                item.querySelector('.spec-name').value = '';
+                item.querySelector('.spec-value').value = '';
             }
         }
 
+        // ===== УПРАВЛЕНИЕ ПРЕИМУЩЕСТВАМИ =====
         function addFeatureField() {
             const container = document.getElementById('featuresContainer');
             const div = document.createElement('div');
@@ -1282,12 +846,17 @@ https://example.com/photo2.jpg"></textarea>
         function removeFeature(button) {
             const container = document.getElementById('featuresContainer');
             const items = container.querySelectorAll('.feature-item');
+            
             if (items.length > 1) {
                 button.closest('.feature-item').remove();
+            } else {
+                // Очищаем последнее поле
+                const item = button.closest('.feature-item');
+                item.querySelector('.feature-input').value = '';
             }
         }
 
-        // ===== ЗАГРУЗКА И СОХРАНЕНИЕ ТОВАРОВ =====
+        // ===== ЗАГРУЗКА ТОВАРОВ =====
         function loadProducts() {
             try {
                 currentProducts = JSON.parse(localStorage.getItem('products')) || [];
@@ -1297,11 +866,6 @@ https://example.com/photo2.jpg"></textarea>
                 console.error('Ошибка загрузки товаров:', error);
                 showMessage('Ошибка загрузки товаров из базы', 'error');
             }
-        }
-
-        function saveProducts() {
-            localStorage.setItem('products', JSON.stringify(currentProducts));
-            loadProducts();
         }
 
         function renderProductsTable() {
@@ -1332,15 +896,26 @@ https://example.com/photo2.jpg"></textarea>
             `;
             
             currentProducts.forEach(product => {
-                const category = currentCategories.find(c => c.id === product.category);
-                const categoryName = category ? category.name : product.category;
+                const categoryNames = {
+                    'clothing': 'Одежда',
+                    'tonometers': 'Тонометры',
+                    'diabetes': 'Диабетика',
+                    'orthopedic': 'Ортопедия',
+                    'gynecology': 'Гинекология',
+                    'compression': 'Трикотаж',
+                    'optics': 'Оптика',
+                    'tests': 'Тесты'
+                };
+                
+                // Используем price вместо retail_price
+                const price = product.card.price || product.card.retail_price || '—';
                 
                 html += `
                     <tr>
                         <td><strong>${product.id}</strong></td>
                         <td>${product.card.title}</td>
-                        <td>${categoryName}</td>
-                        <td><strong>${product.card.price}</strong></td>
+                        <td>${categoryNames[product.category] || product.category}</td>
+                        <td><strong>${price}</strong></td>
                         <td class="product-actions">
                             <button class="btn-small" onclick="editProduct(${product.id})">
                                 <i class="fas fa-edit"></i> Ред.
@@ -1368,6 +943,7 @@ https://example.com/photo2.jpg"></textarea>
             
             editingProductId = id;
             
+            // Обновляем заголовок формы
             document.getElementById('formTitle').innerHTML = `
                 <i class="fas fa-edit"></i> Редактировать товар #${id}
             `;
@@ -1375,23 +951,11 @@ https://example.com/photo2.jpg"></textarea>
             // Основные поля
             document.getElementById('productCategory').value = product.category || '';
             document.getElementById('cardTitle').value = product.card.title || '';
+            document.getElementById('cardImage').value = product.card.image || '';
             document.getElementById('cardDesc').value = product.card.short_desc || '';
-            document.getElementById('price').value = product.card.price || '';
             
-            // Изображение
-            if (product.card.image && product.card.image.startsWith('data:image')) {
-                // Это base64 изображение
-                toggleImageSource('file');
-                uploadedImageBase64 = product.card.image;
-                document.getElementById('previewImage').src = product.card.image;
-                document.getElementById('imagePreview').style.display = 'block';
-                document.getElementById('fileInfo').textContent = 'Изображение из базы';
-            } else {
-                // Это ссылка
-                toggleImageSource('url');
-                document.getElementById('cardImageUrl').value = product.card.image || '';
-                uploadedImageBase64 = null;
-            }
+            // Цена (теперь просто price)
+            document.getElementById('price').value = product.card.price || product.card.retail_price || '';
             
             // Детальная информация
             if (product.page) {
@@ -1436,6 +1000,7 @@ https://example.com/photo2.jpg"></textarea>
                 }
             }
             
+            // Прокручиваем к форме
             document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
             showMessage(`Режим редактирования товара #${id}`, 'success');
         }
@@ -1445,16 +1010,23 @@ https://example.com/photo2.jpg"></textarea>
             if (!confirm(`Удалить товар #${id}?`)) return;
             
             currentProducts = currentProducts.filter(p => p.id != id);
-            saveProducts();
+            localStorage.setItem('products', JSON.stringify(currentProducts));
             
+            // Если удаляем редактируемый товар - очищаем форму
             if (editingProductId == id) {
                 clearForm();
             }
             
+            loadProducts();
             showMessage('Товар удален', 'success');
+            
+            // Обновляем каталог если открыт
+            if (window.opener) {
+                window.opener.location.reload();
+            }
         }
 
-        // ===== СОХРАНЕНИЕ ТОВАРА =====
+        // ===== СОХРАНЕНИЕ ТОВАРА (УПРОЩЕННАЯ СТРУКТУРА БЕЗ ОПТА) =====
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1482,22 +1054,14 @@ https://example.com/photo2.jpg"></textarea>
                 .filter(url => url.trim() !== '')
                 .map(url => url.trim());
             
-            // Определяем изображение
-            let image = '';
-            if (currentImageSource === 'file' && uploadedImageBase64) {
-                image = uploadedImageBase64;
-            } else {
-                image = document.getElementById('cardImageUrl').value.trim();
-            }
-            
-            // Создаем объект товара
+            // СОЗДАЕМ УПРОЩЕННЫЙ ОБЪЕКТ ТОВАРА (БЕЗ ОПТА)
             const product = {
                 id: editingProductId || Date.now(),
                 category: document.getElementById('productCategory').value,
                 card: {
                     title: document.getElementById('cardTitle').value.trim(),
-                    price: document.getElementById('price').value.trim(),
-                    image: image,
+                    price: document.getElementById('price').value.trim(), // ← ТОЛЬКО ОДНА ЦЕНА
+                    image: document.getElementById('cardImage').value.trim(),
                     short_desc: document.getElementById('cardDesc').value.trim()
                 },
                 page: {
@@ -1518,39 +1082,48 @@ https://example.com/photo2.jpg"></textarea>
             
             // Сохраняем
             if (editingProductId) {
+                // Обновляем существующий
                 const index = currentProducts.findIndex(p => p.id == editingProductId);
                 if (index !== -1) {
                     currentProducts[index] = product;
                 }
             } else {
+                // Добавляем новый
                 currentProducts.push(product);
             }
             
-            saveProducts();
+            localStorage.setItem('products', JSON.stringify(currentProducts));
             
+            // Уведомляем
             const message = editingProductId ? 'Товар обновлен!' : 'Товар добавлен!';
             showMessage(message, 'success');
             
+            // Сбрасываем форму
             clearForm();
+            
+            // Обновляем список
+            loadProducts();
+            
+            // Обновляем каталог если открыт
+            if (window.opener) {
+                window.opener.location.reload();
+            }
         });
 
         // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
         function clearForm() {
             editingProductId = null;
             
+            // Сбрасываем форму
             document.getElementById('productForm').reset();
             document.getElementById('formTitle').innerHTML = `
                 <i class="fas fa-plus"></i> Добавить новый товар
             `;
             
+            // Сбрасываем цену
             document.getElementById('price').value = '199 BYN';
-            document.getElementById('cardImageUrl').value = 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара';
             
-            uploadedImageBase64 = null;
-            toggleImageSource('url');
-            document.getElementById('imagePreview').style.display = 'none';
-            document.getElementById('cardImageFile').value = '';
-            
+            // Очищаем динамические поля
             document.getElementById('specsContainer').innerHTML = `
                 <div class="list-item">
                     <input type="text" class="spec-name form-input" placeholder="Название характеристики">
@@ -1570,12 +1143,16 @@ https://example.com/photo2.jpg"></textarea>
                 </div>
             `;
             
+            // Фокус на первое поле
             document.getElementById('productCategory').focus();
+        }
+
+        function saveDraft() {
+            showMessage('Черновик сохранен в LocalStorage (временное хранилище браузера)', 'success');
         }
 
         function updateStats() {
             document.getElementById('totalProducts').textContent = currentProducts.length;
-            document.getElementById('totalCategories').textContent = currentCategories.length;
             document.getElementById('lastUpdate').textContent = new Date().toLocaleString('ru-RU');
         }
 
@@ -1591,6 +1168,83 @@ https://example.com/photo2.jpg"></textarea>
                     box.style.opacity = '1';
                 }, 300);
             }, 3000);
+        }
+
+        function importDemoProducts() {
+            if (!confirm('Добавить 2 демо-товара для тестирования?')) return;
+            
+            const demoProducts = [
+                {
+                    id: Date.now() + 1,
+                    category: 'tonometers',
+                    card: {
+                        title: 'Тонометр автоматический Premium',
+                        price: '199 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
+                        image: 'https://placehold.co/400x300/e2e8f0/475569?text=Тонометр+Premium',
+                        short_desc: 'Автоматический тонометр с функцией измерения аритмии'
+                    },
+                    page: {
+                        full_title: 'Тонометр автоматический Premium Pro',
+                        gallery: [],
+                        description: 'Профессиональный автоматический тонометр с расширенным функционалом.',
+                        specs: [
+                            {name: 'Тип', value: 'Автоматический'},
+                            {name: 'Манжета', value: '22-42 см'}
+                        ],
+                        features: [
+                            'Интеллектуальное измерение',
+                            'Память на 90 измерений'
+                        ],
+                        video: ''
+                    }
+                },
+                {
+                    id: Date.now() + 2,
+                    category: 'diabetes',
+                    card: {
+                        title: 'Глюкометр Smart Check',
+                        price: '89 BYN', // ← ТОЛЬКО ОДНА ЦЕНА
+                        image: 'https://placehold.co/400x300/e2e8f0/475569?text=Глюкометр+Smart',
+                        short_desc: 'Точный глюкометр с Bluetooth'
+                    },
+                    page: {
+                        full_title: 'Глюкометр Smart Check',
+                        description: 'Современный глюкометр с Bluetooth.',
+                        specs: [
+                            {name: 'Тип', value: 'Электрохимический'},
+                            {name: 'Время анализа', value: '5 секунд'}
+                        ],
+                        features: [
+                            'Bluetooth синхронизация',
+                            'Большой дисплей'
+                        ]
+                    }
+                }
+            ];
+            
+            demoProducts.forEach(product => {
+                if (!currentProducts.find(p => p.id === product.id)) {
+                    currentProducts.push(product);
+                }
+            });
+            
+            localStorage.setItem('products', JSON.stringify(currentProducts));
+            loadProducts();
+            showMessage('Демо-товары добавлены!', 'success');
+        }
+
+        function exportProducts() {
+            const dataStr = JSON.stringify(currentProducts, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `products_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showMessage('Товары экспортированы в JSON файл', 'success');
         }
     </script>
 </body>
