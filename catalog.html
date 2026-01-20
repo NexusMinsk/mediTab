@@ -3520,6 +3520,101 @@ document.addEventListener('visibilitychange', function() {
     }
 });
 </script>
+    <script>
+// ===== ДИНАМИЧЕСКАЯ ЗАГРУЗКА ТОВАРОВ В КАТЕГОРИЮ "ДРУГОЕ" =====
+function loadOtherCategoryProducts() {
+    try {
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        const otherProducts = products.filter(p => p.category === 'other');
+        
+        if (otherProducts.length === 0) {
+            return; // Нет товаров в категории "Другое"
+        }
+        
+        // Находим секцию "Другое"
+        const otherSection = document.querySelector('#other .products-grid');
+        if (!otherSection) return;
+        
+        // Удаляем сообщение "нет товаров"
+        otherSection.innerHTML = '';
+        
+        // Добавляем товары
+        otherProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            otherSection.appendChild(productCard);
+        });
+        
+        // Обновляем заголовок с количеством товаров
+        const categoryHeader = document.querySelector('#other .category-header h2 span');
+        if (categoryHeader) {
+            categoryHeader.textContent = `(${otherProducts.length} товаров)`;
+        }
+        
+        console.log(`Загружено ${otherProducts.length} товаров в категорию "Другое"`);
+        
+    } catch (error) {
+        console.error('Ошибка загрузки товаров:', error);
+    }
+}
+
+// Создаем карточку товара
+function createProductCard(product) {
+    const card = document.createElement('a');
+    card.href = `product.html?id=${product.id}`;
+    card.className = 'product-card';
+    card.setAttribute('data-product-id', product.id);
+    
+    // Определяем бейдж
+    let badgeHTML = '';
+    if (product.card.price && product.card.price.includes('BYN')) {
+        const priceNum = parseInt(product.card.price);
+        if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
+        else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+    }
+    
+    card.innerHTML = `
+        <div class="product-image">
+            ${badgeHTML}
+            <img src="${product.card.image}" alt="${product.card.title}" 
+                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+        </div>
+        <div class="product-info">
+            <h3>${product.card.title}</h3>
+            <div class="product-price">
+                <div class="price-container">
+                    <div>
+                        <span class="current-price price-retail">${product.card.price || 'Цена не указана'}</span>
+                    </div>
+                    <span class="price-type price-type-retail">Розница</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Загружаем при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Ждем немного для загрузки
+    setTimeout(loadOtherCategoryProducts, 500);
+    
+    // Обновляем при изменении LocalStorage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'products') {
+            console.log('Обнаружено изменение товаров, обновляем категорию "Другое"...');
+            loadOtherCategoryProducts();
+        }
+    });
+    
+    // Обновляем при возвращении на вкладку
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            loadOtherCategoryProducts();
+        }
+    });
+});
+</script>
 </body>
 
 </html>
