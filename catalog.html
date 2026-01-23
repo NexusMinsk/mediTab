@@ -917,24 +917,27 @@
             display: none;
         }
 
-/* ===== КНОПКИ НА КАРТОЧКАХ ===== */
+/* ===== ОВЕРЛЕЙ КАРТОЧКИ ===== */
 .product-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, 
+        rgba(24, 34, 49, 0.85) 0%, 
+        rgba(24, 34, 49, 0.95) 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    padding: 20px;
+    padding: 25px;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 3;
+    backdrop-filter: blur(2px);
 }
 
 .product-card:hover .product-overlay {
@@ -947,74 +950,146 @@
     visibility: visible;
 }
 
-/* Кнопка в корзину */
+/* Кнопка "В корзину" */
 .add-to-cart-btn {
     width: 100%;
-    padding: 14px;
-    background: #cf7911;
+    max-width: 200px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #cf7911 0%, #ff9d3d 100%);
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(207, 121, 17, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.add-to-cart-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #b8690f 0%, #e88b2c 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .add-to-cart-btn:hover {
-    background: #b8690f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(207, 121, 17, 0.3);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(207, 121, 17, 0.4);
 }
 
-/* Кнопка подробнее */
+.add-to-cart-btn:hover::before {
+    opacity: 1;
+}
+
+.add-to-cart-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Кнопка "Подробнее" */
 .product-overlay a.btn-secondary {
     width: 100%;
-    padding: 14px;
-    background: white;
-    border: 2px solid #cf7911;
-    border-radius: 8px;
-    color: #cf7911;
+    max-width: 200px;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: white;
     font-weight: 600;
     font-size: 0.95rem;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.product-overlay a.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .product-overlay a.btn-secondary:hover {
-    background: #cf7911;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(207, 121, 17, 0.2);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
 }
 
-/* На мобильных убираем плавные анимации */
+.product-overlay a.btn-secondary:hover::before {
+    opacity: 1;
+}
+
+.product-overlay a.btn-secondary span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Анимации появления кнопок */
+.product-card:hover .add-to-cart-btn {
+    animation: slideUp 0.5s ease 0.1s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.product-card:hover .product-overlay a.btn-secondary {
+    animation: slideUp 0.5s ease 0.2s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* На мобильных */
 @media (max-width: 768px) {
     .product-overlay {
-        opacity: 0;
-        visibility: hidden;
-        background: rgba(0, 0, 0, 0.85);
-    }
-    
-    .product-card.mobile-actions-visible .product-overlay {
-        opacity: 1;
-        visibility: visible;
+        gap: 12px;
+        padding: 20px;
     }
     
     .add-to-cart-btn,
     .product-overlay a.btn-secondary {
-        padding: 12px;
+        max-width: 180px;
+        padding: 12px 16px;
         font-size: 0.9rem;
+    }
+    
+    /* На мобильных без анимаций */
+    .add-to-cart-btn,
+    .product-overlay a.btn-secondary {
+        opacity: 1;
+        transform: translateY(0);
+        animation: none;
     }
 }
 
