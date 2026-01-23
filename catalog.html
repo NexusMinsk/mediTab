@@ -192,7 +192,7 @@
             color: var(--white);
         }
 
-        /* ===== КРАСИВЫЙ HEADER С ОРИГИНАЛЬНЫМ МЕНЮ ===== */
+        /* ===== КРАСИВЫЙ HEADER С ОРИГИНАЛЬНЫМ МЕНЮ И КОРЗИНОЙ ===== */
         header {
             position: fixed;
             top: 0;
@@ -225,8 +225,6 @@
            transition: var(--transition);
            position: relative;
         }
-
-       
 
         .logo::before {
             content: "⚕";
@@ -288,6 +286,368 @@
 
         .nav-links a.active::after {
             width: 100%;
+        }
+
+        /* ===== КОРЗИНА ===== */
+        .cart-wrapper {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .cart-icon {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-orange);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(207, 121, 17, 0.3);
+        }
+
+        .cart-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(207, 121, 17, 0.4);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            border: 2px solid white;
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Панель корзины */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: white;
+            z-index: 2001;
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .cart-panel.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 25px;
+            background: var(--gradient-orange);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .cart-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+        .cart-empty i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .cart-footer {
+            padding: 25px;
+            border-top: 1px solid var(--border-gray);
+            background: #f8fafc;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cart-total span:first-child {
+            font-weight: 600;
+            color: var(--bg-dark);
+        }
+
+        .cart-total-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .cart-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .cart-btn-checkout {
+            background: var(--gradient-orange);
+            color: white;
+            box-shadow: 0 4px 15px rgba(207, 121, 17, 0.3);
+        }
+
+        .cart-btn-checkout:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(207, 121, 17, 0.4);
+        }
+
+        .cart-btn-continue {
+            background: white;
+            border: 2px solid var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .cart-btn-continue:hover {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        /* Элемент корзины */
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            background: white;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cart-item:hover {
+            border-color: var(--accent-orange);
+            box-shadow: var(--shadow);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cart-item-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--bg-dark);
+            font-size: 0.95rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: var(--accent-orange);
+            font-size: 1.1rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 5px 10px;
+            border: 1px solid var(--border-gray);
+        }
+
+        .quantity-btn {
+            background: none;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            color: var(--accent-orange);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        .quantity-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item-remove {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .cart-item-remove:hover {
+            color: #ef4444;
+            transform: scale(1.1);
+        }
+
+        /* Оверлей для корзины */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(24, 34, 49, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Кнопка добавления в корзину на карточке товара */
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--gradient-orange);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            z-index: 2;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-card:hover .add-to-cart-btn {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* ===== БУРГЕР МЕНЮ ===== */
@@ -1089,7 +1449,6 @@
         }
 
         @media (max-width: 768px) {
-
             /* Бургер меню */
             .mobile-menu-btn {
                 display: flex;
@@ -1127,6 +1486,25 @@
                 width: 100%;
                 display: block;
                 font-weight: 700;
+            }
+
+            /* Корзина на мобилках */
+            .cart-panel {
+                max-width: 100%;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-item-image {
+                width: 100%;
+                height: 150px;
+            }
+
+            .cart-item-controls {
+                justify-content: center;
             }
 
             /* Компактный каталог */
@@ -1289,6 +1667,18 @@
 
             .qwe {
                 font-size: 2.1rem !important;
+            }
+
+            .cart-header {
+                padding: 15px;
+            }
+
+            .cart-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .cart-footer {
+                padding: 15px;
             }
         }
 
@@ -1679,26 +2069,6 @@
     }
 }
     </style>
-    <script>
-    // Загружаем товары из LocalStorage
-    function loadCatalogProducts() {
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        
-        // Заменяем статические карточки на динамические
-        if (products.length > 0) {
-            // Будем заменять каждую секцию
-            updateCategoryWithProducts(products);
-        }
-    }
-    
-    function updateCategoryWithProducts(products) {
-        // Здесь будем добавлять товары в категории
-        console.log('Загружено товаров:', products.length);
-    }
-    
-    // Загружаем при загрузке страницы
-    document.addEventListener('DOMContentLoaded', loadCatalogProducts);
-</script>
 </head>
 
 <body>
@@ -1707,7 +2077,37 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- ===== КРАСИВЫЙ HEADER С ОРИГИНАЛЬНЫМ МЕНЮ ===== -->
+    <!-- ===== ПАНЕЛЬ КОРЗИНЫ ===== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>Корзина</h3>
+            <button class="cart-close" id="cartClose">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Корзина пуста</h3>
+                <p>Добавьте товары из каталога</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span class="cart-total-price" id="cartTotal">0 BYN</span>
+            </div>
+            <div class="cart-actions">
+                <button class="cart-btn cart-btn-checkout" id="cartCheckout">
+                    <i class="fas fa-credit-card"></i> Оформить заказ
+                </button>
+                <button class="cart-btn cart-btn-continue" id="cartContinue">
+                    <i class="fas fa-shopping-bag"></i> Продолжить покупки
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== КРАСИВЫЙ HEADER С ОРИГИНАЛЬНЫМ МЕНЮ И КОРЗИНОЙ ===== -->
     <header>
         <div class="container header-container">
             <a href="index.html" class="logo">Meditab</a>
@@ -1728,11 +2128,18 @@
                     <li><a href="#orthopedic">Ортопедия</a></li>
                     <li><a href="contacts.html">Контакты</a></li>
                     <li style="margin-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px;">
-    <a href="admin.html" style="color: #cf7911; font-weight: bold; background: rgba(207, 121, 17, 0.1); padding: 8px 15px; border-radius: 5px;">
-        <i class="fas fa-lock"></i> Admin
-    </a>
-</li>
+                        <a href="admin.html" style="color: #cf7911; font-weight: bold; background: rgba(207, 121, 17, 0.1); padding: 8px 15px; border-radius: 5px;">
+                            <i class="fas fa-lock"></i> Admin
+                        </a>
+                    </li>
                 </ul>
+                <!-- Иконка корзины -->
+                <div class="cart-wrapper">
+                    <button class="cart-icon" id="cartIcon" aria-label="Корзина">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -1748,186 +2155,182 @@
                     товары сертифицированы и соответствуют стандартам качества.</p>
             </div>
 
-
-
-
             <!-- Категория 1: Медицинская одежда -->
-<section class="category-section collapsed" id="clothing">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <h2>Медицинская одежда </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <section class="category-section collapsed" id="clothing">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h2>Медицинская одежда </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 2: Тонометры -->
-<section class="category-section collapsed" id="tonometers">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-heartbeat"></i>
-            </div>
-            <h2>Тонометры </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 2: Тонометры -->
+            <section class="category-section collapsed" id="tonometers">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h2>Тонометры </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 3: Диабетические товары -->
-<section class="category-section collapsed" id="diabetes">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-syringe"></i>
-            </div>
-            <h2>Диабетические товары </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 3: Диабетические товары -->
+            <section class="category-section collapsed" id="diabetes">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <h2>Диабетические товары </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 4: Ортопедические изделия -->
-<section class="category-section collapsed" id="orthopedic">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-bone"></i>
-            </div>
-            <h2>Ортопедические изделия </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 4: Ортопедические изделия -->
+            <section class="category-section collapsed" id="orthopedic">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <h2>Ортопедические изделия </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 5: Гинекологические товары -->
-<section class="category-section collapsed" id="gynecology">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-female"></i>
-            </div>
-            <h2>Гинекологические товары </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 5: Гинекологические товары -->
+            <section class="category-section collapsed" id="gynecology">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h2>Гинекологические товары </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 6: Компрессионный трикотаж -->
-<section class="category-section collapsed" id="compression">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-socks"></i>
-            </div>
-            <h2>Компрессионный трикотаж </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 6: Компрессионный трикотаж -->
+            <section class="category-section collapsed" id="compression">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-socks"></i>
+                        </div>
+                        <h2>Компрессионный трикотаж </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 7: Оптика -->
-<section class="category-section collapsed" id="optics">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-eye"></i>
-            </div>
-            <h2>Оптика </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 7: Оптика -->
+            <section class="category-section collapsed" id="optics">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h2>Оптика </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 8: Экспресс-тесты -->
-<section class="category-section collapsed" id="tests">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-vial"></i>
-            </div>
-            <h2>Экспресс-тесты </h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 8: Экспресс-тесты -->
+            <section class="category-section collapsed" id="tests">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h2>Экспресс-тесты </h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут загружены динамически из LocalStorage -->
-    </div>
-</section>
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут загружены динамически из LocalStorage -->
+                </div>
+            </section>
 
-<!-- Категория 9: Другое -->
-<section class="category-section collapsed" id="other">
-    <div class="category-header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="category-icon">
-                <i class="fas fa-box"></i>
-            </div>
-            <h2>Другое <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">
-                (Товары не вошедшие в основные категории)
-            </span></h2>
-        </div>
-        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
+            <!-- Категория 9: Другое -->
+            <section class="category-section collapsed" id="other">
+                <div class="category-header">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="category-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h2>Другое <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">
+                            (Товары не вошедшие в основные категории)
+                        </span></h2>
+                    </div>
+                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-    <div class="products-grid" style="display: none;">
-        <!-- Товары будут добавлены динамически через JavaScript -->
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-            <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-            <p>Товаров в этой категории пока нет</p>
-        </div>
-    </div>
-</section>
-
+                <div class="products-grid" style="display: none;">
+                    <!-- Товары будут добавлены динамически через JavaScript -->
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>Товаров в этой категории пока нет</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -2005,8 +2408,6 @@
             </div>
             <!-- Пагинация (точки внизу) -->
             <div class="swiper-pagination"></div>
-        </div>
-        </div>
         </div>
     </section>
 
@@ -2126,26 +2527,10 @@
             </form>
         </div>
     </div>
-<script>
-// Автоматически обновляет все ссылки в каталоге
-document.addEventListener('DOMContentLoaded', function() {
-    const productCards = document.querySelectorAll('.product-card[data-product-id]');
-    
-    productCards.forEach(card => {
-        const productId = card.getAttribute('data-product-id');
-        if (productId) {
-            card.href = `product.html?id=${productId}`;
-            console.log(`Обновлена ссылка для товара ID: ${productId}`);
-        }
-    });
-    
-    console.log(`Обновлено ${productCards.length} ссылок на товары`);
-});
-</script>
+
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-
-
+        // ===== ОСНОВНОЙ КОД С КОРЗИНОЙ =====
         document.addEventListener('DOMContentLoaded', function () {
             // Элементы DOM
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -2158,14 +2543,190 @@ document.addEventListener('DOMContentLoaded', function() {
             const modalClose = document.getElementById('modalClose');
             const openOrderModal = document.getElementById('openOrderModal');
             const orderForm = document.getElementById('orderForm');
-            const expandAllBtn = document.getElementById('expandAllBtn');
-            const collapseAllBtn = document.getElementById('collapseAllBtn');
-            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            
+            // Корзина элементы
+            const cartIcon = document.getElementById('cartIcon');
+            const cartCount = document.getElementById('cartCount');
+            const cartPanel = document.getElementById('cartPanel');
+            const cartOverlay = document.getElementById('cartOverlay');
+            const cartClose = document.getElementById('cartClose');
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartCheckout = document.getElementById('cartCheckout');
+            const cartContinue = document.getElementById('cartContinue');
 
             let isMenuOpen = false;
             let currentPriceType = 'retail';
+            let cart = JSON.parse(localStorage.getItem('meditab_cart')) || [];
 
-            // Бургер меню
+            // ===== КОРЗИНА ФУНКЦИИ =====
+            function saveCart() {
+                localStorage.setItem('meditab_cart', JSON.stringify(cart));
+                updateCartCount();
+            }
+
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+
+            function updateCartDisplay() {
+                cartItems.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    cartEmpty.style.display = 'block';
+                    cartFooter.style.display = 'none';
+                    return;
+                }
+
+                cartEmpty.style.display = 'none';
+                cartFooter.style.display = 'block';
+
+                // Обновляем общую сумму
+                const total = cart.reduce((sum, item) => {
+                    const price = parseFloat(item.price.replace('BYN', '').trim());
+                    return sum + (price * item.quantity);
+                }, 0);
+                cartTotal.textContent = total.toFixed(2) + ' BYN';
+
+                // Добавляем товары в корзину
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.title}" onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+                        </div>
+                        <div class="cart-item-info">
+                            <h4 class="cart-item-title">${item.title}</h4>
+                            <div class="cart-item-price">${item.price}</div>
+                            <div class="cart-item-controls">
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn decrease" data-index="${index}">-</button>
+                                    <span class="quantity-value">${item.quantity}</span>
+                                    <button class="quantity-btn increase" data-index="${index}">+</button>
+                                </div>
+                                <button class="cart-item-remove" data-index="${index}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+
+                // Добавляем обработчики для кнопок в корзине
+                document.querySelectorAll('.decrease').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        decreaseQuantity(index);
+                    });
+                });
+
+                document.querySelectorAll('.increase').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        increaseQuantity(index);
+                    });
+                });
+
+                document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        removeFromCart(index);
+                    });
+                });
+            }
+
+            function addToCart(product) {
+                const existingItem = cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        title: product.title,
+                        price: product.price,
+                        image: product.image,
+                        category: product.category,
+                        quantity: 1
+                    });
+                }
+                
+                saveCart();
+                updateCartDisplay();
+                showNotification(`Товар "${product.title}" добавлен в корзину!`, 'success');
+            }
+
+            function removeFromCart(index) {
+                cart.splice(index, 1);
+                saveCart();
+                updateCartDisplay();
+                showNotification('Товар удален из корзины', 'info');
+            }
+
+            function increaseQuantity(index) {
+                cart[index].quantity += 1;
+                saveCart();
+                updateCartDisplay();
+            }
+
+            function decreaseQuantity(index) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity -= 1;
+                    saveCart();
+                    updateCartDisplay();
+                } else {
+                    removeFromCart(index);
+                }
+            }
+
+            // ===== ОТКРЫТИЕ/ЗАКРЫТИЕ КОРЗИНЫ =====
+            cartIcon.addEventListener('click', function() {
+                cartPanel.classList.add('active');
+                cartOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            cartClose.addEventListener('click', function() {
+                cartPanel.classList.remove('active');
+                cartOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            cartOverlay.addEventListener('click', function() {
+                cartPanel.classList.remove('active');
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            cartContinue.addEventListener('click', function() {
+                cartPanel.classList.remove('active');
+                cartOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // Оформление заказа
+            cartCheckout.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    showNotification('Корзина пуста!', 'error');
+                    return;
+                }
+                
+                // Показываем модальное окно заказа
+                orderModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Закрываем корзину
+                cartPanel.classList.remove('active');
+                cartOverlay.classList.remove('active');
+            });
+
+            // ===== БУРГЕР МЕНЮ =====
             mobileMenuBtn.addEventListener('click', function () {
                 isMenuOpen = !isMenuOpen;
                 this.classList.toggle('active');
@@ -2183,7 +2744,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // Кнопки опт/
+            // Кнопки опт/розница
             purchaseTypeBtns.forEach(btn => {
                 btn.addEventListener('click', function () {
                     const type = this.getAttribute('data-type');
@@ -2211,12 +2772,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         typeEl.style.display = 'inline';
                     });
 
-                    // Показываем уведомление
                     showNotification(type === 'retail' ? 'Переключены розничные цены' : 'Переключены оптовые цены (от 10 шт)', 'info');
                 });
             });
 
-            // Скрытие/раскрытие категорий (изначально все скрыты)
+            // Скрытие/раскрытие категорий
             categoryToggles.forEach(toggle => {
                 toggle.addEventListener('click', function (e) {
                     e.stopPropagation();
@@ -2286,50 +2846,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // Кнопка "Раскрыть все"
-            expandAllBtn.addEventListener('click', function () {
-                categorySections.forEach(section => {
-                    section.classList.remove('collapsed');
-                    const toggle = section.querySelector('.category-toggle');
-                    toggle.classList.remove('collapsed');
-                    const icon = toggle.querySelector('i');
-                    icon.style.transform = 'rotate(90deg)';
-
-                    const productsGrid = section.querySelector('.products-grid');
-                    productsGrid.style.display = 'grid';
-                    setTimeout(() => {
-                        productsGrid.style.opacity = '1';
-                    }, 10);
-                });
-                showNotification('Все категории раскрыты', 'success');
-            });
-
-            // Кнопка "Скрыть все"
-            collapseAllBtn.addEventListener('click', function () {
-                categorySections.forEach(section => {
-                    section.classList.add('collapsed');
-                    const toggle = section.querySelector('.category-toggle');
-                    toggle.classList.add('collapsed');
-                    const icon = toggle.querySelector('i');
-                    icon.style.transform = 'rotate(0deg)';
-
-                    const productsGrid = section.querySelector('.products-grid');
-                    productsGrid.style.opacity = '0';
-                    setTimeout(() => {
-                        productsGrid.style.display = 'none';
-                    }, 300);
-                });
-                showNotification('Все категории скрыты', 'info');
-            });
-
-            // Кнопка "Наверх" в категориях
-            scrollToTopBtn.addEventListener('click', function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-
             // Модальное окно заказа
             openOrderModal.addEventListener('click', () => {
                 orderModal.classList.add('active');
@@ -2345,7 +2861,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
 
                 // Здесь обычно отправка формы на сервер
-                showNotification('Заявка отправлена! Менеджер свяжется с вами в течение 15 минут.', 'success');
+                if (cart.length > 0) {
+                    // Добавляем информацию о корзине
+                    const cartData = cart.map(item => ({
+                        title: item.title,
+                        quantity: item.quantity,
+                        price: item.price
+                    }));
+                    
+                    const orderData = {
+                        name: this.querySelector('input[type="text"]').value,
+                        phone: this.querySelector('input[type="tel"]').value,
+                        message: this.querySelector('textarea').value,
+                        cart: cartData,
+                        total: cartTotal.textContent,
+                        date: new Date().toISOString()
+                    };
+                    
+                    // Сохраняем заказ в LocalStorage
+                    const orders = JSON.parse(localStorage.getItem('meditab_orders')) || [];
+                    orders.push(orderData);
+                    localStorage.setItem('meditab_orders', JSON.stringify(orders));
+                    
+                    // Очищаем корзину
+                    cart = [];
+                    saveCart();
+                    updateCartDisplay();
+                    
+                    showNotification('Заказ успешно оформлен! Наш менеджер свяжется с вами в течение 15 минут.', 'success');
+                } else {
+                    showNotification('Заявка отправлена! Менеджер свяжется с вами в течение 15 минут.', 'success');
+                }
 
                 orderModal.classList.remove('active');
                 document.body.style.overflow = '';
@@ -2479,6 +3025,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         orderModal.classList.remove('active');
                         document.body.style.overflow = '';
                     }
+                    if (cartPanel.classList.contains('active')) {
+                        cartPanel.classList.remove('active');
+                        cartOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
                 }
             });
 
@@ -2505,539 +3056,312 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.observe(card);
             });
 
-            console.log('Каталог Meditab загружен!');
+            // Инициализация корзины
+            updateCartCount();
+            updateCartDisplay();
 
-            console.log('Все 8 категорий добавлены:');
-            console.log('1. Медицинская одежда - 90 товаров');
-            console.log('2. Тонометры - 60 товаров');
-            console.log('3. Диабетические товары - 120 товаров');
-            console.log('4. Ортопедические изделия - 150 товаров');
-            console.log('5. Гинекологические товары - 85 товаров');
-            console.log('6. Компрессионный трикотаж - 45 товаров');
-            console.log('7. Оптика - 75 товаров');
-            console.log('8. Экспресс-тесты - 100 товаров');
-            console.log('Все категории изначально скрыты!');
+            console.log('Каталог Meditab с корзиной загружен!');
         });
 
-        
-    </script>
-    <script>
-// Добавляем динамические товары в категории
-function addDynamicProductsToCategories() {
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    
-    if (products.length === 0) {
-        console.log('Нет товаров из админки');
-        return;
-    }
-    
-    console.log(`Найдено ${products.length} товаров из админки`);
-    
-    // Карта категорий: ID категории → элемент грида
-    const categoryGrids = {
-        'clothing': document.querySelector('#clothing .products-grid'),
-        'tonometers': document.querySelector('#tonometers .products-grid'),
-        'diabetes': document.querySelector('#diabetes .products-grid'),
-        'orthopedic': document.querySelector('#orthopedic .products-grid'),
-        'gynecology': document.querySelector('#gynecology .products-grid'),
-        'compression': document.querySelector('#compression .products-grid'),
-        'optics': document.querySelector('#optics .products-grid'),
-        'tests': document.querySelector('#tests .products-grid')
-    };
-    
-    // Для каждого товара из админки
-    products.forEach(product => {
-        if (!product.category) {
-            console.warn('Товар без категории:', product.id);
-            return;
-        }
-        
-        const grid = categoryGrids[product.category];
-        
-        if (!grid) {
-            console.warn('Неизвестная категория:', product.category, 'для товара', product.id);
-            return;
-        }
-        
-        // Проверяем, нет ли уже такого товара
-        const existingCard = grid.querySelector(`[data-admin-id="${product.id}"]`);
-        if (existingCard) {
-            existingCard.remove(); // Удаляем старую версию
-        }
-        
-        // Создаем карточку товара
-        const productCard = createProductCard(product);
-        
-        // Добавляем в начало грида
-        grid.insertBefore(productCard, grid.firstChild);
-        
-        console.log(`Добавлен товар "${product.card.title}" в категорию ${product.category}`);
-    });
-}
-
-// Создаем HTML карточки товара
-function createProductCard(product) {
-    const card = document.createElement('a');
-    card.href = `product.html?id=${product.id}`;
-    card.className = 'product-card';
-    card.setAttribute('data-product-id', product.id);
-    card.setAttribute('data-admin-id', product.id); // Для идентификации из админки
-    
-    // Определяем бейдж
-    let badgeHTML = '';
-    if (product.card.price.includes('BYN')) {
-        const priceNum = parseInt(product.card.price);
-        if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-        else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
-    }
-    
-    card.innerHTML = `
-        <div class="product-image">
-            ${badgeHTML}
-            <img src="${product.card.image}" alt="${product.card.title}" 
-                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
-        </div>
-        <div class="product-info">
-            <h3>${product.card.title}</h3>
-            <div class="product-price">
-                <div class="price-container">
-                    <div>
-                        <span class="current-price price-retail">${product.card.price}</span>
-                        <span class="current-price price-wholesale" style="display: none;">${product.card.price.replace('BYN', 'BYN опт')}</span>
-                    </div>
-                    <span class="price-type price-type-retail">Прим. цена</span>
-                    <span class="price-type price-type-wholesale" style="display: none;">Опт</span>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Загружаем динамические товары при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    // Ждем немного, чтобы статические товары загрузились
-    setTimeout(addDynamicProductsToCategories, 500);
-    
-    // Обновляем при изменении LocalStorage (если открыто несколько вкладок)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'products') {
-            console.log('Обнаружено изменение в товарах, обновляем...');
-            addDynamicProductsToCategories();
-        }
-    });
-});
-
-// Также обновляем при фокусе на вкладке
-document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) {
-        addDynamicProductsToCategories();
-    }
-});
-</script>
-    <script>
-// Глобальный флаг для отслеживания загрузки
-let isOtherCategoryLoaded = false;
-
-// Исправленная функция загрузки товаров категории "Другое"
-function loadOtherCategoryProducts() {
-    try {
-        // Если уже загружено - пропускаем
-        if (isOtherCategoryLoaded) {
-            console.log('Категория "Другое" уже загружена, пропускаем');
-            return;
-        }
-        
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const otherProducts = products.filter(p => p.category === 'other');
-        
-        // Находим секцию "Другое"
-        const otherSection = document.querySelector('#other .products-grid');
-        if (!otherSection) {
-            console.error('Секция "Другое" не найдена');
-            return;
-        }
-        
-        // Полностью очищаем контейнер перед добавлением
-        otherSection.innerHTML = '';
-        
-        if (otherProducts.length === 0) {
-            // Если товаров нет - показываем сообщение
-            otherSection.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-                    <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                    <p>Товаров в этой категории пока нет</p>
-                    <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
-                </div>
-            `;
-            
-            // Обновляем заголовок
-            const categoryHeader = document.querySelector('#other .category-header h2 span');
-            if (categoryHeader) {
-                categoryHeader.textContent = `(0 товаров)`;
-            }
-            
-            isOtherCategoryLoaded = true;
-            return;
-        }
-        
-        // Используем Set для отслеживания уникальных ID
-        const uniqueProductIds = new Set();
-        const validProducts = [];
-        
-        // Фильтруем товары, оставляем только уникальные
-        otherProducts.forEach(product => {
-            if (product.id && !uniqueProductIds.has(product.id)) {
-                uniqueProductIds.add(product.id);
-                validProducts.push(product);
-            }
-        });
-        
-        // Добавляем товары
-        validProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            otherSection.appendChild(productCard);
-        });
-        
-        // Обновляем заголовок с количеством товаров
-        const categoryHeader = document.querySelector('#other .category-header h2 span');
-        if (categoryHeader) {
-            categoryHeader.textContent = `(${validProducts.length} товаров)`;
-        }
-        
-        console.log(`Загружено ${validProducts.length} уникальных товаров в категорию "Другое"`);
-        
-        // Устанавливаем флаг загрузки
-        isOtherCategoryLoaded = true;
-        
-    } catch (error) {
-        console.error('Ошибка загрузки товаров:', error);
-    }
-}
-
-// Создаем карточку товара
-function createProductCard(product) {
-    const card = document.createElement('a');
-    card.href = `product.html?id=${product.id}`;
-    card.className = 'product-card';
-    card.setAttribute('data-product-id', product.id);
-    
-    // Определяем бейдж
-    let badgeHTML = '';
-    if (product.card && product.card.price && product.card.price.includes('BYN')) {
-        const priceMatch = product.card.price.match(/(\d+)/);
-        if (priceMatch) {
-            const priceNum = parseInt(priceMatch[0]);
-            if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-            else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
-        }
-    }
-    
-    card.innerHTML = `
-        <div class="product-image">
-            ${badgeHTML}
-            <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
-                 alt="${product.card?.title || 'Товар'}" 
-                 onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
-        </div>
-        <div class="product-info">
-            <h3>${product.card?.title || 'Товар без названия'}</h3>
-            <div class="product-price">
-                <div class="price-container">
-                    <div>
-                        <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
-                    </div>
-                    <span class="price-type price-type-retail">Розница</span>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Загружаем при загрузке страницы (с защитой от множественных вызовов)
-document.addEventListener('DOMContentLoaded', function() {
-    // Сбрасываем флаг при загрузке страницы
-    isOtherCategoryLoaded = false;
-    
-    // Используем requestAnimationFrame для гарантии загрузки DOM
-    requestAnimationFrame(() => {
-        // Ждем немного для загрузки DOM
-        setTimeout(() => {
-            loadOtherCategoryProducts();
-        }, 100);
-    });
-    
-    // Обновляем при изменении LocalStorage (с защитой)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'products') {
-            console.log('Обнаружено изменение товаров, сбрасываем флаг и обновляем категорию "Другое"...');
-            isOtherCategoryLoaded = false;
-            setTimeout(loadOtherCategoryProducts, 50);
-        }
-    });
-    
-    // Обновляем при возвращении на вкладку (с защитой)
-    let isPageVisible = true;
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden && !isPageVisible) {
-            console.log('Страница снова видима, обновляем товары...');
-            isOtherCategoryLoaded = false;
-            setTimeout(loadOtherCategoryProducts, 100);
-        }
-        isPageVisible = !document.hidden;
-    });
-});
-
-<!-- Вставьте этот исправленный скрипт в конец файла перед </body> -->
-
-<script>
-// Глобальный объект для управления состоянием загрузки
-window.CatalogManager = {
-    isLoaded: false,
-    isLoading: false,
-    otherProductsCache: null,
-    
-    // Основная функция загрузки категории "Другое"
-    loadOtherCategoryProducts: function() {
-        try {
-            // Если уже загружается или загружено - пропускаем
-            if (this.isLoading || this.isLoaded) {
-                console.log('Категория уже загружается или загружена, пропускаем');
-                return;
-            }
-            
-            this.isLoading = true;
-            
+        // ===== ДИНАМИЧЕСКАЯ ЗАГРУЗКА ТОВАРОВ И КНОПКИ КОРЗИНЫ =====
+        function addDynamicProductsToCategories() {
             const products = JSON.parse(localStorage.getItem('products')) || [];
-            const otherProducts = products.filter(p => p.category === 'other');
             
-            // Кешируем результат
-            this.otherProductsCache = otherProducts;
-            
-            // Находим секцию "Другое"
-            const otherSection = document.querySelector('#other .products-grid');
-            if (!otherSection) {
-                console.error('Секция "Другое" не найдена');
-                this.isLoading = false;
+            if (products.length === 0) {
+                console.log('Нет товаров из админки');
                 return;
             }
             
-            // Запоминаем текущее состояние (скрыта/открыта)
-            const isExpanded = !otherSection.closest('.category-section').classList.contains('collapsed');
+            console.log(`Найдено ${products.length} товаров из админки`);
             
-            // Полностью очищаем и перестраиваем контейнер
-            otherSection.innerHTML = '';
+            // Карта категорий
+            const categoryGrids = {
+                'clothing': document.querySelector('#clothing .products-grid'),
+                'tonometers': document.querySelector('#tonometers .products-grid'),
+                'diabetes': document.querySelector('#diabetes .products-grid'),
+                'orthopedic': document.querySelector('#orthopedic .products-grid'),
+                'gynecology': document.querySelector('#gynecology .products-grid'),
+                'compression': document.querySelector('#compression .products-grid'),
+                'optics': document.querySelector('#optics .products-grid'),
+                'tests': document.querySelector('#tests .products-grid'),
+                'other': document.querySelector('#other .products-grid')
+            };
             
-            if (otherProducts.length === 0) {
-                // Если товаров нет - показываем сообщение
-                otherSection.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                        <p>Товаров в этой категории пока нет</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">Добавьте товары через админ-панель</p>
-                    </div>
-                `;
-                
-                // Обновляем заголовок
-                this.updateCategoryHeader(0);
-            } else {
-                // Используем Set для отслеживания уникальных ID
-                const uniqueProductIds = new Set();
-                const validProducts = [];
-                
-                // Фильтруем товары, оставляем только уникальные
-                otherProducts.forEach(product => {
-                    if (product.id && !uniqueProductIds.has(product.id)) {
-                        uniqueProductIds.add(product.id);
-                        validProducts.push(product);
-                    }
-                });
-                
-                // Добавляем товары
-                validProducts.forEach(product => {
-                    const productCard = this.createProductCard(product);
-                    otherSection.appendChild(productCard);
-                });
-                
-                // Обновляем заголовок с количеством товаров
-                this.updateCategoryHeader(validProducts.length);
-                
-                console.log(`Загружено ${validProducts.length} уникальных товаров в категорию "Другое"`);
-            }
-            
-            // Восстанавливаем состояние (скрыта/открыта)
-            if (!isExpanded) {
-                otherSection.style.display = 'none';
-            }
-            
-            this.isLoaded = true;
-            this.isLoading = false;
-            
-        } catch (error) {
-            console.error('Ошибка загрузки товаров:', error);
-            this.isLoading = false;
-        }
-    },
-    
-    // Обновление заголовка категории
-    updateCategoryHeader: function(count) {
-        const categoryHeader = document.querySelector('#other .category-header h2 span');
-        if (categoryHeader) {
-            categoryHeader.textContent = `(${count} товаров)`;
-        }
-    },
-    
-    // Создание карточки товара
-    createProductCard: function(product) {
-        const card = document.createElement('a');
-        card.href = `product.html?id=${product.id}`;
-        card.className = 'product-card';
-        card.setAttribute('data-product-id', product.id);
-        
-        // Определяем бейдж
-        let badgeHTML = '';
-        if (product.card && product.card.price && product.card.price.includes('BYN')) {
-            const priceMatch = product.card.price.match(/(\d+)/);
-            if (priceMatch) {
-                const priceNum = parseInt(priceMatch[0]);
-                if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
-                else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
-            }
-        }
-        
-        card.innerHTML = `
-            <div class="product-image">
-                ${badgeHTML}
-                <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
-                     alt="${product.card?.title || 'Товар'}" 
-                     onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
-            </div>
-            <div class="product-info">
-                <h3>${product.card?.title || 'Товар без названия'}</h3>
-                <div class="product-price">
-                    <div class="price-container">
-                        <div>
-                            <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
-                        </div>
-                        <span class="price-type price-type-retail">Розница</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        return card;
-    },
-    
-    // Принудительное обновление (при изменении данных)
-    refresh: function() {
-        console.log('Принудительное обновление категории "Другое"');
-        this.isLoaded = false;
-        this.isLoading = false;
-        this.loadOtherCategoryProducts();
-    }
-};
-
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    // Используем debounce для предотвращения множественных вызовов
-    let loadTimeout;
-    
-    function debouncedLoad() {
-        clearTimeout(loadTimeout);
-        loadTimeout = setTimeout(function() {
-            window.CatalogManager.loadOtherCategoryProducts();
-        }, 100);
-    }
-    
-    // Загружаем после полной загрузки DOM
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', debouncedLoad);
-    } else {
-        debouncedLoad();
-    }
-    
-    // Обновляем при изменении LocalStorage
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'products') {
-            console.log('Обнаружено изменение товаров в LocalStorage');
-            setTimeout(function() {
-                window.CatalogManager.refresh();
-            }, 200);
-        }
-    });
-    
-    // Обновляем при возвращении на вкладку (только если страница была скрыта более 5 секунд)
-    let lastHiddenTime = 0;
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            const now = Date.now();
-            if (now - lastHiddenTime > 5000) { // 5 секунд
-                console.log('Возврат на вкладку после долгого отсутствия, обновляем');
-                setTimeout(function() {
-                    window.CatalogManager.refresh();
-                }, 300);
-            }
-        } else {
-            lastHiddenTime = Date.now();
-        }
-    });
-});
-
-// Отключаем старые обработчики если они есть
-if (window.loadOtherCategoryProducts) {
-    console.log('Отключаем старую функцию loadOtherCategoryProducts');
-    window.loadOtherCategoryProducts = function() {
-        console.log('Старая функция заблокирована, используем CatalogManager');
-    };
-}
-</script>        
-</script>
-    <script>
-// Простая прокрутка к категориям
-document.addEventListener('DOMContentLoaded', function() {
-    // Находим все ссылки на категории
-    const categoryLinks = document.querySelectorAll('a[href^="#"]');
-    
-    categoryLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        
-        // Пропускаем якоря не на категории
-        if (href === '#') return;
-        if (href === '#how-to') return;
-        if (href === '#contacts') return;
-        
-        link.addEventListener('click', function(e) {
-            e.preventDefault(); // Отменяем стандартный прыжок
-            
-            const targetId = href.substring(1); // Убираем решетку
-            const targetSection = document.getElementById(targetId);
-            
-            if (!targetSection) return;
-            
-            // Высота хедера для отступа
-            const headerHeight = document.querySelector('header').offsetHeight;
-            
-            // Плавная прокрутка
-            window.scrollTo({
-                top: targetSection.offsetTop - headerHeight - 20,
-                behavior: 'smooth'
+            // Очищаем все категории кроме "other"
+            Object.keys(categoryGrids).forEach(category => {
+                if (categoryGrids[category] && category !== 'other') {
+                    categoryGrids[category].innerHTML = '';
+                }
             });
             
-            // Автоматически открываем категорию если она скрыта
-            setTimeout(() => {
-                if (targetSection.classList.contains('collapsed')) {
-                    // Кликаем на кнопку открытия категории
-                    const toggleBtn = targetSection.querySelector('.category-toggle');
-                    if (toggleBtn) toggleBtn.click();
+            // Добавляем товары в соответствующие категории
+            products.forEach(product => {
+                if (!product.category) {
+                    console.warn('Товар без категории:', product.id);
+                    return;
                 }
-            }, 300); // Ждем завершения прокрутки
+                
+                const grid = categoryGrids[product.category];
+                
+                if (!grid) {
+                    console.warn('Неизвестная категория:', product.category, 'для товара', product.id);
+                    return;
+                }
+                
+                // Создаем карточку товара с кнопкой корзины
+                const productCard = createProductCard(product);
+                grid.appendChild(productCard);
+                
+                // Добавляем обработчик для кнопки "В корзину"
+                const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+                if (addToCartBtn) {
+                    addToCartBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const productData = {
+                            id: product.id,
+                            title: product.card?.title || 'Товар без названия',
+                            price: product.card?.price || 'Цена не указана',
+                            image: product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара',
+                            category: product.category
+                        };
+                        
+                        // Используем функцию addToCart из основного скрипта
+                        if (window.addToCart) {
+                            window.addToCart(productData);
+                        } else {
+                            // Если функция не доступна, сохраняем в localStorage
+                            let cart = JSON.parse(localStorage.getItem('meditab_cart')) || [];
+                            const existingItem = cart.find(item => item.id === product.id);
+                            
+                            if (existingItem) {
+                                existingItem.quantity += 1;
+                            } else {
+                                cart.push({
+                                    id: product.id,
+                                    title: productData.title,
+                                    price: productData.price,
+                                    image: productData.image,
+                                    category: product.category,
+                                    quantity: 1
+                                });
+                            }
+                            
+                            localStorage.setItem('meditab_cart', JSON.stringify(cart));
+                            
+                            // Обновляем счетчик корзины
+                            const cartCount = document.getElementById('cartCount');
+                            if (cartCount) {
+                                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                                cartCount.textContent = totalItems;
+                                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+                            }
+                            
+                            // Показываем уведомление
+                            showNotification(`Товар "${productData.title}" добавлен в корзину!`, 'success');
+                        }
+                    });
+                }
+            });
+            
+            // Обновляем счетчики товаров в заголовках категорий
+            updateCategoryCounts(products);
+        }
+
+        // Создаем карточку товара с кнопкой корзины
+        function createProductCard(product) {
+            const card = document.createElement('a');
+            card.href = `product.html?id=${product.id}`;
+            card.className = 'product-card';
+            card.setAttribute('data-product-id', product.id);
+            card.setAttribute('data-admin-id', product.id);
+            
+            // Определяем бейдж
+            let badgeHTML = '';
+            if (product.card?.price && product.card.price.includes('BYN')) {
+                const priceMatch = product.card.price.match(/(\d+)/);
+                if (priceMatch) {
+                    const priceNum = parseInt(priceMatch[0]);
+                    if (priceNum > 100) badgeHTML = '<div class="product-badge popular">Премиум</div>';
+                    else if (priceNum < 50) badgeHTML = '<div class="product-badge discount">Эконом</div>';
+                }
+            }
+            
+            card.innerHTML = `
+                <div class="product-image">
+                    ${badgeHTML}
+                    <img src="${product.card?.image || 'https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'}" 
+                         alt="${product.card?.title || 'Товар'}" 
+                         onerror="this.src='https://placehold.co/400x300/e2e8f0/475569?text=Фото+товара'">
+                </div>
+                <div class="product-info">
+                    <h3>${product.card?.title || 'Товар без названия'}</h3>
+                    <div class="product-price">
+                        <div class="price-container">
+                            <div>
+                                <span class="current-price price-retail">${product.card?.price || 'Цена не указана'}</span>
+                            </div>
+                            <span class="price-type price-type-retail">Прим. цена</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-to-cart-btn" data-product-id="${product.id}">
+                    <i class="fas fa-cart-plus"></i> В корзину
+                </button>
+            `;
+            
+            return card;
+        }
+
+        // Обновляем счетчики товаров в категориях
+        function updateCategoryCounts(products) {
+            const counts = {};
+            
+            // Считаем товары по категориям
+            products.forEach(product => {
+                if (product.category) {
+                    counts[product.category] = (counts[product.category] || 0) + 1;
+                }
+            });
+            
+            // Обновляем заголовки категорий
+            Object.keys(counts).forEach(category => {
+                const header = document.querySelector(`#${category} .category-header h2 span`);
+                if (header) {
+                    header.textContent = `(${counts[category]} товаров)`;
+                } else {
+                    // Добавляем счетчик если его нет
+                    const categoryHeader = document.querySelector(`#${category} .category-header h2`);
+                    if (categoryHeader) {
+                        const countSpan = document.createElement('span');
+                        countSpan.style.fontSize = '0.9rem';
+                        countSpan.style.color = 'var(--text-gray)';
+                        countSpan.style.fontWeight = 'normal';
+                        countSpan.style.marginLeft = '10px';
+                        countSpan.textContent = `(${counts[category]} товаров)`;
+                        categoryHeader.appendChild(countSpan);
+                    }
+                }
+            });
+        }
+
+        // Вспомогательная функция для уведомлений
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                info: '#cf7911'
+            };
+
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: white;
+                color: ${colors[type] || colors.info};
+                padding: 18px 25px;
+                border-radius: 16px;
+                border: 1px solid ${colors[type] || colors.info}20;
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+                box-shadow: 0 10px 40px rgba(24, 34, 49, 0.2);
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}" style="font-size: 1.2rem;"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Загружаем динамические товары при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(addDynamicProductsToCategories, 500);
+            
+            // Обновляем при изменении LocalStorage
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'products') {
+                    setTimeout(addDynamicProductsToCategories, 200);
+                }
+            });
         });
-    });
-});
-</script>
+
+        // Делаем функцию addToCart глобально доступной
+        window.addToCart = function(productData) {
+            let cart = JSON.parse(localStorage.getItem('meditab_cart')) || [];
+            const existingItem = cart.find(item => item.id === productData.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productData.id,
+                    title: productData.title,
+                    price: productData.price,
+                    image: productData.image,
+                    category: productData.category,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('meditab_cart', JSON.stringify(cart));
+            
+            // Обновляем интерфейс корзины
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+            
+            // Обновляем панель корзины если она открыта
+            if (document.getElementById('cartPanel').classList.contains('active')) {
+                const event = new Event('cartUpdated');
+                window.dispatchEvent(event);
+            }
+            
+            return true;
+        };
+
+        // Слушаем событие обновления корзины
+        window.addEventListener('cartUpdated', function() {
+            const cart = JSON.parse(localStorage.getItem('meditab_cart')) || [];
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartFooter.style.display = 'none';
+                return;
+            }
+            
+            cartEmpty.style.display = 'none';
+            cartFooter.style.display = 'block';
+            
+            // Обновляем общую сумму
+            const total = cart.reduce((sum, item) => {
+                const price = parseFloat(item.price.replace('BYN', '').trim());
+                return sum + (price * item.quantity);
+            }, 0);
+            cartTotal.textContent = total.toFixed(2) + ' BYN';
+        });
+    </script>
 </body>
 
 </html>
