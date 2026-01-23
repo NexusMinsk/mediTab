@@ -1083,6 +1083,14 @@
         padding: 12px 16px;
         font-size: 0.9rem;
     }
+    
+    /* На мобильных без анимаций */
+    .add-to-cart-btn,
+    .product-overlay a.btn-secondary {
+        opacity: 1;
+        transform: translateY(0);
+        animation: none;
+    }
 }
 
         /* ===== КНОПКИ УПРАВЛЕНИЯ КАТЕГОРИЯМИ ===== */
@@ -1599,21 +1607,6 @@
                 font-weight: 700;
             }
 
-            /* Кнопка ОПТ в навигации на мобильных */
-            .nav-links li:last-child {
-                margin-top: 20px;
-                border-left: none;
-                padding-left: 0;
-            }
-
-            .nav-links li:last-child a {
-                background: rgba(207, 121, 17, 0.15);
-                border-radius: 8px;
-                padding: 12px 15px;
-                text-align: center;
-                border: 1px solid rgba(207, 121, 17, 0.3);
-            }
-
             /* Компактный каталог */
             .catalog-section {
                 padding: 120px 0 40px;
@@ -1631,17 +1624,15 @@
             .purchase-type-buttons {
                 top: 100px;
                 margin-bottom: 30px;
-                padding: 15px;
+                padding: 2px;
                 align-items: center;
-                border-radius: var(--radius);
-                flex-direction: column;
-                gap: 10px;
+                border-radius: 20px;
+                font-weight: 200;
             }
 
             .purchase-type-btn {
                 width: 100%;
                 max-width: 250px;
-                margin: 0 auto;
             }
 
             /* Категории */
@@ -1695,111 +1686,53 @@
                 width: 90%;
             }
 
-            /* ===== ИСПРАВЛЕННАЯ КОРЗИНА НА МОБИЛЬНЫХ ===== */
-            .cart-backdrop {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(24, 34, 49, 0.95);
-                backdrop-filter: blur(15px);
-                z-index: 1999;
-                opacity: 0;
-                transition: opacity 0.4s ease;
-            }
-
-            .cart-backdrop.active {
-                display: block;
-                opacity: 1;
-            }
-
+            /* Корзина - фон при открытии */
             .cart-dropdown {
                 position: fixed;
                 top: 0;
-                right: -100%;
+                right: 0;
                 width: 100%;
                 height: 100%;
                 max-width: none;
                 margin-top: 0;
                 border-radius: 0;
                 padding: 80px 20px 20px;
-                transform: none;
-                background: white;
-                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                z-index: 2000;
-                display: flex;
-                flex-direction: column;
-                opacity: 1;
-                visibility: visible;
+                transform: translateX(100%);
+                background: var(--white);
             }
 
             .cart-dropdown.active {
-                right: 0;
-                transform: none;
+                transform: translateX(0);
             }
 
             .cart-dropdown::before {
                 display: none;
             }
 
-            .cart-header {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                background: white;
-                padding: 20px;
-                border-bottom: 1px solid var(--border-gray);
-                z-index: 2001;
-                margin: 0;
-            }
-
             .cart-close {
                 position: absolute;
-                top: 15px;
-                right: 15px;
-                width: 40px;
-                height: 40px;
-                background: var(--gradient-orange);
-                color: white;
-                border: none;
-                border-radius: 50%;
-                font-size: 1.2rem;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(207, 121, 17, 0.3);
-                transition: var(--transition);
+                top: 20px;
+                right: 20px;
             }
 
-            .cart-close:hover {
-                transform: rotate(90deg) scale(1.1);
-                background: var(--bg-dark);
-            }
+.cart-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(24, 34, 49, 0.95);
+    backdrop-filter: blur(15px);
+    z-index: 1999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-            .cart-items {
-                flex: 1;
-                margin-top: 60px;
-                padding: 0;
-                max-height: calc(100vh - 160px);
-                overflow-y: auto;
-            }
-
-            .cart-footer {
-                position: sticky;
-                bottom: 0;
-                background: white;
-                padding: 20px 0;
-                border-top: 1px solid var(--border-gray);
-            }
-
-            .cart-empty {
-                padding: 40px 20px;
-                text-align: center;
-            }
+.cart-backdrop.active {
+    display: block;
+    opacity: 1;
+}
 
             /* Кнопки управления */
             .categories-control {
@@ -1909,6 +1842,25 @@
                 padding: 0 15px;
             }
         }
+
+        @media (max-width: 768px) {
+    .cart-dropdown {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        margin-top: 0;
+        border-radius: 0;
+        padding-top: 80px; /* Отступ для шапки */
+        transform: translateX(100%);
+        background: white;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+    }
 
         @media (max-width: 480px) {
             .page-header h1 {
@@ -2062,7 +2014,7 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <div class="cart-items" id="cartItems">
+                        <div class="cart-items" id="cartItems" style="padding: 80px 20px 20px; margin-top: 0;">
                             <!-- Товары будут добавляться динамически -->
                             <div class="cart-empty">
                                 <i class="fas fa-shopping-cart"></i>
@@ -2070,7 +2022,7 @@
                                 <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из каталога</p>
                             </div>
                         </div>
-                        <div class="cart-footer" id="cartFooter" style="display: none;">
+                        <div class="cart-footer" id="cartFooter" style="display: none; padding: 20px; border-top: 1px solid var(--border-gray);">
                             <div class="cart-total">
                                 <span>Итого:</span>
                                 <span class="cart-total-price" id="cartTotalPrice">0 BYN</span>
@@ -2094,16 +2046,6 @@
                 <h1 class="qwe" style="font-size: 3.2rem;">НОВОГО ПОКОЛЕНИЯ</h1>
                 <p class="page-subtitle">9 категорий • 120+ медицинских товаров от проверенных производителей. Все
                     товары сертифицированы и соответствуют стандартам качества.</p>
-            </div>
-
-            <!-- Кнопки опт/розница -->
-            <div class="purchase-type-buttons">
-                <button class="purchase-type-btn active" data-type="retail">
-                    <i class="fas fa-store"></i> Розница
-                </button>
-                <button class="purchase-type-btn" data-type="wholesale">
-                    <i class="fas fa-boxes"></i> Опт (от 10 шт)
-                </button>
             </div>
 
             <!-- Категория 1: Медицинская одежда -->
@@ -2713,24 +2655,44 @@ function createProductCard(product) {
 
 // ===== НАСТРОЙКА КАРТОЧЕК ТОВАРОВ =====
 function setupProductCards() {
-    // Для мобильных - обработка кликов для показа оверлея
+    // Для мобильных - обработка тапов для показа оверлея
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.product-card').forEach(card => {
             let tapTimer;
+            let isTapped = false;
             
             card.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.btn') || e.target.closest('.btn-secondary')) {
+                    return;
+                }
+                
                 tapTimer = setTimeout(() => {
                     this.classList.add('mobile-actions-visible');
+                    isTapped = true;
                 }, 300);
             });
             
             card.addEventListener('touchend', function(e) {
                 clearTimeout(tapTimer);
+                
+                if (!isTapped && !e.target.closest('.btn') && !e.target.closest('.btn-secondary')) {
+                    this.classList.remove('mobile-actions-visible');
+                }
+                
+                isTapped = false;
             });
             
+            card.addEventListener('touchmove', function() {
+                clearTimeout(tapTimer);
+                isTapped = false;
+            });
+            
+            // Закрытие оверлея при клике вне кнопок
             card.addEventListener('click', function(e) {
                 if (!e.target.closest('.btn') && !e.target.closest('.btn-secondary')) {
-                    this.classList.toggle('mobile-actions-visible');
+                    if (this.classList.contains('mobile-actions-visible')) {
+                        this.classList.remove('mobile-actions-visible');
+                    }
                 }
             });
         });
