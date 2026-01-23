@@ -1427,6 +1427,104 @@
             transform: rotate(90deg);
         }
 
+        /* ===== HOW TO ORDER SECTION (из второго кода) ===== */
+        .how-to-order {
+            padding: 100px 0;
+            background: var(--white);
+            position: relative;
+        }
+
+        .how-to-order::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+        }
+
+        .steps-container {
+            position: relative;
+        }
+
+        /* Десктопная версия (grid) */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        /* Мобильная версия (swiper) - изначально скрыта */
+        .steps-swiper {
+            display: none;
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px 30px 30px 30px; /* Увеличил верхний padding */
+            text-align: center;
+            border: 2px solid var(--border-gray);
+            position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            margin-top: 25px; /* Добавил отступ сверху для цифры */
+        }
+
+        .step-card:hover {
+            border-color: var(--accent-orange);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -35px; /* Поднял выше */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; /* Увеличил размер */
+            height: 60px; /* Увеличил размер */
+            background: var(--gradient-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem; /* Увеличил шрифт */
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 4px solid white;
+            z-index: 2; /* Чтобы была поверх рамки */
+        }
+
+        .step-card:hover .step-number {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(207, 121, 17, 0.4);
+        }
+
+        .step-icon {
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            color: var(--accent-orange);
+            display: block;
+            transition: var(--transition);
+        }
+
+        .step-card:hover .step-icon {
+            transform: scale(1.1);
+            color: var(--accent-orange-light);
+        }
+
+        /* Правка №4: Убрали коннекторы между шагами */
+        .step-connector {
+            display: none;
+        }
+
         /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
         @media (max-width: 1400px) {
             .products-grid {
@@ -1441,6 +1539,11 @@
 
             .purchase-type-buttons {
                 justify-content: center;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
             }
         }
 
@@ -1658,6 +1761,47 @@
                 margin-top: 30px;
             }
 
+            /* Компактные шаги заказа */
+            .how-to-order {
+                padding: 60px 0;
+            }
+            
+            .how-to-order h2 {
+                font-size: 1.8rem;
+            }
+            
+            .steps-grid {
+                display: none;
+            }
+            
+            .steps-swiper {
+                display: block;
+                margin-top: 40px;
+                padding-top: 20px; /* Добавил отступ сверху для свайпера */
+            }
+            
+            .step-card {
+                padding: 30px 22px 22px 22px; /* Увеличил верхний padding */
+                margin-top: 25px; /* Увеличил отступ сверху для цифры */
+            }
+            
+            .step-number {
+                width: 50px; /* Увеличил для мобилки */
+                height: 50px; /* Увеличил для мобилки */
+                font-size: 1.5rem; /* Увеличил шрифт */
+                top: -25px; /* Поднял выше */
+            }
+            
+            .step-icon {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+            
+            .step-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+
             /* Футер */
             footer {
                 padding: 60px 0 25px;
@@ -1739,6 +1883,41 @@
             .product-card {
                 max-width: 300px;
                 aspect-ratio: 3/3.6;
+            }
+
+            .catalog-hero h1,
+            .popular-categories h2,
+            .how-to-order h2,
+            .catalog-cta h2 {
+                font-size: 1.6rem;
+            }
+            
+            .step-card {
+                padding: 30px 22px;
+            }
+            
+            .step-icon {
+                font-size: 2.2rem;
+            }
+            
+            .step-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.95rem !important;
+            }
+            
+            h2::after {
+                bottom: -8px;
+                width: 60px;
+                height: 3px;
+            }
+            
+            .purchase-type-btn {
+                padding: 14px 22px;
+                font-size: 0.95rem;
+                min-width: 180px;
             }
         }
 
@@ -2018,13 +2197,14 @@
         </div>
     </main>
 
-    <!-- ===== HOW TO ORDER ===== -->
-    <section id="how-to" class="how-to-order section-spacing">
+    <!-- ===== HOW TO ORDER (добавлено из второго кода) ===== -->
+    <section id="how-to" class="how-to-order">
         <div class="container">
-            <h2 style="font-size: 3rem;">Как сделать заказ</h2>
+            <h2>Как сделать заказ</h2>
             <p class="section-subtitle">Простой процесс заказа товаров из нашего каталога</p>
-
+            
             <div class="steps-container">
+                <!-- Десктопная версия (grid) - Правка №4: только 3 шага -->
                 <div class="steps-grid">
                     <div class="step-card">
                         <div class="step-number">1</div>
@@ -2034,7 +2214,7 @@
                         <h3>Выберите товар</h3>
                         <p>Подберите нужные товары из выбранной категории</p>
                     </div>
-
+                    
                     <div class="step-card">
                         <div class="step-number">2</div>
                         <div class="step-icon">
@@ -2043,14 +2223,14 @@
                         <h3>Оставьте заявку</h3>
                         <p>Заполните форму заявки или позвоните нам напрямую</p>
                     </div>
-
+                    
                     <div class="step-card">
                         <div class="step-number">3</div>
                         <div class="step-icon">
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <h3>Получите заказ</h3>
-                        <p>Белпочта/Самовывоз</p>
+                        <p>Мы доставим товар в любую точку Беларуси</p>
                     </div>
                 </div>
             </div>
