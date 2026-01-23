@@ -917,72 +917,106 @@
             display: none;
         }
 
-        /* ===== HOVER КНОПКИ НА КАРТОЧКАХ С ТЕМНЫМ ОВЕРЛЕЕМ ===== */
-        .product-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, 
-                rgba(0, 0, 0, 0) 0%,
-                rgba(0, 0, 0, 0.3) 50%,
-                rgba(0, 0, 0, 0.85) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 12px;
-            padding: 25px 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 3;
-        }
+/* ===== КНОПКИ НА КАРТОЧКАХ ===== */
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 3;
+}
 
-        .product-card:hover .product-overlay {
-            opacity: 1;
-            visibility: visible;
-        }
+.product-card:hover .product-overlay {
+    opacity: 1;
+    visibility: visible;
+}
 
-        .product-card.mobile-actions-visible .product-overlay {
-            opacity: 1;
-            visibility: visible;
-        }
+.product-card.mobile-actions-visible .product-overlay {
+    opacity: 1;
+    visibility: visible;
+}
 
-        .product-overlay .btn,
-        .product-overlay .btn-secondary {
-            width: 90%;
-            padding: 14px 20px;
-            font-size: 0.95rem;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+/* Кнопка в корзину */
+.add-to-cart-btn {
+    width: 100%;
+    padding: 14px;
+    background: #cf7911;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
-        .product-overlay .btn {
-            background: var(--gradient-orange);
-            border: 2px solid transparent;
-        }
+.add-to-cart-btn:hover {
+    background: #b8690f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(207, 121, 17, 0.3);
+}
 
-        .product-overlay .btn:hover {
-            background: var(--white);
-            color: var(--accent-orange);
-            border-color: var(--accent-orange);
-            transform: translateY(-2px);
-        }
+/* Кнопка подробнее */
+.product-overlay a.btn-secondary {
+    width: 100%;
+    padding: 14px;
+    background: white;
+    border: 2px solid #cf7911;
+    border-radius: 8px;
+    color: #cf7911;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
-        .product-overlay .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-        }
+.product-overlay a.btn-secondary:hover {
+    background: #cf7911;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(207, 121, 17, 0.2);
+}
 
-        .product-overlay .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: white;
-            transform: translateY(-2px);
-        }
+/* На мобильных убираем плавные анимации */
+@media (max-width: 768px) {
+    .product-overlay {
+        opacity: 0;
+        visibility: hidden;
+        background: rgba(0, 0, 0, 0.85);
+    }
+    
+    .product-card.mobile-actions-visible .product-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .add-to-cart-btn,
+    .product-overlay a.btn-secondary {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
 
         /* ===== КНОПКИ УПРАВЛЕНИЯ КАТЕГОРИЯМИ ===== */
         .categories-control {
