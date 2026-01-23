@@ -1715,8 +1715,7 @@
                 right: 20px;
             }
 
-            /* Фон для корзины на мобильных - АДЕКВАТНЫЙ */
-            .cart-backdrop {
+.cart-backdrop {
     display: none;
     position: fixed;
     top: 0;
@@ -1727,13 +1726,13 @@
     backdrop-filter: blur(15px);
     z-index: 1999;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
-            .cart-backdrop.active {
-                display: block;
-                opacity: 1;
-            }
+.cart-backdrop.active {
+    display: block;
+    opacity: 1;
+}
 
             /* Кнопки управления */
             .categories-control {
@@ -2015,7 +2014,7 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <div class="cart-items" id="cartItems">
+                        <div class="cart-items" id="cartItems" style="padding: 80px 20px 20px; margin-top: 0;">
                             <!-- Товары будут добавляться динамически -->
                             <div class="cart-empty">
                                 <i class="fas fa-shopping-cart"></i>
@@ -2023,7 +2022,7 @@
                                 <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из каталога</p>
                             </div>
                         </div>
-                        <div class="cart-footer" id="cartFooter" style="display: none;">
+                        <div class="cart-footer" id="cartFooter" style="display: none; padding: 20px; border-top: 1px solid var(--border-gray);">
                             <div class="cart-total">
                                 <span>Итого:</span>
                                 <span class="cart-total-price" id="cartTotalPrice">0 BYN</span>
