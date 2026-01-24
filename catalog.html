@@ -2766,7 +2766,8 @@ function setupProductCards() {
             const card = this.closest('.product-card');
             const productId = card.getAttribute('data-product-id');
             const title = card.querySelector('h3').textContent;
-            const price = card.getAttribute('data-price');
+            const priceElement = card.querySelector('.current-price.price-retail');
+            const price = priceElement ? priceElement.textContent.trim() : '0';
             const image = card.querySelector('img').src;
             
             addToCart(productId, title, price, image);
