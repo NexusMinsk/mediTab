@@ -1525,7 +1525,75 @@
             display: none;
         }
 
-        /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
+        /* ===== МОБИЛЬНАЯ ВЕРСИЯ КОРЗИНЫ ===== */
+        @media (max-width: 768px) {
+            .cart-dropdown {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                margin-top: 0;
+                border-radius: 0;
+                padding: 0;
+                transform: translateX(100%);
+                background: white;
+                z-index: 2000;
+                display: flex;
+                flex-direction: column;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .cart-dropdown.active {
+                transform: translateX(0);
+            }
+            
+            .cart-dropdown::before {
+                display: none;
+            }
+            
+            .cart-header {
+                position: sticky;
+                top: 0;
+                background: white;
+                padding: 20px;
+                margin: 0;
+                border-bottom: 1px solid var(--border-gray);
+                z-index: 2;
+                flex-shrink: 0;
+            }
+            
+            .cart-items {
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px;
+                margin: 0;
+                max-height: none;
+            }
+            
+            .cart-footer {
+                position: sticky;
+                bottom: 0;
+                background: white;
+                padding: 20px;
+                margin: 0;
+                border-top: 1px solid var(--border-gray);
+                z-index: 2;
+                flex-shrink: 0;
+            }
+            
+            .cart-empty {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                padding: 40px 20px;
+            }
+        }
+
+        /* ===== ОСТАЛЬНЫЕ МЕДИАЗАПРОСЫ ===== */
         @media (max-width: 1400px) {
             .products-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -1686,54 +1754,6 @@
                 width: 90%;
             }
 
-            /* Корзина - фон при открытии */
-            .cart-dropdown {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 100%;
-                height: 100%;
-                max-width: none;
-                margin-top: 0;
-                border-radius: 0;
-                padding: 80px 20px 20px;
-                transform: translateX(100%);
-                background: var(--white);
-            }
-
-            .cart-dropdown.active {
-                transform: translateX(0);
-            }
-
-            .cart-dropdown::before {
-                display: none;
-            }
-
-            .cart-close {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-            }
-
-.cart-backdrop {
-    display: none;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgb(253, 254, 254);
-    backdrop-filter: blur(15px);
-    z-index: 1999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.cart-backdrop.active {
-    display: block;
-    opacity: 1;
-}
-
             /* Кнопки управления */
             .categories-control {
                 flex-direction: column;
@@ -1843,25 +1863,6 @@
             }
         }
 
-        @media (max-width: 768px) {
-    .cart-dropdown {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        margin-top: 0;
-        border-radius: 0;
-        padding-top: 80px; /* Отступ для шапки */
-        transform: translateX(100%);
-        background: white;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 2000;
-        display: flex;
-        flex-direction: column;
-    }
-
         @media (max-width: 480px) {
             .page-header h1 {
                 font-size: 2.1rem;
@@ -1966,9 +1967,6 @@
 </head>
 
 <body>
-    <!-- Фон для корзины на мобильных -->
-    <div class="cart-backdrop" id="cartBackdrop"></div>
-
     <!-- ===== КНОПКА НАВЕРХ ===== -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Вернуться наверх">
         <i class="fas fa-chevron-up"></i>
@@ -2014,7 +2012,7 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <div class="cart-items" id="cartItems" style="padding: 80px 20px 20px; margin-top: 0;">
+                        <div class="cart-items" id="cartItems">
                             <!-- Товары будут добавляться динамически -->
                             <div class="cart-empty">
                                 <i class="fas fa-shopping-cart"></i>
@@ -2022,7 +2020,7 @@
                                 <p style="font-size: 0.9rem; margin-top: 10px;">Добавьте товары из каталога</p>
                             </div>
                         </div>
-                        <div class="cart-footer" id="cartFooter" style="display: none; padding: 20px; border-top: 1px solid var(--border-gray);">
+                        <div class="cart-footer" id="cartFooter" style="display: none;">
                             <div class="cart-total">
                                 <span>Итого:</span>
                                 <span class="cart-total-price" id="cartTotalPrice">0 BYN</span>
@@ -2505,9 +2503,8 @@ function openCart() {
     isCartOpen = true;
     document.getElementById('cartDropdown').classList.add('active');
     
-    // На мобильных добавляем фон
+    // На мобильных блокируем скролл body
     if (window.innerWidth <= 768) {
-        document.getElementById('cartBackdrop').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 }
@@ -2516,9 +2513,8 @@ function closeCart() {
     isCartOpen = false;
     document.getElementById('cartDropdown').classList.remove('active');
     
-    // На мобильных убираем фон
+    // На мобильных разблокируем скролл body
     if (window.innerWidth <= 768) {
-        document.getElementById('cartBackdrop').classList.remove('active');
         document.body.style.overflow = '';
     }
 }
@@ -2530,7 +2526,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const cartBtn = document.getElementById('cartBtn');
     const cartClose = document.getElementById('cartClose');
-    const cartBackdrop = document.getElementById('cartBackdrop');
     const checkoutBtn = document.getElementById('checkoutBtn');
     
     // Открытие корзины
@@ -2549,11 +2544,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeCart();
     });
     
-    // Закрытие по клику на фон (только на мобильных)
-    cartBackdrop.addEventListener('click', function() {
-        closeCart();
-    });
-    
     // Оформление заказа
     checkoutBtn.addEventListener('click', function() {
         if (cart.length === 0) return;
@@ -2563,6 +2553,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Закрытие корзины при клике вне её (только на десктопе)
     if (window.innerWidth > 768) {
+        document.addEventListener('click', function(e) {
+            if (isCartOpen && 
+                !document.getElementById('cartDropdown').contains(e.target) && 
+                !cartBtn.contains(e.target)) {
+                closeCart();
+            }
+        });
+    }
+    
+    // Закрытие корзины при клике на backdrop (только на мобильных)
+    if (window.innerWidth <= 768) {
         document.addEventListener('click', function(e) {
             if (isCartOpen && 
                 !document.getElementById('cartDropdown').contains(e.target) && 
