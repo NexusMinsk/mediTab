@@ -215,10 +215,36 @@
             gap: 30px;
         }
 
-        /* Для мобильных (меньше 768px) */
-@media (max-width: 768px) {
-    .header-container .nav-item:nth-child(2) { order: 3; }
-    .header-container .nav-item:nth-child(3) { order: 2; }
+        @media (max-width: 768px) {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Делаем так: Лого | Корзина | Бургер */
+    .mobile-menu-btn {
+        order: 3;
+    }
+    
+    .cart-container {
+        order: 2;
+    }
+    
+    .logo {
+        order: 1;
+    }
+    
+    nav {
+        display: contents; /* позволяет элементам внутри участвовать в flex-порядке */
+    }
+    
+    .nav-links {
+        position: fixed; /* меню остаётся поверх */
+        top: 0;
+        right: -100%;
+        /* остальные стили остаются */
+    }
 }
 
         .logo {
