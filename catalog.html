@@ -1494,6 +1494,7 @@
 
         .steps-container {
             position: relative;
+            overflow: hidden;
         }
 
         /* Десктопная версия (grid) */
@@ -1525,7 +1526,7 @@
         .step-card:hover {
             border-color: var(--accent-orange);
             box-shadow: var(--shadow-hover);
-            transform: translateY(-5px);
+           
         }
 
         .step-number {
@@ -1646,6 +1647,119 @@
                 z-index: 2;
                 flex-shrink: 0;
             }
+
+
+            .delivery-car {
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    bottom: 0; /* Позиционируем на нижней границе карточек */
+    left: -100px; /* Начинаем слева за пределами видимости */
+    z-index: 10;
+    transition: left 0.3s linear; /* Для плавного движения */
+    pointer-events: none; /* Чтобы не мешала кликам */
+}
+
+/* Кузов машинки */
+.car-body {
+    position: absolute;
+    width: 60px;
+    height: 20px;
+    background: linear-gradient(135deg, #2a5c9a, #3a7cca);
+    border-radius: 8px 8px 0 0;
+    bottom: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Кабина */
+.car-cabin {
+    position: absolute;
+    width: 25px;
+    height: 18px;
+    background: linear-gradient(135deg, #1e4a7f, #2a5c9a);
+    border-radius: 6px 8px 0 0;
+    bottom: 20px;
+    left: 35px;
+}
+
+/* Окно */
+.car-window {
+    position: absolute;
+    width: 15px;
+    height: 8px;
+    background: #a8d0f5;
+    border-radius: 3px;
+    bottom: 5px;
+    left: 5px;
+}
+
+/* Колеса */
+.car-wheel {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #182231;
+    border-radius: 50%;
+    bottom: -6px;
+    border: 2px solid #666;
+}
+
+.car-wheel.front {
+    left: 45px;
+}
+
+.car-wheel.back {
+    left: 8px;
+}
+
+/* Обод колеса */
+.car-wheel::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #ccc;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Фары */
+.car-light {
+    position: absolute;
+    width: 5px;
+    height: 3px;
+    background: #ff9d3d;
+    border-radius: 2px;
+    bottom: 5px;
+}
+
+.car-light.front {
+    right: 5px;
+}
+
+.car-light.back {
+    left: 5px;
+    background: #ef4444;
+}
+
+/* Анимация вращения колес */
+@keyframes wheelRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.car-wheel {
+    animation: wheelRotate 0.5s linear infinite;
+}
+
+/* Медиа-запрос для мобильных - скрываем машинку на маленьких экранах */
+@media (max-width: 768px) {
+    .delivery-car {
+        display: none;
+    }
+}
             
             .cart-empty {
                 display: flex;
@@ -3190,6 +3304,128 @@ window.addEventListener('resize', function() {
 
             console.log('Каталог Meditab загружен!');
         });
+
+        function initDeliveryCar() {
+    // Создаем машинку
+    const carHTML = `
+        <div class="delivery-car" id="deliveryCar">
+            <div class="car-body">
+                <div class="car-cabin">
+                    <div class="car-window"></div>
+                </div>
+                <div class="car-wheel front"></div>
+                <div class="car-wheel back"></div>
+                <div class="car-light front"></div>
+                <div class="car-light back"></div>
+            </div>
+        </div>
+    `;
+    
+    // Вставляем машинку в контейнер шагов
+    const stepsContainer = document.querySelector('.steps-container');
+    if (stepsContainer) {
+        stepsContainer.insertAdjacentHTML('beforeend', carHTML);
+        
+        // Запускаем анимацию после небольшой задержки, чтобы все загрузилось
+        setTimeout(startCarAnimation, 500);
+    }
+}
+
+function startCarAnimation() {
+    const car = document.getElementById('deliveryCar');
+    if (!car) return;
+    
+    const stepsContainer = document.querySelector('.steps-container');
+    const stepCards = document.querySelectorAll('.step-card');
+    
+    if (stepCards.length < 3) return;
+    
+    // Получаем позиции карточек
+    const containerRect = stepsContainer.getBoundingClientRect();
+    const stepRects = Array.from(stepCards).map(card => card.getBoundingClientRect());
+    
+    // Рассчитываем позиции относительно контейнера
+    const startPos = -100; // Начинаем слева за пределами
+    const card1Pos = stepRects[0].left - containerRect.left;
+    const card1Width = stepRects[0].width;
+    const card2Pos = stepRects[1].left - containerRect.left;
+    const card2Width = stepRects[1].width;
+    const card3Pos = stepRects[2].left - containerRect.left;
+    const card3Width = stepRects[2].width;
+    const endPos = containerRect.width + 100; // Заканчиваем справа за пределами
+    
+    // Время анимации (в мс)
+    const totalDuration = 8000;
+    const segmentDuration = totalDuration / 4;
+    
+    // Функция для запуска одной итерации анимации
+    function runCarAnimation(iteration = 0) {
+        // Сброс позиции
+        car.style.left = startPos + 'px';
+        car.style.transition = 'none';
+        
+        // Даем время на отрисовку
+        setTimeout(() => {
+            // Анимация движения через 1-ю карточку
+            setTimeout(() => {
+                car.style.transition = `left ${segmentDuration}ms linear`;
+                car.style.left = (card1Pos + card1Width/2 - 30) + 'px';
+            }, 50);
+            
+            // Анимация движения через 2-ю карточку
+            setTimeout(() => {
+                car.style.transition = `left ${segmentDuration}ms linear`;
+                car.style.left = (card2Pos + card2Width/2 - 30) + 'px';
+            }, segmentDuration + 50);
+            
+            // Анимация движения через 3-ю карточку
+            setTimeout(() => {
+                car.style.transition = `left ${segmentDuration}ms linear`;
+                car.style.left = (card3Pos + card3Width/2 - 30) + 'px';
+            }, segmentDuration * 2 + 50);
+            
+            // Анимация движения за пределы
+            setTimeout(() => {
+                car.style.transition = `left ${segmentDuration}ms linear`;
+                car.style.left = endPos + 'px';
+            }, segmentDuration * 3 + 50);
+            
+            // Запускаем следующую итерацию
+            setTimeout(() => {
+                runCarAnimation(iteration + 1);
+            }, totalDuration + 100);
+            
+        }, 50);
+    }
+    
+    // Запускаем анимацию
+    runCarAnimation();
+}
+
+// Инициализируем машинку при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initDeliveryCar();
+    
+    // Также инициализируем при ресайзе (перезапускаем анимацию)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const car = document.getElementById('deliveryCar');
+            if (car) car.remove();
+            initDeliveryCar();
+        }, 500);
+    });
+});
+
+// Убираем transform: scale из ховера карточек (добавляем в стили)
+const style = document.createElement('style');
+style.textContent = `
+    .step-card:hover {
+        transform: translateY(-5px) !important;
+    }
+`;
+document.head.appendChild(style);
     </script>
 </body>
 </html>
