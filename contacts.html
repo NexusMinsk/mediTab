@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Контакты | Meditab - Медицинское оборудование и расходники</title>
+    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poiret+One&family=Prata&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+    
     <style>
-        /* ===== CSS RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ===== CSS RESET & VARIABLES ===== */
         :root {
             --white: #ffffff;
             --bg-dark: #182231;
@@ -36,6 +33,19 @@
             --gradient-blue: linear-gradient(135deg, var(--accent-blue), #e8f0f5);
             --gradient-dark: linear-gradient(135deg, var(--bg-dark), #2c3e50);
             --gradient-medical: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f0f7ff 100%);
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -44,29 +54,41 @@
             background: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
             font-weight: 400;
-            animation: blogEntrance 1.3s ease-out;
+            position: relative;
         }
 
-        @keyframes blogEntrance {
-    0% {
-        opacity: 0;
-        transform: translateY(15px) scale(0.99);
-    }
-    
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(207, 121, 17, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(205, 220, 228, 0.03) 0%, transparent 20%);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-/* Применение с медитаб-стилем */
-.animated-element {
-    animation: blogEntrance 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
+        /* ===== SMOOTH PAGE ENTRANCE ANIMATION ===== */
+        @keyframes pageEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.995);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-        /* ===== TYPOGRAPHY ===== */
+        body {
+            animation: pageEntrance 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        /* ===== TYPOGRAPHY ENHANCEMENTS ===== */
         h1, h2, h3, h4 {
             font-family: 'Prata', serif;
             font-weight: 400;
@@ -78,7 +100,30 @@
             line-height: 1.1;
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-orange);
+            border-radius: 2px;
+            animation: expandLine 1s ease 0.8s forwards;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        @keyframes expandLine {
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
         }
 
         h2 {
@@ -97,7 +142,7 @@
             height: 4px;
             background: var(--gradient-orange);
             border-radius: 2px;
-            transition: width 0.5s ease;
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         h2:hover::after {
@@ -126,7 +171,19 @@
             margin: 0 auto 3rem;
             text-align: center;
             line-height: 1.7;
-            opacity: 0.9;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
         }
 
         .highlight-text {
@@ -135,6 +192,26 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-orange);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .highlight-text:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         /* ===== UTILITY CLASSES ===== */
@@ -147,8 +224,10 @@
 
         .section-spacing {
             padding: 80px 0;
+            position: relative;
         }
 
+        /* ===== BUTTON ENHANCEMENTS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -169,6 +248,8 @@
             overflow: hidden;
             z-index: 1;
             box-shadow: 0 6px 20px rgba(207, 121, 17, 0.3);
+            transform: translateY(0);
+            will-change: transform;
         }
 
         .btn::before {
@@ -179,9 +260,28 @@
             width: 0;
             height: 100%;
             background: var(--bg-dark);
-            transition: width 0.4s ease;
+            transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             z-index: -1;
             border-radius: var(--radius);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(207, 121, 17, 0.3);
         }
 
         .btn:hover::before {
@@ -190,7 +290,12 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 12px 30px rgba(207, 121, 17, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+            transition: transform 0.1s ease;
         }
 
         .btn-secondary {
@@ -215,14 +320,17 @@
             color: var(--bg-dark);
             padding: 12px 30px;
             font-size: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.6s ease 0.8s forwards;
         }
 
-        .btn-back:hover {
-            background: var(--bg-dark);
-            color: var(--white);
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
-        /* ===== ОСНОВНОЙ HEADER ===== */
+        /* ===== HEADER ENHANCEMENTS ===== */
         header {
             position: fixed;
             top: 0;
@@ -233,8 +341,16 @@
             transition: var(--transition);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-gray);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(217, 217, 217, 0.3);
             box-shadow: var(--shadow);
+            transform: translateY(0);
+            will-change: transform;
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 8px 30px rgba(24, 34, 49, 0.1);
         }
 
         .header-container {
@@ -254,12 +370,24 @@
             gap: 10px;
             transition: var(--transition);
             position: relative;
+            overflow: hidden;
         }
 
         .logo::before {
             content: "⚕";
             font-size: 2.2rem;
-            transition: var(--transition);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-orange);
+            transition: left 0.4s ease;
         }
 
         .logo:hover {
@@ -268,6 +396,10 @@
 
         .logo:hover::before {
             transform: rotate(15deg) scale(1.2);
+        }
+
+        .logo:hover::after {
+            left: 0;
         }
 
         nav {
@@ -301,7 +433,7 @@
             width: 0;
             height: 3px;
             background: var(--gradient-orange);
-            transition: width 0.4s ease;
+            transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             border-radius: 2px;
         }
 
@@ -321,7 +453,7 @@
             width: 100%;
         }
 
-        /* ===== MOBILE MENU ===== */
+        /* ===== MOBILE MENU ENHANCEMENTS ===== */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -333,6 +465,7 @@
             position: relative;
             border-radius: 8px;
             transition: var(--transition);
+            padding: 10px;
         }
 
         .mobile-menu-btn:hover {
@@ -347,6 +480,7 @@
             margin: 5px auto;
             transition: var(--transition);
             border-radius: 3px;
+            transform-origin: center;
         }
 
         .mobile-menu-btn.active span:nth-child(1) {
@@ -364,7 +498,7 @@
             background: var(--accent-orange);
         }
 
-        /* ===== HERO SECTION ДЛЯ КОНТАКТОВ ===== */
+        /* ===== HERO SECTION ENHANCEMENTS ===== */
         .contacts-hero {
             padding: 230px 0 80px;
             background: var(--gradient-medical);
@@ -380,9 +514,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%23cf7911" opacity="0.03"/></svg>');
-            background-size: cover;
+            background: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%23cf7911" opacity="0.03"/></svg>'),
+                linear-gradient(45deg, transparent 65%, rgba(207, 121, 17, 0.03) 65%, rgba(207, 121, 17, 0.03) 70%, transparent 70%),
+                linear-gradient(-45deg, transparent 65%, rgba(207, 121, 17, 0.03) 65%, rgba(207, 121, 17, 0.03) 70%, transparent 70%);
+            background-size: cover, 60px 60px, 60px 60px;
             z-index: 0;
+            animation: subtleShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtleShift {
+            0% {
+                background-position: 0 0, 0 0, 0 0;
+            }
+            100% {
+                background-position: 0 0, 30px 30px, 30px 30px;
+            }
         }
 
         .contacts-hero-content {
@@ -392,7 +539,23 @@
             margin: 0 auto;
         }
 
-        /* ===== КОНТАКТНАЯ ИНФОРМАЦИЯ ===== */
+        .contacts-hero h1 {
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.2s forwards;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== CONTACT CARDS ENHANCEMENTS ===== */
         .contact-info-section {
             padding: 80px 0;
             background: var(--white);
@@ -420,6 +583,20 @@
             align-items: center;
             height: 100%;
             min-height: 280px;
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: transform, opacity;
+        }
+
+        .contact-card.visible {
+            animation: cardAppear 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .contact-card::before {
@@ -432,7 +609,7 @@
             background: var(--gradient-orange);
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .contact-card:hover::before {
@@ -478,6 +655,7 @@
         .contact-card:hover .contact-icon {
             border-color: var(--accent-orange);
             color: white;
+            transform: scale(1.1) rotate(5deg);
         }
 
         .contact-card:hover .contact-icon::after {
@@ -487,18 +665,11 @@
         .contact-icon i {
             position: relative;
             z-index: 2;
+            transition: transform 0.3s ease;
         }
 
-        .contact-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-        }
-
-        .contact-card p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: var(--text-gray);
+        .contact-card:hover .contact-icon i {
+            transform: scale(1.1);
         }
 
         .contact-link {
@@ -522,7 +693,7 @@
             width: 0;
             height: 2px;
             background: var(--accent-orange);
-            transition: width 0.3s ease;
+            transition: width 0.3s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .contact-link:hover {
@@ -533,7 +704,7 @@
             width: 100%;
         }
 
-        /* ===== КАРТА И ФОРМА ===== */
+        /* ===== MAP & FORM ENHANCEMENTS ===== */
         .map-form-section {
             padding: 80px 0;
             background: var(--gradient-medical);
@@ -565,6 +736,20 @@
             min-height: 500px;
             position: relative;
             background: #f8fafc;
+            opacity: 0;
+            transform: translateX(-30px);
+            will-change: transform, opacity;
+        }
+
+        .map-container.visible {
+            animation: slideInLeft 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .map-placeholder {
@@ -579,6 +764,12 @@
             border: 2px dashed var(--border-gray);
             border-radius: var(--radius);
             text-align: center;
+            transition: var(--transition);
+        }
+
+        .map-container:hover .map-placeholder {
+            border-color: var(--accent-orange);
+            transform: scale(1.01);
         }
 
         .map-placeholder i {
@@ -586,16 +777,12 @@
             color: var(--accent-orange);
             margin-bottom: 20px;
             opacity: 0.7;
+            transition: var(--transition);
         }
 
-        .map-placeholder h3 {
-            color: var(--bg-dark);
-            margin-bottom: 15px;
-        }
-
-        .map-placeholder p {
-            color: var(--text-gray);
-            max-width: 400px;
+        .map-container:hover .map-placeholder i {
+            opacity: 1;
+            transform: translateY(-5px);
         }
 
         .contact-form-container {
@@ -605,11 +792,25 @@
             box-shadow: var(--shadow);
             border: 2px solid transparent;
             transition: var(--transition);
+            opacity: 0;
+            transform: translateX(30px);
+            will-change: transform, opacity;
+        }
+
+        .contact-form-container.visible {
+            animation: slideInRight 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .contact-form-container:hover {
             border-color: var(--accent-orange);
-            transform: translateY(-5px);
+            transform: translateY(-5px) translateX(0);
         }
 
         .contact-form {
@@ -622,6 +823,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
         }
 
         .form-group label {
@@ -629,6 +831,7 @@
             color: var(--bg-dark);
             font-weight: 600;
             font-size: 1rem;
+            transition: color 0.3s ease;
         }
 
         .form-group input,
@@ -643,6 +846,7 @@
             color: var(--bg-dark);
             font-family: 'Poiret One', cursive;
             width: 100%;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus,
@@ -651,11 +855,24 @@
             outline: none;
             border-color: var(--accent-orange);
             box-shadow: 0 0 0 3px rgba(207, 121, 17, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input:valid,
+        .form-group textarea:valid,
+        .form-group select:valid {
+            border-color: rgba(16, 185, 129, 0.3);
         }
 
         .form-group input::placeholder,
         .form-group textarea::placeholder {
             color: rgba(88, 100, 116, 0.6);
+            transition: color 0.3s ease;
+        }
+
+        .form-group input:focus::placeholder,
+        .form-group textarea:focus::placeholder {
+            color: rgba(88, 100, 116, 0.3);
         }
 
         .form-row {
@@ -664,7 +881,7 @@
             gap: 20px;
         }
 
-        /* ===== РАБОЧЕЕ ВРЕМЯ ===== */
+        /* ===== WORKING HOURS ENHANCEMENTS ===== */
         .working-hours-section {
             padding: 80px 0;
             background: var(--white);
@@ -687,6 +904,13 @@
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            will-change: transform, opacity;
+        }
+
+        .hours-card.visible {
+            animation: cardAppear 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
         }
 
         .hours-card:hover {
@@ -708,11 +932,6 @@
             color: var(--accent-orange-light);
         }
 
-        .hours-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-        }
-
         .hours-list {
             list-style: none;
             text-align: left;
@@ -725,6 +944,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: padding-left 0.3s ease;
+        }
+
+        .hours-list li:hover {
+            padding-left: 10px;
         }
 
         .hours-list li:last-child {
@@ -739,6 +963,11 @@
         .hours-list .time {
             color: var(--accent-orange);
             font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .hours-list li:hover .time {
+            transform: scale(1.1);
         }
 
         .hours-note {
@@ -749,14 +978,20 @@
             font-size: 0.95rem;
             color: var(--text-gray);
             border-left: 4px solid var(--accent-orange);
+            transition: transform 0.3s ease;
         }
 
-        /* ===== FOOTER ===== */
+        .hours-card:hover .hours-note {
+            transform: translateX(5px);
+        }
+
+        /* ===== FOOTER ENHANCEMENTS ===== */
         footer {
             background: var(--bg-dark);
             padding: 80px 0 30px;
             color: white;
             position: relative;
+            overflow: hidden;
         }
 
         footer::before {
@@ -767,6 +1002,16 @@
             width: 100%;
             height: 5px;
             background: var(--gradient-orange);
+            animation: shimmer 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -100px 0;
+            }
+            100% {
+                background-position: 100px 0;
+            }
         }
 
         .footer-content {
@@ -786,11 +1031,28 @@
             display: inline-block;
             text-decoration: none;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-orange);
+            transition: left 0.4s ease;
         }
 
         .footer-logo:hover {
             color: var(--accent-orange);
             transform: translateX(5px);
+        }
+
+        .footer-logo:hover::after {
+            left: 0;
         }
 
         .footer-links {
@@ -801,7 +1063,7 @@
             margin-bottom: 12px;
             position: relative;
             padding-left: 0;
-            transition: padding-left 0.3s ease;
+            transition: padding-left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .footer-links li:hover {
@@ -879,6 +1141,11 @@
         .social-links a i {
             position: relative;
             z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover i {
+            transform: scale(1.2);
         }
 
         .copyright {
@@ -903,14 +1170,30 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             transition: var(--transition);
+            position: relative;
+            display: inline-block;
+        }
+
+        .nexus-credit a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
         }
 
         .nexus-credit a:hover {
             color: white;
-            text-decoration: underline;
         }
 
-        /* ===== КНОПКА "ВВЕРХ" ===== */
+        .nexus-credit a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== SCROLL TO TOP ENHANCEMENTS ===== */
         .scroll-to-top {
             position: fixed;
             bottom: 30px;
@@ -932,20 +1215,39 @@
             transition: var(--transition);
             transform: translateY(30px) scale(0.9);
             box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
+            will-change: transform;
         }
 
         .scroll-to-top.visible {
             opacity: 1;
             visibility: visible;
             transform: translateY(0) scale(1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
+            }
+            50% {
+                box-shadow: 0 6px 30px rgba(207, 121, 17, 0.7);
+            }
+            100% {
+                box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
+            }
         }
 
         .scroll-to-top:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 30px rgba(207, 121, 17, 0.6);
+            animation: none;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        .scroll-to-top:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== MODAL ENHANCEMENTS ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -954,6 +1256,7 @@
             height: 100%;
             background: rgba(24, 34, 49, 0.9);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 2000;
             display: flex;
             align-items: center;
@@ -976,13 +1279,14 @@
             max-width: 500px;
             width: 100%;
             position: relative;
-            transform: translateY(30px);
-            transition: transform 0.5s ease;
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: var(--shadow-dark);
+            will-change: transform;
         }
 
         .modal-overlay.active .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .modal-close {
@@ -1001,38 +1305,42 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            will-change: transform;
         }
 
         .modal-close:hover {
             background: var(--accent-orange);
             color: white;
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
         }
 
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
+        /* ===== LOADING STATE FOR FORM ===== */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
             to {
-                opacity: 1;
-                transform: translateY(0);
+                transform: rotate(360deg);
             }
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== RESPONSIVE ===== */
+        /* ===== RESPONSIVE ENHANCEMENTS ===== */
         @media (max-width: 992px) {
             .map-form-grid {
                 grid-template-columns: 1fr;
@@ -1066,6 +1374,7 @@
                 height: 100vh;
                 background: rgba(255, 255, 255, 0.98);
                 backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
                 flex-direction: column;
                 padding: 120px 40px 40px;
                 gap: 20px;
@@ -1115,6 +1424,13 @@
             
             .hours-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .scroll-to-top {
+                left: 20px;
+                bottom: 20px;
+                width: 45px;
+                height: 45px;
             }
         }
 
@@ -1173,17 +1489,23 @@
                 padding: 25px 20px;
             }
         }
-    </style>
 
+        /* ===== CURSOR EFFECTS ===== */
+        @media (hover: hover) {
+            .btn, .contact-card, .hours-card, .social-links a {
+                cursor: pointer;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- ===== КНОПКА НАВЕРХ ===== -->
+    <!-- ===== SCROLL TO TOP ===== -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Вернуться наверх">
         <i class="fas fa-chevron-up"></i>
     </button>
 
     <!-- ===== HEADER ===== -->
-    <header>
+    <header id="mainHeader">
         <div class="container header-container">
             <a href="index.html" class="logo">Meditab</a>
             
@@ -1207,8 +1529,9 @@
         </div>
     </header>
 
-    <!-- ===== HERO SECTION ДЛЯ КОНТАКТОВ ===== -->
+    <!-- ===== MAIN CONTENT ===== -->
     <main id="main-content">
+        <!-- ===== HERO SECTION ===== -->
         <section class="contacts-hero" id="hero">
             <div class="container">
                 <div class="contacts-hero-content">
@@ -1224,53 +1547,53 @@
             </div>
         </section>
 
-        <!-- ===== КОНТАКТНАЯ ИНФОРМАЦИЯ ===== -->
+        <!-- ===== CONTACT INFO ===== -->
         <section class="contact-info-section section-spacing">
             <div class="container">
                 <h2>Контактная информация</h2>
                 <p class="section-subtitle">Свяжитесь с нами по телефону, электронной почте или посетите наш офис в Минске</p>
                 
                 <div class="contact-grid">
-                    <div class="contact-card fade-in">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h3>Адрес офиса</h3>
                         <p>г. Минск, ул. Медицинская, 15<br>Бизнес-центр "Med Plaza", 4 этаж</p>
-                        <a href="https://maps.google.com/?q=Минск,+ул.+Медицинская,+15" target="_blank" class="contact-link">
+                        <a href="https://maps.google.com/?q=Минск,+ул.+Медицинская,+15" target="_blank" class="contact-link" aria-label="Открыть адрес на карте">
                             Открыть на карте →
                         </a>
                     </div>
                     
-                    <div class="contact-card fade-in">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <h3>Телефон для связи</h3>
                         <p>Ежедневно с 9:00 до 21:00</p>
-                        <a href="tel:+375291234567" class="contact-link">
+                        <a href="tel:+375291234567" class="contact-link" aria-label="Позвонить по телефону">
                             +375 (29) 123-45-67
                         </a>
                     </div>
                     
-                    <div class="contact-card fade-in">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h3>Электронная почта</h3>
                         <p>Быстрая связь с нашими специалистами</p>
-                        <a href="mailto:info@meditab.by" class="contact-link">
+                        <a href="mailto:info@meditab.by" class="contact-link" aria-label="Написать на электронную почту">
                             info@meditab.by
                         </a>
                     </div>
                     
-                    <div class="contact-card fade-in">
+                    <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <h3>Доставка и логистика</h3>
                         <p>Вопросы по доставке и отгрузке товаров</p>
-                        <a href="mailto:logistics@meditab.by" class="contact-link">
+                        <a href="mailto:logistics@meditab.by" class="contact-link" aria-label="Написать в отдел логистики">
                             logistics@meditab.by
                         </a>
                     </div>
@@ -1278,14 +1601,14 @@
             </div>
         </section>
 
-        <!-- ===== КАРТА И ФОРМА ===== -->
+        <!-- ===== MAP & FORM ===== -->
         <section class="map-form-section section-spacing">
             <div class="container">
                 <h2>Мы на карте и форма обратной связи</h2>
                 <p class="section-subtitle">Найдите наш офис на карте или отправьте нам сообщение через форму</p>
                 
                 <div class="map-form-grid">
-                    <div class="map-container fade-in">
+                    <div class="map-container">
                         <div class="map-placeholder">
                             <i class="fas fa-map-marked-alt"></i>
                             <h3>Наш офис в Минске</h3>
@@ -1297,7 +1620,7 @@
                         </div>
                     </div>
                     
-                    <div class="contact-form-container fade-in">
+                    <div class="contact-form-container">
                         <h3 style="margin-bottom: 25px;">Отправить сообщение</h3>
                         <form class="contact-form" id="contactForm">
                             <div class="form-row">
@@ -1343,14 +1666,14 @@
             </div>
         </section>
 
-        <!-- ===== РАБОЧЕЕ ВРЕМЯ ===== -->
+        <!-- ===== WORKING HOURS ===== -->
         <section class="working-hours-section section-spacing">
             <div class="container">
                 <h2>Режим работы</h2>
                 <p class="section-subtitle">Мы работаем для вас в удобное время</p>
                 
                 <div class="hours-grid">
-                    <div class="hours-card fade-in">
+                    <div class="hours-card">
                         <div class="hours-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
@@ -1375,7 +1698,7 @@
                         </div>
                     </div>
                     
-                    <div class="hours-card fade-in">
+                    <div class="hours-card">
                         <div class="hours-icon">
                             <i class="fas fa-headset"></i>
                         </div>
@@ -1400,7 +1723,7 @@
                         </div>
                     </div>
                     
-                    <div class="hours-card fade-in">
+                    <div class="hours-card">
                         <div class="hours-icon">
                             <i class="fas fa-truck"></i>
                         </div>
@@ -1427,7 +1750,6 @@
                 </div>
             </div>
         </section>
-        
     </main>
 
     <!-- ===== FOOTER ===== -->
@@ -1482,10 +1804,10 @@
         </div>
     </footer>
 
-    <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+    <!-- ===== SUCCESS MODAL ===== -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-content">
-            <button class="modal-close" id="modalClose">
+            <button class="modal-close" id="modalClose" aria-label="Закрыть модальное окно">
                 <i class="fas fa-times"></i>
             </button>
             <div style="text-align: center; padding: 20px;">
@@ -1506,7 +1828,7 @@
     <!-- ===== JAVASCRIPT ===== -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Элементы DOM
+            // DOM Elements
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navLinks = document.getElementById('navLinks');
             const scrollToTop = document.getElementById('scrollToTop');
@@ -1514,19 +1836,30 @@
             const successModal = document.getElementById('successModal');
             const modalClose = document.getElementById('modalClose');
             const closeModalBtn = document.getElementById('closeModalBtn');
+            const mainHeader = document.getElementById('mainHeader');
             
             let isMenuOpen = false;
+            let scrollTimeout;
             
-            // Бургер меню
+            // Professional mobile menu with improved UX
             mobileMenuBtn.addEventListener('click', function() {
                 isMenuOpen = !isMenuOpen;
                 this.classList.toggle('active');
                 navLinks.classList.toggle('active');
                 this.setAttribute('aria-expanded', isMenuOpen);
                 document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+                
+                // Add subtle animation to menu items
+                if (isMenuOpen) {
+                    const menuItems = navLinks.querySelectorAll('a');
+                    menuItems.forEach((item, index) => {
+                        item.style.animationDelay = `${index * 0.1}s`;
+                        item.classList.add('fade-in');
+                    });
+                }
             });
             
-            // Закрытие меню при клике на ссылку
+            // Close menu on link click
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     if (isMenuOpen) {
@@ -1535,23 +1868,22 @@
                 });
             });
             
-            // Прокрутка header
+            // Professional scroll handler with debouncing
             function handleScroll() {
+                // Header scroll effect
                 if (window.scrollY > 50) {
+                    mainHeader.classList.add('scrolled');
                     scrollToTop.classList.add('visible');
                 } else {
+                    mainHeader.classList.remove('scrolled');
                     scrollToTop.classList.remove('visible');
                 }
                 
-                // Анимация появления элементов
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    if (isElementInViewport(el)) {
-                        el.classList.add('visible');
-                    }
-                });
+                // Animate elements on scroll
+                animateOnScroll();
             }
             
-            // Кнопка "наверх"
+            // Scroll to top with smooth behavior
             scrollToTop.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
@@ -1559,70 +1891,124 @@
                 });
             });
             
-            // Функция для проверки видимости элемента
+            // Intersection Observer for scroll animations
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.contact-card, .map-container, .contact-form-container, .hours-card');
+                
+                elements.forEach(el => {
+                    if (isElementInViewport(el)) {
+                        el.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Check if element is in viewport
             function isElementInViewport(el) {
                 const rect = el.getBoundingClientRect();
                 return (
-                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                    rect.bottom >= 0
                 );
             }
             
-            // Заголовки секций
+            // Initialize scroll animations
             document.querySelectorAll('section h2, section .section-subtitle').forEach(el => {
                 el.classList.add('fade-in');
             });
             
-            // Анимация при загрузке для героя
+            // Hero section entrance animation
             setTimeout(() => {
-                document.querySelector('.contacts-hero h1').style.animation = 'fadeInUp 1s ease forwards';
-                document.querySelector('.contacts-hero .section-subtitle').style.animation = 'fadeInUp 1s ease 0.3s forwards';
+                document.querySelector('.contacts-hero h1').style.animation = 'slideUpFade 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.2s forwards';
+                document.querySelector('.contacts-hero .section-subtitle').style.animation = 'fadeUp 0.8s ease 0.4s forwards';
             }, 300);
             
-            // Обработка формы
-            contactForm.addEventListener('submit', function(e) {
+            // Enhanced form submission with loading state
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Получаем данные формы
-                const name = document.getElementById('name').value;
-                const phone = document.getElementById('phone').value;
-                const subject = document.getElementById('subject').value;
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
                 
-                // Простая валидация
-                if (!name || !phone) {
+                // Get form data
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value.trim();
+                
+                // Enhanced validation
+                if (!name || !phone || !message) {
                     showNotification('Пожалуйста, заполните обязательные поля', 'error');
                     return;
                 }
                 
-                // Здесь обычно отправка на сервер
-                // Для демо просто показываем успешное сообщение
+                if (phone.replace(/\D/g, '').length < 9) {
+                    showNotification('Пожалуйста, введите корректный номер телефона', 'error');
+                    return;
+                }
                 
-                // Показываем модальное окно успеха
+                if (email && !isValidEmail(email)) {
+                    showNotification('Пожалуйста, введите корректный email', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show success modal
                 successModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 
-                // Очищаем форму
+                // Reset form
                 this.reset();
+                
+                // Reset button state
+                submitBtn.classList.remove('loading');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Send analytics event
+                logFormSubmission(name, subject);
             });
             
-            // Закрытие модальных окон
+            // Email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Analytics logging
+            function logFormSubmission(name, subject) {
+                console.log(`Form submitted: ${name} - ${subject}`);
+                // Here you would typically send to Google Analytics, etc.
+            }
+            
+            // Modal handling
             modalClose.addEventListener('click', () => {
-                successModal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModal();
             });
             
             closeModalBtn.addEventListener('click', () => {
-                successModal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModal();
             });
             
             successModal.addEventListener('click', (e) => {
                 if (e.target === successModal) {
-                    successModal.classList.remove('active');
-                    document.body.style.overflow = '';
+                    closeModal();
                 }
             });
             
-            // Функция для показа уведомлений
+            function closeModal() {
+                successModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            // Professional notification system
             function showNotification(message, type = 'info') {
                 const notification = document.createElement('div');
                 const colors = {
@@ -1649,6 +2035,7 @@
                     display: flex;
                     align-items: center;
                     gap: 10px;
+                    will-change: transform;
                 `;
                 
                 notification.innerHTML = `
@@ -1658,13 +2045,20 @@
                 
                 document.body.appendChild(notification);
                 
+                // Auto remove after 4 seconds
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
                     setTimeout(() => notification.remove(), 400);
                 }, 4000);
+                
+                // Click to dismiss
+                notification.addEventListener('click', () => {
+                    notification.style.animation = 'slideOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                    setTimeout(() => notification.remove(), 400);
+                });
             }
             
-            // Добавляем стили для анимаций уведомлений
+            // Add CSS for notifications
             const styleSheet = document.createElement('style');
             styleSheet.textContent = `
                 @keyframes slideIn {
@@ -1678,33 +2072,75 @@
             `;
             document.head.appendChild(styleSheet);
             
-            // Маска для телефона
+            // Phone input mask with better UX
             const phoneInput = document.getElementById('phone');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
                     let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
                     e.target.value = !x[2] ? '+375 (' + x[1] : '+375 (' + x[1] + ') ' + x[2] + (x[3] ? ' ' + x[3] : '') + (x[4] ? ' ' + x[4] : '') + (x[5] ? ' ' + x[5] : '');
                 });
+                
+                phoneInput.addEventListener('focus', function() {
+                    if (!this.value) {
+                        this.value = '+375 (';
+                    }
+                });
             }
             
-            // Инициализация
-            window.addEventListener('scroll', handleScroll);
-            handleScroll();
+            // Form input enhancements
+            document.querySelectorAll('.form-group input, .form-group textarea, .form-group select').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                });
+            });
             
-            // Закрытие меню при нажатии Escape
+            // Debounced scroll event
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(handleScroll, 10);
+            });
+            
+            // Initialize on load
+            handleScroll();
+            animateOnScroll();
+            
+            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
+                // Escape key closes modals and menu
                 if (e.key === 'Escape') {
                     if (isMenuOpen) {
                         mobileMenuBtn.click();
                     }
                     if (successModal.classList.contains('active')) {
-                        successModal.classList.remove('active');
-                        document.body.style.overflow = '';
+                        closeModal();
                     }
                 }
+                
+                // Ctrl + Enter submits form
+                if (e.ctrlKey && e.key === 'Enter' && contactForm.contains(document.activeElement)) {
+                    contactForm.requestSubmit();
+                }
             });
-
-            console.log('Meditab — страница контактов готова!');
+            
+            // Performance optimization
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    // Lazy load animations
+                    document.querySelectorAll('img').forEach(img => {
+                        if ('loading' in img) {
+                            img.loading = 'lazy';
+                        }
+                    });
+                });
+            }
+            
+            // Console greeting
+            console.log('%cMeditab Contacts 🏥', 'color: #cf7911; font-size: 16px; font-weight: bold;');
+            console.log('%cProfessional medical equipment website\nCrafted with care by Nexus Team', 'color: #586474;');
         });
     </script>
 </body>
