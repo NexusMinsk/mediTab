@@ -2518,22 +2518,25 @@ function updateCartDisplay() {
 }
 
 function addToCart(productId, title, price, image) {
-    const existingItem = cart.find(item => item.id === productId);
+    // Проверяем, есть ли уже такой товар в корзине
+    const existingItemIndex = cart.findIndex(item => item.id === productId);
     
-    if (existingItem) {
-        existingItem.quantity++;
+    if (existingItemIndex !== -1) {
+        // Если товар уже есть - увеличиваем количество на 1
+        cart[existingItemIndex].quantity += 1;
     } else {
+        // Если товара нет - добавляем с количеством 1
         cart.push({
             id: productId,
             title: title,
             price: parseFloat(price),
             image: image,
-            quantity: 1
+            quantity: 1 // ВСЕГДА добавляем 1 товар
         });
     }
     
     saveCart();
-    showNotification(`Товар "${title}" добавлен в корзину`);
+    showNotification(`Товар "${title}" добавлен в корзину (1 шт.)`);
 }
 
 function saveCart() {
