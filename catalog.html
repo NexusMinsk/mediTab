@@ -1525,24 +1525,29 @@
             display: none;
         }
 
-        /* ===== МОБИЛЬНАЯ ВЕРСИЯ КОРЗИНЫ ===== */
+        /* ===== МОБИЛЬНАЯ ВЕРСИЯ - ФИКС КОРЗИНЫ ===== */
         @media (max-width: 768px) {
+            /* ФИКС КОРЗИНЫ НА МОБИЛЬНЫХ */
             .cart-dropdown {
                 position: fixed;
                 top: 0;
+                left: 0;
                 right: 0;
+                bottom: 0;
                 width: 100%;
                 height: 100%;
-                max-width: none;
-                margin-top: 0;
-                border-radius: 0;
+                max-width: 100%;
+                margin: 0;
                 padding: 0;
+                border-radius: 0;
                 transform: translateX(100%);
                 background: white;
                 z-index: 2000;
                 display: flex;
                 flex-direction: column;
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: none;
+                border: none;
             }
             
             .cart-dropdown.active {
@@ -1556,12 +1561,17 @@
             .cart-header {
                 position: sticky;
                 top: 0;
+                left: 0;
+                right: 0;
                 background: white;
                 padding: 20px;
                 margin: 0;
                 border-bottom: 1px solid var(--border-gray);
                 z-index: 2;
                 flex-shrink: 0;
+                min-height: 80px;
+                display: flex;
+                align-items: center;
             }
             
             .cart-items {
@@ -1570,11 +1580,14 @@
                 padding: 20px;
                 margin: 0;
                 max-height: none;
+                -webkit-overflow-scrolling: touch;
             }
             
             .cart-footer {
                 position: sticky;
                 bottom: 0;
+                left: 0;
+                right: 0;
                 background: white;
                 padding: 20px;
                 margin: 0;
@@ -1589,7 +1602,34 @@
                 justify-content: center;
                 align-items: center;
                 height: 100%;
+                min-height: 60vh;
                 padding: 40px 20px;
+            }
+            
+            .cart-item {
+                padding: 15px 0;
+            }
+            
+            .cart-item-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .cart-item-title {
+                font-size: 0.9rem;
+            }
+            
+            .cart-item-price {
+                font-size: 0.9rem;
+            }
+            
+            .cart-item-controls {
+                flex-wrap: wrap;
+            }
+            
+            .remove-item {
+                font-size: 0.8rem;
+                padding: 4px 8px;
             }
         }
 
@@ -2501,21 +2541,27 @@ function saveCart() {
 
 function openCart() {
     isCartOpen = true;
-    document.getElementById('cartDropdown').classList.add('active');
+    const cartDropdown = document.getElementById('cartDropdown');
+    cartDropdown.classList.add('active');
     
     // На мобильных блокируем скролл body
     if (window.innerWidth <= 768) {
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
     }
 }
 
 function closeCart() {
     isCartOpen = false;
-    document.getElementById('cartDropdown').classList.remove('active');
+    const cartDropdown = document.getElementById('cartDropdown');
+    cartDropdown.classList.remove('active');
     
     // На мобильных разблокируем скролл body
     if (window.innerWidth <= 768) {
         document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
     }
 }
 
@@ -2562,16 +2608,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Закрытие корзины при клике на backdrop (только на мобильных)
-    if (window.innerWidth <= 768) {
-        document.addEventListener('click', function(e) {
-            if (isCartOpen && 
-                !document.getElementById('cartDropdown').contains(e.target) && 
+    // Закрытие корзины на мобильных при клике вне
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && isCartOpen) {
+            // Если клик не по корзине и не по кнопке корзины
+            if (!document.getElementById('cartDropdown').contains(e.target) && 
                 !cartBtn.contains(e.target)) {
                 closeCart();
             }
-        });
-    }
+        }
+    });
+    
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isCartOpen) {
+            closeCart();
+        }
+    });
 });
 
 // ===== ЗАГРУЗКА ТОВАРОВ ИЗ АДМИНКИ =====
