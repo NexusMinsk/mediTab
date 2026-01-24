@@ -2714,7 +2714,13 @@ function createProductCard(product) {
 }
 
 // ===== НАСТРОЙКА КАРТОЧЕК ТОВАРОВ =====
+let productCardsInitialized = false; // <-- ДОБАВЛЕНО: флаг для предотвращения дублирования
+
 function setupProductCards() {
+    // Если уже инициализированы - выходим
+    if (productCardsInitialized) return;
+    productCardsInitialized = true; // <-- ДОБАВЛЕНО: помечаем как инициализированные
+    
     // Для мобильных - обработка тапов для показа оверлея
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.product-card').forEach(card => {
@@ -2758,19 +2764,24 @@ function setupProductCards() {
         });
     }
     
-    // Кнопки "В корзину"
+    // Кнопки "В корзину" - ОДИН раз добавляем обработчики
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            
             const card = this.closest('.product-card');
             const productId = card.getAttribute('data-product-id');
             const title = card.querySelector('h3').textContent;
-            const priceElement = card.querySelector('.current-price.price-retail');
-            const price = priceElement ? priceElement.textContent.trim() : '0';
+            
+            // Берем правильную цену (учитывая опт/розница)
+            const priceElement = card.querySelector('.current-price:not([style*="display: none"])') || 
+                                card.querySelector('.current-price.price-retail');
+            const priceText = priceElement ? priceElement.textContent.trim() : '0';
+            
             const image = card.querySelector('img').src;
             
-            addToCart(productId, title, price, image);
+            addToCart(productId, title, priceText, image);
             
             // На мобилке скрываем оверлей после добавления
             if (window.innerWidth <= 768) {
@@ -2806,8 +2817,8 @@ window.addEventListener('storage', function(e) {
 
 // ===== АДАПТАЦИЯ ПРИ ИЗМЕНЕНИИ РАЗМЕРА ОКНА =====
 window.addEventListener('resize', function() {
-    // Переинициализация карточек при изменении размера
-    setupProductCards();
+    // УБРАНО: setupProductCards() - чтобы не создавать дубли обработчиков
+    // Если нужно что-то делать при ресайзе, делай здесь
 });
 </script>
 
