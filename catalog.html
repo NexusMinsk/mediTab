@@ -215,6 +215,12 @@
             gap: 30px;
         }
 
+        /* Для мобильных (меньше 768px) */
+@media (max-width: 768px) {
+    .header-container .nav-item:nth-child(2) { order: 3; }
+    .header-container .nav-item:nth-child(3) { order: 2; }
+}
+
         .logo {
            font-family: 'Prata', serif;
            font-size: 2.4rem;
