@@ -11,6 +11,11 @@
     <!-- Подключаем Swiper для свайпов -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+    
+    <!-- Подключаем Vanta.js для анимации фона -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
+    
     <style>
         /* ===== CSS RESET & BASE ===== */
         * {
@@ -50,22 +55,6 @@
             font-weight: 400;
             animation: blogEntrance 1.3s ease-out;
             position: relative;
-            background-attachment: fixed;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(207, 121, 17, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(42, 92, 154, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(205, 220, 228, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
         }
 
         @keyframes blogEntrance {
@@ -73,19 +62,12 @@
                 opacity: 0;
                 transform: translateY(-50px);
                 filter: blur(10px);
-                background: rgb(0, 0, 0);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
                 filter: blur(0);
-                background: rgb(0, 0, 0);
             }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         /* ===== TYPOGRAPHY ===== */
@@ -329,7 +311,7 @@
         }
 
         header.scrolled {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             padding: 18px 0;
             border-bottom: 1px solid rgba(217, 217, 217, 0.15);
@@ -461,7 +443,7 @@
             background: var(--accent-orange);
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION с Vanta.js ===== */
         .hero {
             min-height: 105vh;
             display: flex;
@@ -469,36 +451,15 @@
             padding: 160px 0 80px;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, 
-                #f0f7ff 0%, 
-                #ffffff 50%, 
-                #f8fafc 100%);
         }
 
-        .hero::before {
-            content: '';
+        .vanta-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(207, 121, 17, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(42, 92, 154, 0.05) 0%, transparent 50%),
-                linear-gradient(45deg, transparent 60%, rgba(205, 220, 228, 0.03) 100%);
             z-index: 0;
-            animation: rotate 40s linear infinite;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to top, white, transparent);
-            z-index: 1;
         }
 
         .hero-content {
@@ -767,7 +728,7 @@
             line-height: 1.6;
         }
 
-        /* ===== PARTNERS SLIDER (новая анимация) ===== */
+        /* ===== PARTNERS SLIDER ===== */
         .partners {
             padding: 60px 0;
             background: var(--white);
@@ -1036,7 +997,7 @@
             text-align: center;
         }
 
-        /* ===== CALL TO ACTION СЕКЦИЯ (вместо контактов) ===== */
+        /* ===== CALL TO ACTION СЕКЦИЯ ===== */
         .cta-section {
             padding: 100px 0;
             background: var(--gradient-medical);
@@ -1626,7 +1587,7 @@
             }
         }
 
-        /* ===== ТАБЛИЦА ДЛЯ МОБИЛЬНЫХ (уменьшенная с рамкой) ===== */
+        /* ===== ТАБЛИЦА ДЛЯ МОБИЛЬНЫХ ===== */
         @media (max-width: 768px) {
             .price-table-section {
                 padding: 80px 0;
@@ -1692,7 +1653,6 @@
             }
         }
     </style>
-
 </head>
 <body>
     <!-- ===== НАВИГАЦИОННАЯ ПАНЕЛЬ ===== -->
@@ -1737,6 +1697,9 @@
     <!-- ===== HERO SECTION ===== -->
     <main id="main-content">
         <section class="hero" id="hero">
+            <!-- Vanta.js фон будет здесь -->
+            <div class="vanta-bg" id="vanta-bg"></div>
+            
             <div class="container">
                 <div class="hero-content">
                     <h1>Медицинское оборудование<br><span class="highlight-text">нового поколения</span></h1>
@@ -2081,7 +2044,7 @@
             </div>
         </section>
 
-        <!-- ===== CTA SECTION (вместо контактов) ===== -->
+        <!-- ===== CTA SECTION ===== -->
         <section id="cta" class="cta-section section-spacing">
             <div class="container">
                 <div class="cta-content fade-in">
@@ -2202,6 +2165,46 @@
             
             let isMenuOpen = false;
             let currentSection = 'hero';
+            let vantaEffect = null;
+            
+            // ИНИЦИАЛИЗАЦИЯ VANTA.JS
+            function initVanta() {
+                if (typeof VANTA !== 'undefined') {
+                    // Уничтожаем предыдущий эффект, если он существует
+                    if (vantaEffect) {
+                        vantaEffect.destroy();
+                    }
+                    
+                    // Создаем новый эффект DOTS
+                    vantaEffect = VANTA.DOTS({
+                        el: "#vanta-bg",
+                        mouseControls: true,
+                        touchControls: true,
+                        gyroControls: false,
+                        minHeight: 200.00,
+                        minWidth: 200.00,
+                        scale: 1.00,
+                        scaleMobile: 1.00,
+                        color: 0xdf8625,  // HEX цвет оранжевого (rgb(223,134,37))
+                        color2: 0xd3d3d3, // Тот же цвет
+                        backgroundColor: 0xffffff, // Белый фон
+                        size: 3,
+                        spacing: 50.00
+                    });
+                    
+                    // Оптимизация для мобильных устройств
+                    if (window.innerWidth <= 768) {
+                        if (vantaEffect && vantaEffect.setOptions) {
+                            vantaEffect.setOptions({
+                                size: 2,
+                                spacing: 40.00
+                            });
+                        }
+                    }
+                } else {
+                    console.warn('VANTA.js не загружен');
+                }
+            }
             
             // Инициализация Swiper для ценностей компании
             const valuesSwiper = new Swiper('.values-swiper', {
@@ -2412,6 +2415,27 @@
                 });
             });
             
+            // Инициализация Vanta.js после полной загрузки страницы
+            window.addEventListener('load', initVanta);
+            
+            // Переинициализация Vanta.js при изменении размера окна
+            window.addEventListener('resize', function() {
+                // Оптимизация для мобильных устройств
+                if (vantaEffect && vantaEffect.setOptions) {
+                    if (window.innerWidth <= 768) {
+                        vantaEffect.setOptions({
+                            size: 1.50,
+                            spacing: 30.00
+                        });
+                    } else {
+                        vantaEffect.setOptions({
+                            size: 2.50,
+                            spacing: 40.00
+                        });
+                    }
+                }
+            });
+            
             // Инициализация
             window.addEventListener('scroll', handleScroll);
             handleScroll();
@@ -2454,7 +2478,7 @@
             window.addEventListener('DOMContentLoaded', setupMobileTable);
             window.addEventListener('resize', setupMobileTable);
 
-            console.log('Meditab — обновленный фон в hero-секции интегрирован успешно!');
+            console.log('Meditab — Vanta.js DOTS фон успешно интегрирован в hero-секцию!');
         });
     </script>
 </body>
