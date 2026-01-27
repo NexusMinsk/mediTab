@@ -1648,6 +1648,30 @@
                 padding: 8px 6px;
             }
         }
+
+
+                .highlight-text {
+    background: linear-gradient(
+        30deg,
+        var(--accent-orange),
+        #182231
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    animation: leftToRight 4s infinite linear;
+}
+
+@keyframes leftToRight {
+    0% {
+        background-position: -100% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
     </style>
 </head>
 <body>
