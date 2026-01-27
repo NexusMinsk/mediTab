@@ -873,7 +873,6 @@
             border: 1px solid rgba(217, 217, 217, 0.5);
             transition: var(--transition);
             scroll-margin-top: 100px;
-            display: none; /* Скрываем на десктопе по умолчанию */
         }
 
         .category-section.active {
@@ -968,10 +967,6 @@
         .category-toggle:hover {
             background: var(--gradient-orange);
             color: white;
-        }
-
-        .category-toggle.collapsed:hover {
-            transform: rotate(180deg);
         }
 
         /* ===== PRODUCT CARDS ===== */
@@ -1950,19 +1945,6 @@
             /* ===== НА МОБИЛЬНЫХ СКРЫВАЕМ ГРИД КАТЕГОРИЙ ===== */
             .categories-section {
                 display: none;
-            }
-            
-            /* ===== НА МОБИЛЬНЫХ ПОКАЗЫВАЕМ ВСЕ КАТЕГОРИИ СРАЗУ ===== */
-            .category-section {
-                display: block !important;
-            }
-            
-            .category-section.collapsed .products-grid {
-                display: none;
-            }
-            
-            .category-section:not(.collapsed) .products-grid {
-                display: grid;
             }
         }
 
@@ -3511,7 +3493,6 @@
             const orderForm = document.getElementById('orderForm');
             const orderModal = document.getElementById('orderModal');
             const modalClose = document.getElementById('modalClose');
-            const openOrderModal = document.getElementById('openOrderModal');
             
             // Initially show pickup locations (since pickup is selected by default)
             pickupLocations.style.display = 'grid';
@@ -3578,19 +3559,6 @@
                 this.reset();
                 
                 // Reset delivery to pickup
-                document.getElementById('pickup').checked = true;
-                pickupLocations.style.display = 'grid';
-                pickupLocations.classList.remove('hidden');
-                document.getElementById('pickup_mash').checked = true;
-            });
-            
-            // Open modal
-            openOrderModal.addEventListener('click', function() {
-                orderModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Reset form when opening
-                orderForm.reset();
                 document.getElementById('pickup').checked = true;
                 pickupLocations.style.display = 'grid';
                 pickupLocations.classList.remove('hidden');
@@ -3721,10 +3689,11 @@
 
             // ===== КАТЕГОРИИ В ГРИДЕ - ОТКРЫТИЕ СЕКЦИЙ (ТОЛЬКО НА ДЕСКТОПЕ) =====
             function setupCategoryGridLogic() {
-                // Только на десктопе
+                // Для десктопа - добавляем обработчики кликов на карточки категорий
                 if (window.innerWidth > 768) {
                     categoryCards.forEach(card => {
-                        card.addEventListener('click', function() {
+                        card.addEventListener('click', function(e) {
+                            e.stopPropagation();
                             const categoryId = this.getAttribute('data-category');
                             
                             // Убираем выделение со всех карточек
@@ -3732,44 +3701,11 @@
                             // Выделяем текущую карточку
                             this.classList.add('active');
                             
-                            // Скрываем все секции
-                            categorySections.forEach(section => {
-                                section.classList.remove('active');
-                                section.classList.add('collapsed');
-                                const toggle = section.querySelector('.category-toggle');
-                                const productsGrid = section.querySelector('.products-grid');
-                                
-                                if (toggle) {
-                                    toggle.classList.add('collapsed');
-                                    toggle.querySelector('i').style.transform = 'rotate(0deg)';
-                                }
-                                
-                                if (productsGrid) {
-                                    productsGrid.style.display = 'none';
-                                    productsGrid.style.opacity = '0';
-                                }
-                            });
-                            
-                            // Показываем выбранную секцию
+                            // Находим соответствующую секцию
                             const targetSection = document.getElementById(categoryId);
                             if (targetSection) {
-                                targetSection.classList.add('active');
-                                targetSection.classList.remove('collapsed');
-                                
-                                const toggle = targetSection.querySelector('.category-toggle');
-                                const productsGrid = targetSection.querySelector('.products-grid');
-                                
-                                if (toggle) {
-                                    toggle.classList.remove('collapsed');
-                                    toggle.querySelector('i').style.transform = 'rotate(90deg)';
-                                }
-                                
-                                if (productsGrid) {
-                                    productsGrid.style.display = 'grid';
-                                    setTimeout(() => {
-                                        productsGrid.style.opacity = '1';
-                                    }, 10);
-                                }
+                                // Открываем секцию (если закрыта)
+                                openCategorySection(targetSection);
                                 
                                 // Скроллим к секции
                                 const headerHeight = document.querySelector('header').offsetHeight;
@@ -3789,80 +3725,90 @@
                     });
                     
                     console.log('Category grid logic enabled (desktop)');
-                } else {
-                    // На мобильных - обычная логика с toggle
-                    categoryToggles.forEach(toggle => {
-                        toggle.addEventListener('click', function (e) {
-                            e.stopPropagation();
-                            const categorySection = this.closest('.category-section');
-                            const isCollapsed = categorySection.classList.contains('collapsed');
-
-                            // Toggle state
-                            categorySection.classList.toggle('collapsed');
-                            this.classList.toggle('collapsed');
-
-                            // Get products grid
-                            const productsGrid = categorySection.querySelector('.products-grid');
-
-                            // Rotate arrow and show/hide products
-                            const icon = this.querySelector('i');
-                            if (isCollapsed) {
-                                // Expand
-                                icon.style.transform = 'rotate(90deg)';
-                                productsGrid.style.display = 'grid';
-                                setTimeout(() => {
-                                    productsGrid.style.opacity = '1';
-                                }, 10);
-                            } else {
-                                // Collapse
-                                icon.style.transform = 'rotate(0deg)';
-                                productsGrid.style.opacity = '0';
-                                setTimeout(() => {
-                                    productsGrid.style.display = 'none';
-                                }, 300);
-                            }
-                        });
-                    });
-
-                    // Category headers are also clickable
-                    document.querySelectorAll('.category-header').forEach(header => {
-                        header.addEventListener('click', function (e) {
-                            if (e.target.closest('.category-toggle')) return;
-
-                            const toggle = this.querySelector('.category-toggle');
-                            const categorySection = this.closest('.category-section');
-                            const isCollapsed = categorySection.classList.contains('collapsed');
-
-                            // Toggle state
-                            categorySection.classList.toggle('collapsed');
-                            toggle.classList.toggle('collapsed');
-
-                            // Get products grid
-                            const productsGrid = categorySection.querySelector('.products-grid');
-
-                            // Rotate arrow and show/hide products
-                            const icon = toggle.querySelector('i');
-                            if (isCollapsed) {
-                                // Expand
-                                icon.style.transform = 'rotate(90deg)';
-                                productsGrid.style.display = 'grid';
-                                setTimeout(() => {
-                                    productsGrid.style.opacity = '1';
-                                }, 10);
-                            } else {
-                                // Collapse
-                                icon.style.transform = 'rotate(0deg)';
-                                productsGrid.style.opacity = '0';
-                                setTimeout(() => {
-                                    productsGrid.style.display = 'none';
-                                }, 300);
-                            }
-                        });
-                    });
-                    
-                    console.log('Category toggle logic enabled (mobile)');
                 }
             }
+
+            // ===== ФУНКЦИЯ ОТКРЫТИЯ/ЗАКРЫТИЯ КАТЕГОРИИ =====
+            function toggleCategorySection(categorySection, forceOpen = null) {
+                const isCollapsed = categorySection.classList.contains('collapsed');
+                const shouldOpen = forceOpen !== null ? forceOpen : isCollapsed;
+                
+                // Get elements
+                const toggle = categorySection.querySelector('.category-toggle');
+                const productsGrid = categorySection.querySelector('.products-grid');
+                
+                if (shouldOpen) {
+                    // Expand
+                    categorySection.classList.remove('collapsed');
+                    if (toggle) {
+                        toggle.classList.remove('collapsed');
+                        const icon = toggle.querySelector('i');
+                        if (icon) {
+                            icon.style.transform = 'rotate(90deg)';
+                        }
+                    }
+                    
+                    if (productsGrid) {
+                        productsGrid.style.display = 'grid';
+                        setTimeout(() => {
+                            productsGrid.style.opacity = '1';
+                        }, 10);
+                        
+                        // Загружаем товары если еще не загружены
+                        setTimeout(loadProductsFromStorage, 100);
+                    }
+                } else {
+                    // Collapse
+                    categorySection.classList.add('collapsed');
+                    if (toggle) {
+                        toggle.classList.add('collapsed');
+                        const icon = toggle.querySelector('i');
+                        if (icon) {
+                            icon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                    
+                    if (productsGrid) {
+                        productsGrid.style.opacity = '0';
+                        setTimeout(() => {
+                            productsGrid.style.display = 'none';
+                        }, 300);
+                    }
+                }
+            }
+
+            // ===== ФУНКЦИЯ ОТКРЫТИЯ КАТЕГОРИИ =====
+            function openCategorySection(categorySection) {
+                toggleCategorySection(categorySection, true);
+                
+                // На десктопе также выделяем соответствующую карточку
+                if (window.innerWidth > 768) {
+                    const categoryId = categorySection.id;
+                    const correspondingCard = document.querySelector(`.category-grid-card[data-category="${categoryId}"]`);
+                    if (correspondingCard) {
+                        categoryCards.forEach(c => c.classList.remove('active'));
+                        correspondingCard.classList.add('active');
+                    }
+                }
+            }
+
+            // ===== ОБРАБОТЧИКИ КНОПОК TOGGLE (РАБОТАЮТ ВЕЗДЕ) =====
+            categoryToggles.forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const categorySection = this.closest('.category-section');
+                    toggleCategorySection(categorySection);
+                });
+            });
+
+            // Category headers are also clickable
+            document.querySelectorAll('.category-header').forEach(header => {
+                header.addEventListener('click', function (e) {
+                    if (e.target.closest('.category-toggle')) return;
+                    const categorySection = this.closest('.category-section');
+                    toggleCategorySection(categorySection);
+                });
+            });
 
             // Price type buttons (retail/wholesale)
             purchaseTypeBtns.forEach(btn => {
@@ -3924,21 +3870,7 @@
                     if (targetElement) {
                         // Expand category if it's collapsed
                         if (targetElement.classList.contains('category-section')) {
-                            if (targetElement.classList.contains('collapsed')) {
-                                const toggle = targetElement.querySelector('.category-toggle');
-                                const productsGrid = targetElement.querySelector('.products-grid');
-
-                                targetElement.classList.remove('collapsed');
-                                toggle.classList.remove('collapsed');
-
-                                const icon = toggle.querySelector('i');
-                                icon.style.transform = 'rotate(90deg)';
-                                productsGrid.style.display = 'grid';
-
-                                setTimeout(() => {
-                                    productsGrid.style.opacity = '1';
-                                }, 10);
-                            }
+                            openCategorySection(targetElement);
                         }
 
                         // Scroll to element
@@ -4054,9 +3986,25 @@
             setupCategoryGridLogic();
             
             // Переинициализируем при изменении размера окна
-            window.addEventListener('resize', setupCategoryGridLogic);
+            window.addEventListener('resize', function() {
+                setupCategoryGridLogic();
+                
+                // При переходе с мобилки на десктоп - обновляем состояние карточек
+                if (window.innerWidth > 768) {
+                    // Находим открытую секцию и выделяем соответствующую карточку
+                    const openSection = document.querySelector('.category-section:not(.collapsed)');
+                    if (openSection) {
+                        const categoryId = openSection.id;
+                        const correspondingCard = document.querySelector(`.category-grid-card[data-category="${categoryId}"]`);
+                        if (correspondingCard) {
+                            categoryCards.forEach(c => c.classList.remove('active'));
+                            correspondingCard.classList.add('active');
+                        }
+                    }
+                }
+            });
 
-            console.log('Meditab catalog with grid categories loaded!');
+            console.log('Meditab catalog with fixed category logic loaded!');
         });
     </script>
 </body>
