@@ -56,6 +56,9 @@
             overflow-x: hidden;
             font-weight: 400;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         body::before {
@@ -249,7 +252,6 @@
             z-index: 1;
             box-shadow: 0 6px 20px rgba(207, 121, 17, 0.3);
             transform: translateY(0);
-            will-change: transform;
         }
 
         .btn::before {
@@ -265,25 +267,6 @@
             border-radius: var(--radius);
         }
 
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(207, 121, 17, 0.3);
-        }
-
         .btn:hover::before {
             width: 100%;
         }
@@ -291,11 +274,6 @@
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 30px rgba(207, 121, 17, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(-1px);
-            transition: transform 0.1s ease;
         }
 
         .btn-secondary {
@@ -322,6 +300,38 @@
             font-size: 1rem;
             opacity: 0;
             animation: fadeIn 0.6s ease 0.8s forwards;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: none;
+        }
+
+        .btn-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--bg-dark);
+            transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: -1;
+            border-radius: var(--radius);
+        }
+
+        .btn-back:hover {
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(24, 34, 49, 0.2);
+        }
+
+        .btn-back:hover::before {
+            width: 100%;
+        }
+
+        .btn-back:active {
+            transform: translateY(0);
         }
 
         @keyframes fadeIn {
@@ -337,7 +347,7 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 25px 0;
+            padding: 20px 0;
             transition: var(--transition);
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
@@ -345,7 +355,6 @@
             border-bottom: 1px solid rgba(217, 217, 217, 0.3);
             box-shadow: var(--shadow);
             transform: translateY(0);
-            will-change: transform;
         }
 
         header.scrolled {
@@ -361,45 +370,18 @@
         }
 
         .logo {
-            font-family: 'Prata', serif;
-            font-size: 2.4rem;
-            color: var(--bg-dark);
-            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
             transition: var(--transition);
             position: relative;
-            overflow: hidden;
+            width: 270px;
+            height: 90px;
         }
 
-        .logo::before {
-            content: "⚕";
-            font-size: 2.2rem;
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient-orange);
-            transition: left 0.4s ease;
-        }
-
-        .logo:hover {
-            color: var(--accent-orange);
-        }
-
-        .logo:hover::before {
-            transform: rotate(15deg) scale(1.2);
-        }
-
-        .logo:hover::after {
-            left: 0;
+        .logo img {
+            max-width: 100%;
+            height: auto;
         }
 
         nav {
@@ -453,7 +435,7 @@
             width: 100%;
         }
 
-        /* ===== MOBILE MENU ENHANCEMENTS ===== */
+        /* ===== БУРГЕР МЕНЮ (Из каталога) ===== */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -463,29 +445,31 @@
             cursor: pointer;
             z-index: 1001;
             position: relative;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             transition: var(--transition);
-            padding: 10px;
+            background: var(--gradient-orange);
         }
 
         .mobile-menu-btn:hover {
-            background: rgba(207, 121, 17, 0.1);
+            transform: scale(1.05);
         }
 
         .mobile-menu-btn span {
             display: block;
-            width: 26px;
-            height: 3px;
-            background: var(--bg-dark);
+            width: 24px;
+            height: 2px;
+            background: var(--white);
             margin: 5px auto;
             transition: var(--transition);
-            border-radius: 3px;
-            transform-origin: center;
+            border-radius: 1px;
+        }
+
+        .mobile-menu-btn.active {
+            background: var(--bg-dark);
         }
 
         .mobile-menu-btn.active span:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-            background: var(--accent-orange);
+            transform: rotate(45deg) translate(6px, 6px);
         }
 
         .mobile-menu-btn.active span:nth-child(2) {
@@ -494,13 +478,12 @@
         }
 
         .mobile-menu-btn.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(8px, -8px);
-            background: var(--accent-orange);
+            transform: rotate(-45deg) translate(7px, -7px);
         }
 
         /* ===== HERO SECTION ENHANCEMENTS ===== */
         .contacts-hero {
-            padding: 230px 0 80px;
+            padding: 260px 0 80px;
             background: var(--gradient-medical);
             text-align: center;
             position: relative;
@@ -520,16 +503,6 @@
                 linear-gradient(-45deg, transparent 65%, rgba(207, 121, 17, 0.03) 65%, rgba(207, 121, 17, 0.03) 70%, transparent 70%);
             background-size: cover, 60px 60px, 60px 60px;
             z-index: 0;
-            animation: subtleShift 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes subtleShift {
-            0% {
-                background-position: 0 0, 0 0, 0 0;
-            }
-            100% {
-                background-position: 0 0, 30px 30px, 30px 30px;
-            }
         }
 
         .contacts-hero-content {
@@ -585,7 +558,6 @@
             min-height: 280px;
             opacity: 0;
             transform: translateY(30px);
-            will-change: transform, opacity;
         }
 
         .contact-card.visible {
@@ -672,36 +644,48 @@
             transform: scale(1.1);
         }
 
-        .contact-link {
-            color: var(--accent-orange);
-            text-decoration: none;
+        /* Специальный стиль для карточки с двумя адресами */
+        .contact-card.double-address {
+            min-height: 320px;
+        }
+
+        .address-list {
+            list-style: none;
+            text-align: left;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .address-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(217, 217, 217, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .address-list li:last-child {
+            border-bottom: none;
+        }
+
+        .address-name {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            margin-top: auto;
-            display: inline-block;
-            padding: 8px 0;
-            position: relative;
+            color: var(--bg-dark);
+            font-size: 1rem;
         }
 
-        .contact-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-orange);
-            transition: width 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+        .address-details {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
-        .contact-link:hover {
-            color: var(--accent-orange-light);
-        }
-
-        .contact-link:hover::after {
-            width: 100%;
+        .address-phone {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 5px;
         }
 
         /* ===== MAP & FORM ENHANCEMENTS ===== */
@@ -738,7 +722,6 @@
             background: #f8fafc;
             opacity: 0;
             transform: translateX(-30px);
-            will-change: transform, opacity;
         }
 
         .map-container.visible {
@@ -794,7 +777,6 @@
             transition: var(--transition);
             opacity: 0;
             transform: translateX(30px);
-            will-change: transform, opacity;
         }
 
         .contact-form-container.visible {
@@ -858,23 +840,6 @@
             transform: translateY(-2px);
         }
 
-        .form-group input:valid,
-        .form-group textarea:valid,
-        .form-group select:valid {
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(88, 100, 116, 0.6);
-            transition: color 0.3s ease;
-        }
-
-        .form-group input:focus::placeholder,
-        .form-group textarea:focus::placeholder {
-            color: rgba(88, 100, 116, 0.3);
-        }
-
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -906,7 +871,6 @@
             box-shadow: var(--shadow);
             opacity: 0;
             transform: translateY(30px);
-            will-change: transform, opacity;
         }
 
         .hours-card.visible {
@@ -992,26 +956,6 @@
             color: white;
             position: relative;
             overflow: hidden;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient-orange);
-            animation: shimmer 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -100px 0;
-            }
-            100% {
-                background-position: 100px 0;
-            }
         }
 
         .footer-content {
@@ -1215,36 +1159,17 @@
             transition: var(--transition);
             transform: translateY(30px) scale(0.9);
             box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
-            will-change: transform;
         }
 
         .scroll-to-top.visible {
             opacity: 1;
             visibility: visible;
             transform: translateY(0) scale(1);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
-            }
-            50% {
-                box-shadow: 0 6px 30px rgba(207, 121, 17, 0.7);
-            }
-            100% {
-                box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
-            }
         }
 
         .scroll-to-top:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 30px rgba(207, 121, 17, 0.6);
-            animation: none;
-        }
-
-        .scroll-to-top:active {
-            transform: scale(0.95);
         }
 
         /* ===== MODAL ENHANCEMENTS ===== */
@@ -1282,7 +1207,6 @@
             transform: translateY(30px) scale(0.95);
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: var(--shadow-dark);
-            will-change: transform;
         }
 
         .modal-overlay.active .modal-content {
@@ -1305,7 +1229,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            will-change: transform;
         }
 
         .modal-close:hover {
@@ -1340,7 +1263,7 @@
             }
         }
 
-        /* ===== RESPONSIVE ENHANCEMENTS ===== */
+        /* ===== FIXED: RESPONSIVE ENHANCEMENTS ===== */
         @media (max-width: 992px) {
             .map-form-grid {
                 grid-template-columns: 1fr;
@@ -1357,12 +1280,14 @@
             }
         }
 
-        @media (max-width: 768px) {
+        /* FIXED: Mobile menu styles */
+        @media (max-width: 868px) {
             .mobile-menu-btn {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                margin-left: auto;
             }
 
             .nav-links {
@@ -1377,28 +1302,81 @@
                 -webkit-backdrop-filter: blur(25px);
                 flex-direction: column;
                 padding: 120px 40px 40px;
-                gap: 20px;
+                gap: 0;
                 transition: right 0.4s cubic-bezier(0.77, 0, 0.18, 1);
                 box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
                 z-index: 1000;
                 border-left: 1px solid rgba(217, 217, 217, 0.3);
+                margin: 0;
             }
 
             .nav-links.active {
                 right: 0;
             }
 
+            .nav-links li {
+                width: 100%;
+                border-bottom: 1px solid rgba(217, 217, 217, 0.3);
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+                margin-top: 20px;
+            }
+
             .nav-links a {
                 font-size: 1.2rem;
-                padding: 15px 0;
-                border-bottom: 1px solid rgba(217, 217, 217, 0.5);
+                padding: 20px 0;
                 width: 100%;
                 display: block;
-                font-weight: 700;
+                font-weight: 600;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .nav-links a.btn-secondary {
+                display: inline-flex;
+                justify-content: center;
+                padding: 12px 24px;
+                margin-top: 10px;
+                border-radius: var(--radius);
+                border: 2px solid var(--accent-orange);
+                background: transparent;
+                color: var(--accent-orange);
+                transition: all 0.3s ease;
+            }
+
+            .nav-links a.btn-secondary:hover {
+                background: var(--accent-orange);
+                color: white;
+            }
+
+            /* Анимация пунктов меню */
+            .nav-links.active li {
+                opacity: 0;
+                transform: translateX(30px);
+                animation: menuItemFade 0.5s ease forwards;
+            }
+
+            .nav-links.active li:nth-child(1) { animation-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { animation-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { animation-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { animation-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { animation-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { animation-delay: 0.6s; }
+            .nav-links.active li:nth-child(7) { animation-delay: 0.7s; }
+
+            @keyframes menuItemFade {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
             }
 
             .contacts-hero {
-                padding: 160px 0 60px;
+                padding: 140px 0 60px;
             }
             
             .contacts-hero h1 {
@@ -1411,6 +1389,10 @@
             
             .contact-card {
                 min-height: 250px;
+            }
+            
+            .contact-card.double-address {
+                min-height: 320px;
             }
             
             .form-row {
@@ -1431,6 +1413,11 @@
                 bottom: 20px;
                 width: 45px;
                 height: 45px;
+            }
+            
+            .logo {
+                width: 200px;
+                height: 70px;
             }
         }
 
@@ -1457,10 +1444,19 @@
                 width: 100%;
                 max-width: 300px;
             }
+
+            .logo {
+                width: 150px;
+                height: 60px;
+            }
             
             .contact-card {
                 padding: 30px 20px;
                 min-height: 230px;
+            }
+            
+            .contact-card.double-address {
+                min-height: 300px;
             }
             
             .contact-icon {
@@ -1481,13 +1477,26 @@
                 padding: 30px 20px;
             }
             
-            .logo {
-                font-size: 2rem;
-            }
-            
             .modal-content {
                 padding: 25px 20px;
             }
+            
+            .nav-links {
+                max-width: 100%;
+                padding: 100px 30px 30px;
+            }
+            
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 18px 0;
+            }
+        }
+
+        /* ===== PERFORMANCE OPTIMIZATIONS ===== */
+        .performance-optimize {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000;
         }
 
         /* ===== CURSOR EFFECTS ===== */
@@ -1495,6 +1504,22 @@
             .btn, .contact-card, .hours-card, .social-links a {
                 cursor: pointer;
             }
+        }
+
+        /* ===== FIXED: Выравнивание примечаний в карточках режима работы ===== */
+        .hours-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .hours-list {
+            flex-grow: 1;
+        }
+
+        .hours-note {
+            margin-top: auto;
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -1507,7 +1532,7 @@
     <!-- ===== HEADER ===== -->
     <header id="mainHeader">
         <div class="container header-container">
-            <a href="index.html" class="logo">Meditab</a>
+            <img src="logo-meditab.svg" class="logo" alt="Meditab Логотип">
             
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Открыть меню" aria-expanded="false">
                 <span></span>
@@ -1535,8 +1560,8 @@
         <section class="contacts-hero" id="hero">
             <div class="container">
                 <div class="contacts-hero-content">
-                    <h1>Свяжитесь с <span class="highlight-text">нами</span></h1>
-                    <p class="section-subtitle">Мы всегда готовы помочь с выбором медицинского оборудования, ответить на ваши вопросы и предоставить профессиональную консультацию. Свяжитесь с нами удобным для вас способом.</p>
+                    <h1>Контактная информация</h1>
+                    <p class="section-subtitle">Наши магазины и пункт самовывоза в Минске. Свяжитесь с нами удобным для вас способом.</p>
                     
                     <div style="margin-top: 40px;">
                         <a href="index.html" class="btn btn-back">
@@ -1550,31 +1575,41 @@
         <!-- ===== CONTACT INFO ===== -->
         <section class="contact-info-section section-spacing">
             <div class="container">
-                <h2>Контактная информация</h2>
-                <p class="section-subtitle">Свяжитесь с нами по телефону, электронной почте или посетите наш офис в Минске</p>
+                <h2>Свяжитесь с нами</h2>
+                <p class="section-subtitle">Посетите наши магазины в Молодечно или пункт самовывоза в Минске</p>
                 
                 <div class="contact-grid">
-                    <div class="contact-card">
+                    <!-- Объединенная карточка с двумя адресами -->
+                    <div class="contact-card double-address">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h3>Адрес офиса</h3>
-                        <p>г. Минск, ул. Медицинская, 15<br>Бизнес-центр "Med Plaza", 4 этаж</p>
-                        <a href="https://maps.google.com/?q=Минск,+ул.+Медицинская,+15" target="_blank" class="contact-link" aria-label="Открыть адрес на карте">
-                            Открыть на карте →
-                        </a>
+                        <h3>Магазины Молодечно</h3>
+                        <ul class="address-list">
+                            <li>
+                                <div class="address-name">ул. Будавников 15А (Дом Быта)</div>
+                                <div class="address-phone">+375(17)53-02-04, +375(44)546-71-77</div>
+                            </li>
+                            <li>
+                                <div class="address-name">ул. Машерова 6</div>
+                                <div class="address-phone">+375(17)53-77-43, +375(25)963-14-48</div>
+                            </li>
+                        </ul>
                     </div>
                     
                     <div class="contact-card">
                         <div class="contact-icon">
-                            <i class="fas fa-phone-alt"></i>
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h3>Телефон для связи</h3>
-                        <p>Ежедневно с 9:00 до 21:00</p>
-                        <a href="tel:+375291234567" class="contact-link" aria-label="Позвонить по телефону">
-                            +375 (29) 123-45-67
-                        </a>
-                    </div>
+                        <h3>Самовывоз Минск</h3>
+                        <ul class="address-list">
+                            <li>
+                                <div class="address-name">ул. Леонида Беды 36</div>
+                                <div class="address-details">(вход со двора, дверь с молекулами)</div>
+                                <div class="address-phone">+375(хх)ххх-хх-хх</div>
+                            </li>
+                        </ul>
+                    </div>  
                     
                     <div class="contact-card">
                         <div class="contact-icon">
@@ -1582,20 +1617,9 @@
                         </div>
                         <h3>Электронная почта</h3>
                         <p>Быстрая связь с нашими специалистами</p>
-                        <a href="mailto:info@meditab.by" class="contact-link" aria-label="Написать на электронную почту">
-                            info@meditab.by
-                        </a>
-                    </div>
-                    
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-shipping-fast"></i>
-                        </div>
-                        <h3>Доставка и логистика</h3>
-                        <p>Вопросы по доставке и отгрузке товаров</p>
-                        <a href="mailto:logistics@meditab.by" class="contact-link" aria-label="Написать в отдел логистики">
-                            logistics@meditab.by
-                        </a>
+                        <p style="margin-top: 10px; color: var(--accent-orange); font-weight: 600;">
+                            xxxxx@gmail.com
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1605,17 +1629,17 @@
         <section class="map-form-section section-spacing">
             <div class="container">
                 <h2>Мы на карте и форма обратной связи</h2>
-                <p class="section-subtitle">Найдите наш офис на карте или отправьте нам сообщение через форму</p>
+                <p class="section-subtitle">Найдите наши магазины на карте или отправьте нам сообщение через форму</p>
                 
                 <div class="map-form-grid">
                     <div class="map-container">
                         <div class="map-placeholder">
                             <i class="fas fa-map-marked-alt"></i>
-                            <h3>Наш офис в Минске</h3>
-                            <p>г. Минск, ул. Медицинская, 15<br>Бизнес-центр "Med Plaza", 4 этаж</p>
+                            <h3>Наши магазины</h3>
+                            <p>г. Молодечно, ул. Будавников 15А (Дом Быта)<br>г. Молодечно, ул. Машерова 6</p>
                             <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-gray);">
-                                <i class="fas fa-subway" style="margin-right: 8px;"></i> Метро: "Площадь Якуба Коласа"<br>
-                                <i class="fas fa-bus" style="margin-right: 8px;"></i> Автобусы: 37, 91, 119
+                                <i class="fas fa-store" style="margin-right: 8px;"></i> Магазины медицинского оборудования<br>
+                                <i class="fas fa-car" style="margin-right: 8px;"></i> Парковка рядом
                             </p>
                         </div>
                     </div>
@@ -1646,7 +1670,7 @@
                                     <option value="">Выберите тему</option>
                                     <option value="consultation">Консультация по оборудованию</option>
                                     <option value="order">Заказ товаров</option>
-                                    <option value="delivery">Вопросы по доставке</option>
+                                    <option value="question">Вопрос по товару</option>
                                     <option value="cooperation">Сотрудничество</option>
                                     <option value="other">Другое</option>
                                 </select>
@@ -1675,76 +1699,80 @@
                 <div class="hours-grid">
                     <div class="hours-card">
                         <div class="hours-icon">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-store"></i>
                         </div>
-                        <h3>График работы офиса</h3>
+                        <h3>Магазины</h3>
                         <ul class="hours-list">
                             <li>
                                 <span class="day">Понедельник - Пятница</span>
-                                <span class="time">9:00 - 21:00</span>
+                                <span class="time">9:00 - 18:00</span>
                             </li>
                             <li>
-                                <span class="day">Суббота</span>
-                                <span class="time">10:00 - 18:00</span>
+                                <span class="day">Обеденный перерыв</span>
+                                <span class="time">13:00 - 14:00</span>
                             </li>
                             <li>
-                                <span class="day">Воскресенье</span>
-                                <span class="time">10:00 - 16:00</span>
+                                <span class="day">Саббота - Воскресенье</span>
+                                <span class="time">Выходные</span>
                             </li>
                         </ul>
                         <div class="hours-note">
                             <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-                            В праздничные дни график может меняться
+                            График работы магазинов
                         </div>
                     </div>
                     
                     <div class="hours-card">
                         <div class="hours-icon">
-                            <i class="fas fa-headset"></i>
+                            <i class="fas fa-building"></i>
                         </div>
-                        <h3>Телефонная поддержка</h3>
+                        <h3>Офис в Минске<br>(пункт самовывоза)</h3>
                         <ul class="hours-list">
                             <li>
                                 <span class="day">Понедельник - Пятница</span>
-                                <span class="time">9:00 - 21:00</span>
+                                <span class="time">8:30 - 16:00</span>
                             </li>
                             <li>
-                                <span class="day">Суббота</span>
-                                <span class="time">10:00 - 18:00</span>
+                                <span class="day">Обеденный перерыв</span>
+                                <span class="time">13:00 - 14:00</span>
                             </li>
                             <li>
-                                <span class="day">Воскресенье</span>
-                                <span class="time">10:00 - 16:00</span>
+                                <span class="day">Суббота - Воскресенье</span>
+                                <span class="time">Выходные</span>
+                            </li>
+                        </ul>
+                        <div class="hours-note">
+                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                            Предварительный звонок
+                        </div>
+                    </div>
+                    
+                    <div class="hours-card">
+                        <div class="hours-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Контакты магазинов</h3>
+                        <ul class="hours-list">
+                            <li>
+                                <span class="day">ул. Будавников 15А</span>
+                                <span class="time">53-02-04</span>
+                            </li>
+                            <li>
+                                <span class="day">Телефон</span>
+                                <span class="time">+375 (44) 546-71-77</span>
+                            </li>
+                            <li>
+                                <span class="day">ул. Машерова 6</span>
+                                <span class="time">53-77-43</span>
+                            </li>
+                            <li>
+                                <span class="day">Телефон</span>
+                                <span class="time">+375 (25) 963-14-48</span>
                             </li>
                         </ul>
                         <div class="hours-note">
                             <i class="fas fa-phone" style="margin-right: 8px;"></i>
-                            Телефон для экстренной связи: +375 (29) 765-43-21
-                        </div>
-                    </div>
-                    
-                    <div class="hours-card">
-                        <div class="hours-icon">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <h3>Доставка и отгрузка</h3>
-                        <ul class="hours-list">
-                            <li>
-                                <span class="day">Прием заказов</span>
-                                <span class="time">Круглосуточно</span>
-                            </li>
-                            <li>
-                                <span class="day">Обработка заказов</span>
-                                <span class="time">9:00 - 19:00</span>
-                            </li>
-                            <li>
-                                <span class="day">Самовывоз</span>
-                                <span class="time">10:00 - 20:00</span>
-                            </li>
-                        </ul>
-                        <div class="hours-note">
-                            <i class="fas fa-shipping-fast" style="margin-right: 8px;"></i>
-                            Доставка по Минску в день заказа при оформлении до 14:00
+                            Звоните в рабочее время магазинов
                         </div>
                     </div>
                 </div>
@@ -1840,8 +1868,9 @@
             
             let isMenuOpen = false;
             let scrollTimeout;
+            let ticking = false;
             
-            // Professional mobile menu with improved UX
+            // Бургер меню из каталога
             mobileMenuBtn.addEventListener('click', function() {
                 isMenuOpen = !isMenuOpen;
                 this.classList.toggle('active');
@@ -1849,12 +1878,17 @@
                 this.setAttribute('aria-expanded', isMenuOpen);
                 document.body.style.overflow = isMenuOpen ? 'hidden' : '';
                 
-                // Add subtle animation to menu items
+                // Плавная анимация пунктов меню при открытии
                 if (isMenuOpen) {
-                    const menuItems = navLinks.querySelectorAll('a');
+                    const menuItems = navLinks.querySelectorAll('li');
                     menuItems.forEach((item, index) => {
-                        item.style.animationDelay = `${index * 0.1}s`;
-                        item.classList.add('fade-in');
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(30px)';
+                        setTimeout(() => {
+                            item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateX(0)';
+                        }, 100 + index * 50);
                     });
                 }
             });
@@ -1868,22 +1902,28 @@
                 });
             });
             
-            // Professional scroll handler with debouncing
+            // Optimized scroll handler with requestAnimationFrame
             function handleScroll() {
-                // Header scroll effect
-                if (window.scrollY > 50) {
-                    mainHeader.classList.add('scrolled');
-                    scrollToTop.classList.add('visible');
-                } else {
-                    mainHeader.classList.remove('scrolled');
-                    scrollToTop.classList.remove('visible');
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        // Header scroll effect
+                        if (window.scrollY > 50) {
+                            mainHeader.classList.add('scrolled');
+                            scrollToTop.classList.add('visible');
+                        } else {
+                            mainHeader.classList.remove('scrolled');
+                            scrollToTop.classList.remove('visible');
+                        }
+                        
+                        // Animate elements on scroll
+                        animateOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-                
-                // Animate elements on scroll
-                animateOnScroll();
             }
             
-            // Scroll to top with smooth behavior
+            // Scroll to top
             scrollToTop.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
@@ -1891,38 +1931,26 @@
                 });
             });
             
-            // Intersection Observer for scroll animations
+            // Optimized scroll animations
             function animateOnScroll() {
                 const elements = document.querySelectorAll('.contact-card, .map-container, .contact-form-container, .hours-card');
+                const windowHeight = window.innerHeight;
                 
                 elements.forEach(el => {
-                    if (isElementInViewport(el)) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= windowHeight * 0.85 && rect.bottom >= 0) {
                         el.classList.add('visible');
                     }
                 });
             }
             
-            // Check if element is in viewport
-            function isElementInViewport(el) {
-                const rect = el.getBoundingClientRect();
-                return (
-                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
-                    rect.bottom >= 0
-                );
-            }
-            
-            // Initialize scroll animations
-            document.querySelectorAll('section h2, section .section-subtitle').forEach(el => {
-                el.classList.add('fade-in');
-            });
-            
-            // Hero section entrance animation
+            // Initialize animations
             setTimeout(() => {
                 document.querySelector('.contacts-hero h1').style.animation = 'slideUpFade 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.2s forwards';
                 document.querySelector('.contacts-hero .section-subtitle').style.animation = 'fadeUp 0.8s ease 0.4s forwards';
             }, 300);
             
-            // Enhanced form submission with loading state
+            // Form submission
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -1936,19 +1964,9 @@
                 const subject = document.getElementById('subject').value;
                 const message = document.getElementById('message').value.trim();
                 
-                // Enhanced validation
+                // Validation
                 if (!name || !phone || !message) {
                     showNotification('Пожалуйста, заполните обязательные поля', 'error');
-                    return;
-                }
-                
-                if (phone.replace(/\D/g, '').length < 9) {
-                    showNotification('Пожалуйста, введите корректный номер телефона', 'error');
-                    return;
-                }
-                
-                if (email && !isValidEmail(email)) {
-                    showNotification('Пожалуйста, введите корректный email', 'error');
                     return;
                 }
                 
@@ -1971,31 +1989,16 @@
                 submitBtn.classList.remove('loading');
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-                
-                // Send analytics event
-                logFormSubmission(name, subject);
             });
-            
-            // Email validation
-            function isValidEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-            
-            // Analytics logging
-            function logFormSubmission(name, subject) {
-                console.log(`Form submitted: ${name} - ${subject}`);
-                // Here you would typically send to Google Analytics, etc.
-            }
             
             // Modal handling
-            modalClose.addEventListener('click', () => {
-                closeModal();
-            });
+            function closeModal() {
+                successModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
             
-            closeModalBtn.addEventListener('click', () => {
-                closeModal();
-            });
+            modalClose.addEventListener('click', closeModal);
+            closeModalBtn.addEventListener('click', closeModal);
             
             successModal.addEventListener('click', (e) => {
                 if (e.target === successModal) {
@@ -2003,12 +2006,7 @@
                 }
             });
             
-            function closeModal() {
-                successModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            
-            // Professional notification system
+            // Notification system
             function showNotification(message, type = 'info') {
                 const notification = document.createElement('div');
                 const colors = {
@@ -2035,7 +2033,6 @@
                     display: flex;
                     align-items: center;
                     gap: 10px;
-                    will-change: transform;
                 `;
                 
                 notification.innerHTML = `
@@ -2045,17 +2042,10 @@
                 
                 document.body.appendChild(notification);
                 
-                // Auto remove after 4 seconds
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
                     setTimeout(() => notification.remove(), 400);
                 }, 4000);
-                
-                // Click to dismiss
-                notification.addEventListener('click', () => {
-                    notification.style.animation = 'slideOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
-                    setTimeout(() => notification.remove(), 400);
-                });
             }
             
             // Add CSS for notifications
@@ -2072,36 +2062,19 @@
             `;
             document.head.appendChild(styleSheet);
             
-            // Phone input mask with better UX
+            // Phone input mask
             const phoneInput = document.getElementById('phone');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
                     let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
                     e.target.value = !x[2] ? '+375 (' + x[1] : '+375 (' + x[1] + ') ' + x[2] + (x[3] ? ' ' + x[3] : '') + (x[4] ? ' ' + x[4] : '') + (x[5] ? ' ' + x[5] : '');
                 });
-                
-                phoneInput.addEventListener('focus', function() {
-                    if (!this.value) {
-                        this.value = '+375 (';
-                    }
-                });
             }
             
-            // Form input enhancements
-            document.querySelectorAll('.form-group input, .form-group textarea, .form-group select').forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.classList.add('focused');
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.parentElement.classList.remove('focused');
-                });
-            });
-            
-            // Debounced scroll event
+            // Debounced scroll event with throttle
             window.addEventListener('scroll', () => {
                 clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(handleScroll, 10);
+                scrollTimeout = setTimeout(handleScroll, 16); // ~60fps
             });
             
             // Initialize on load
@@ -2110,7 +2083,6 @@
             
             // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
-                // Escape key closes modals and menu
                 if (e.key === 'Escape') {
                     if (isMenuOpen) {
                         mobileMenuBtn.click();
@@ -2119,28 +2091,16 @@
                         closeModal();
                     }
                 }
-                
-                // Ctrl + Enter submits form
-                if (e.ctrlKey && e.key === 'Enter' && contactForm.contains(document.activeElement)) {
-                    contactForm.requestSubmit();
-                }
             });
             
-            // Performance optimization
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(() => {
-                    // Lazy load animations
-                    document.querySelectorAll('img').forEach(img => {
-                        if ('loading' in img) {
-                            img.loading = 'lazy';
-                        }
-                    });
-                });
-            }
-            
-            // Console greeting
-            console.log('%cMeditab Contacts 🏥', 'color: #cf7911; font-size: 16px; font-weight: bold;');
-            console.log('%cProfessional medical equipment website\nCrafted with care by Nexus Team', 'color: #586474;');
+            // Закрытие меню при клике вне меню на мобильных устройствах
+            document.addEventListener('click', (e) => {
+                if (isMenuOpen && window.innerWidth <= 868) {
+                    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileMenuBtn.click();
+                    }
+                }
+            });
         });
     </script>
 </body>
