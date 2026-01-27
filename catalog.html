@@ -873,11 +873,12 @@
             border: 1px solid rgba(217, 217, 217, 0.5);
             transition: var(--transition);
             scroll-margin-top: 100px;
+            display: none; /* Скрываем на десктопе по умолчанию */
         }
 
-        .category-section:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-5px);
+        .category-section.active {
+            display: block; /* Показываем только активную */
+            animation: fadeInUp 0.6s ease forwards;
         }
 
         .category-section.collapsed .products-grid {
@@ -1638,7 +1639,7 @@
         .delivery-section {
             margin-bottom: 25px;
         }
-
+        
         .delivery-title {
             font-weight: 600;
             margin-bottom: 15px;
@@ -1647,27 +1648,27 @@
             align-items: center;
             gap: 10px;
         }
-
+        
         .delivery-title i {
             color: var(--accent-orange);
         }
-
+        
         .delivery-options {
             display: grid;
             gap: 12px;
         }
-
+        
         .delivery-option {
             position: relative;
         }
-
+        
         .delivery-option input[type="radio"] {
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
         }
-
+        
         .delivery-label {
             display: block;
             cursor: pointer;
@@ -1680,20 +1681,20 @@
             padding-left: 55px;
             min-height: 70px;
         }
-
+        
         .delivery-label:hover {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.03);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
-
-        .delivery-option input[type="radio"]:checked+.delivery-label {
+        
+        .delivery-option input[type="radio"]:checked + .delivery-label {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.08);
             box-shadow: 0 4px 15px rgba(207, 121, 17, 0.1);
         }
-
+        
         .delivery-label::before {
             content: '';
             position: absolute;
@@ -1707,8 +1708,8 @@
             background: white;
             transition: all 0.3s ease;
         }
-
-        .delivery-option input[type="radio"]:checked+.delivery-label::after {
+        
+        .delivery-option input[type="radio"]:checked + .delivery-label::after {
             content: '';
             position: absolute;
             left: 25px;
@@ -1719,25 +1720,25 @@
             background: var(--accent-orange);
             border-radius: 50%;
         }
-
+        
         .delivery-label-content {
             display: flex;
             flex-direction: column;
         }
-
+        
         .delivery-main-text {
             font-weight: 600;
             color: var(--bg-dark);
             margin-bottom: 5px;
             font-size: 1rem;
         }
-
+        
         .delivery-subtext {
             font-size: 0.9rem;
             color: var(--text-gray);
             line-height: 1.4;
         }
-
+        
         .pickup-locations {
             margin-top: 15px;
             margin-left: 15px;
@@ -1749,19 +1750,12 @@
             overflow: hidden;
             transition: max-height 0.3s ease, opacity 0.3s ease;
         }
-
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
+        
         .pickup-locations.hidden {
             max-height: 0;
             opacity: 0;
@@ -1769,18 +1763,18 @@
             margin-bottom: 0;
             overflow: hidden;
         }
-
+        
         .pickup-option {
             position: relative;
         }
-
+        
         .pickup-option input[type="radio"] {
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
         }
-
+        
         .location-label {
             display: block;
             cursor: pointer;
@@ -1791,17 +1785,17 @@
             transition: all 0.2s ease;
             padding-left: 45px;
         }
-
+        
         .location-label:hover {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.03);
         }
-
-        .pickup-option input[type="radio"]:checked+.location-label {
+        
+        .pickup-option input[type="radio"]:checked + .location-label {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.08);
         }
-
+        
         .location-label::before {
             content: '';
             position: absolute;
@@ -1815,8 +1809,8 @@
             background: white;
             transition: all 0.3s ease;
         }
-
-        .pickup-option input[type="radio"]:checked+.location-label::after {
+        
+        .pickup-option input[type="radio"]:checked + .location-label::after {
             content: '';
             position: absolute;
             left: 19px;
@@ -1827,19 +1821,19 @@
             background: var(--accent-orange);
             border-radius: 50%;
         }
-
+        
         .location-info {
             display: flex;
             flex-direction: column;
         }
-
+        
         .location-address {
             font-weight: 500;
             color: var(--bg-dark);
             margin-bottom: 3px;
             font-size: 0.95rem;
         }
-
+        
         .location-hours {
             font-size: 0.85rem;
             color: var(--text-gray);
@@ -1952,6 +1946,24 @@
                 font-size: 0.8rem;
                 padding: 4px 8px;
             }
+            
+            /* ===== НА МОБИЛЬНЫХ СКРЫВАЕМ ГРИД КАТЕГОРИЙ ===== */
+            .categories-section {
+                display: none;
+            }
+            
+            /* ===== НА МОБИЛЬНЫХ ПОКАЗЫВАЕМ ВСЕ КАТЕГОРИИ СРАЗУ ===== */
+            .category-section {
+                display: block !important;
+            }
+            
+            .category-section.collapsed .products-grid {
+                display: none;
+            }
+            
+            .category-section:not(.collapsed) .products-grid {
+                display: grid;
+            }
         }
 
         /* ===== OTHER MEDIA QUERIES ===== */
@@ -1959,7 +1971,7 @@
             .products-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
-
+            
             .categories-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -1978,7 +1990,7 @@
                 grid-template-columns: repeat(3, 1fr);
                 gap: 30px;
             }
-
+            
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -2002,7 +2014,7 @@
             .category-header h2 {
                 font-size: 1.3rem;
             }
-
+            
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
@@ -2216,71 +2228,71 @@
             .container {
                 padding: 0 15px;
             }
-
+            
             /* Categories grid mobile */
             .categories-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-
+            
             .category-grid-card-header {
                 padding: 20px;
             }
-
+            
             .category-grid-card-icon {
                 width: 50px;
                 height: 50px;
                 font-size: 1.5rem;
             }
-
+            
             .category-grid-card-title {
                 font-size: 1.2rem;
             }
-
+            
             /* Delivery form mobile */
             .delivery-label {
                 padding: 15px;
                 padding-left: 50px;
                 min-height: 65px;
             }
-
+            
             .delivery-label::before {
                 left: 15px;
             }
-
-            .delivery-option input[type="radio"]:checked+.delivery-label::after {
+            
+            .delivery-option input[type="radio"]:checked + .delivery-label::after {
                 left: 20px;
             }
-
+            
             .delivery-main-text {
                 font-size: 0.95rem;
             }
-
+            
             .delivery-subtext {
                 font-size: 0.85rem;
             }
-
+            
             .pickup-locations {
                 margin-left: 10px;
             }
-
+            
             .location-label {
                 padding: 12px;
                 padding-left: 40px;
             }
-
+            
             .location-label::before {
                 left: 12px;
             }
-
-            .pickup-option input[type="radio"]:checked+.location-label::after {
+            
+            .pickup-option input[type="radio"]:checked + .location-label::after {
                 left: 16px;
             }
-
+            
             .location-address {
                 font-size: 0.9rem;
             }
-
+            
             .location-hours {
                 font-size: 0.8rem;
             }
@@ -2368,82 +2380,82 @@
                 font-size: 0.95rem;
                 min-width: 180px;
             }
-
+            
             /* Categories grid small mobile */
             .categories-grid {
                 gap: 15px;
             }
-
+            
             .category-grid-card-header {
                 padding: 15px;
             }
-
+            
             .category-grid-card-body {
                 padding: 15px;
             }
-
+            
             .category-grid-card-icon {
                 width: 45px;
                 height: 45px;
                 font-size: 1.3rem;
             }
-
+            
             .category-grid-card-title {
                 font-size: 1.1rem;
             }
-
+            
             /* Delivery form small mobile */
             .delivery-label {
                 padding: 12px;
                 padding-left: 45px;
                 min-height: 60px;
             }
-
+            
             .delivery-label::before {
                 left: 12px;
                 width: 18px;
                 height: 18px;
             }
-
-            .delivery-option input[type="radio"]:checked+.delivery-label::after {
+            
+            .delivery-option input[type="radio"]:checked + .delivery-label::after {
                 left: 17px;
                 width: 8px;
                 height: 8px;
             }
-
+            
             .delivery-main-text {
                 font-size: 0.9rem;
             }
-
+            
             .delivery-subtext {
                 font-size: 0.8rem;
             }
-
+            
             .pickup-locations {
                 margin-left: 8px;
             }
-
+            
             .location-label {
                 padding: 10px;
                 padding-left: 35px;
             }
-
+            
             .location-label::before {
                 left: 10px;
                 width: 14px;
                 height: 14px;
             }
-
-            .pickup-option input[type="radio"]:checked+.location-label::after {
+            
+            .pickup-option input[type="radio"]:checked + .location-label::after {
                 left: 14px;
                 width: 6px;
                 height: 6px;
             }
-
+            
             .location-address {
                 font-size: 0.85rem;
             }
-
+            
             .location-hours {
                 font-size: 0.75rem;
             }
@@ -2469,11 +2481,11 @@
         .product-card {
             animation: fadeInUp 0.4s ease forwards;
         }
-
+        
         .category-grid-card {
             animation: fadeInUp 0.4s ease forwards;
         }
-
+        
         /* Notification styles */
         .notification {
             position: fixed;
@@ -2495,37 +2507,15 @@
             gap: 12px;
             font-size: 0.95rem;
         }
-
+        
         @keyframes slideIn {
-            from {
-                transform: translateX(100px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-
+        
         @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-
-            /* ===== СКРЫВАЕМ ГРИД КАТЕГОРИЙ НА МОБИЛЬНЫХ ===== */
-            .categories-grid {
-                display: none;
-            }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100px); opacity: 0; }
         }
     </style>
 </head>
@@ -2601,7 +2591,7 @@
                     товары сертифицированы и соответствуют стандартам качества.</p>
             </div>
 
-            <!-- ===== КАТЕГОРИИ В ГРИДЕ ===== -->
+            <!-- ===== КАТЕГОРИИ В ГРИДЕ (ТОЛЬКО НА ДЕСКТОПЕ) ===== -->
             <section class="categories-section">
                 <h2 style="text-align: center; margin-bottom: 20px;">Выберите категорию</h2>
                 <p class="section-subtitle" style="text-align: center; margin-bottom: 40px; color: var(--text-gray);">
@@ -2618,8 +2608,7 @@
                             <div class="category-grid-card-title">Медицинская одежда</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Халаты, костюмы, шапочки и другая профессиональная одежда
-                                для медицинских работников</p>
+                            <p class="category-description">Халаты, костюмы, шапочки и другая профессиональная одежда для медицинских работников</p>
                             <div class="category-stats">
                                 <span class="category-count">15+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2636,8 +2625,7 @@
                             <div class="category-grid-card-title">Тонометры</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Автоматические, механические и полуавтоматические тонометры
-                                для измерения давления</p>
+                            <p class="category-description">Автоматические, механические и полуавтоматические тонометры для измерения давления</p>
                             <div class="category-stats">
                                 <span class="category-count">8+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2654,8 +2642,7 @@
                             <div class="category-grid-card-title">Диабетические товары</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Глюкометры, тест-полоски, ланцеты и другие товары для
-                                диабетиков</p>
+                            <p class="category-description">Глюкометры, тест-полоски, ланцеты и другие товары для диабетиков</p>
                             <div class="category-stats">
                                 <span class="category-count">12+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2672,8 +2659,7 @@
                             <div class="category-grid-card-title">Ортопедические изделия</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Корсеты, бандажи, ортопедические стельки и другие
-                                поддерживающие изделия</p>
+                            <p class="category-description">Корсеты, бандажи, ортопедические стельки и другие поддерживающие изделия</p>
                             <div class="category-stats">
                                 <span class="category-count">18+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2690,8 +2676,7 @@
                             <div class="category-grid-card-title">Гинекологические товары</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Специализированные товары для женского здоровья и
-                                гинекологии</p>
+                            <p class="category-description">Специализированные товары для женского здоровья и гинекологии</p>
                             <div class="category-stats">
                                 <span class="category-count">10+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2708,8 +2693,7 @@
                             <div class="category-grid-card-title">Компрессионный трикотаж</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Чулки, гольфы и колготки для профилактики и лечения варикоза
-                            </p>
+                            <p class="category-description">Чулки, гольфы и колготки для профилактики и лечения варикоза</p>
                             <div class="category-stats">
                                 <span class="category-count">14+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2726,8 +2710,7 @@
                             <div class="category-grid-card-title">Оптика</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Очки, лупы, средства для ухода за очками и другие оптические
-                                товары</p>
+                            <p class="category-description">Очки, лупы, средства для ухода за очками и другие оптические товары</p>
                             <div class="category-stats">
                                 <span class="category-count">9+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2744,8 +2727,7 @@
                             <div class="category-grid-card-title">Экспресс-тесты</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Тесты на COVID-19, беременность, наркотики и другие
-                                экспресс-диагностические системы</p>
+                            <p class="category-description">Тесты на COVID-19, беременность, наркотики и другие экспресс-диагностические системы</p>
                             <div class="category-stats">
                                 <span class="category-count">20+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2762,8 +2744,7 @@
                             <div class="category-grid-card-title">Другое</div>
                         </div>
                         <div class="category-grid-card-body">
-                            <p class="category-description">Товары для дома, аптечки, расходные материалы и другие
-                                медицинские товары</p>
+                            <p class="category-description">Товары для дома, аптечки, расходные материалы и другие медицинские товары</p>
                             <div class="category-stats">
                                 <span class="category-count">25+ товаров</span>
                                 <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
@@ -2773,7 +2754,7 @@
                 </div>
             </section>
 
-            <!-- ===== ОРИГИНАЛЬНЫЕ СЕКЦИИ С ТОВАРАМИ (СКРЫТЫ ДО НАЖАТИЯ) ===== -->
+            <!-- ===== ОРИГИНАЛЬНЫЕ СЕКЦИИ С ТОВАРАМИ ===== -->
             <div class="product-sections-container" id="productSections" style="margin-top: 80px;">
                 <!-- Category 1: Medical clothing -->
                 <section class="category-section collapsed" id="clothing">
@@ -2969,7 +2950,7 @@
                             <i class="fas fa-file-alt"></i>
                         </div>
                         <h3>Оставьте заявку</h3>
-                        <p>Заполните форму заявки или позвоните нам напрямую</p>
+                        <p>Заполните форму заявки в корзине</p>
                     </div>
 
                     <div class="step-card">
@@ -3031,35 +3012,13 @@
                     <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.7;">Профессиональное медицинское
                         оборудование и расходные материалы. Прямые поставки от производителей с гарантией качества.</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="#" aria-label="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="#" aria-label="Viber">
-                            <i class="fab fa-viber"></i>
-                        </a>
                         <a href="#" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                 </div>
 
-                <div>
-                    <h3 style="color: white; font-size: 1.2rem; margin-bottom: 20px;">Каталог</h3>
-                    <ul class="footer-links">
-                        <li><a href="#clothing">Медицинская одежда</a></li>
-                        <li><a href="#tonometers">Тонометры</a></li>
-                        <li><a href="#diabetes">Диабетические товары</a></li>
-                        <li><a href="#orthopedic">Ортопедические изделия</a></li>
-                        <li><a href="#gynecology">Гинекологические товары</a></li>
-                        <li><a href="#compression">Компрессионный трикотаж</a></li>
-                        <li><a href="#optics">Оптика</a></li>
-                        <li><a href="#tests">Экспресс-тесты</a></li>
-                        <li><a href="#other">Другое</a></li>
-                    </ul>
-                </div>
+                
 
                 <div>
                     <h3 style="color: white; font-size: 1.2rem; margin-bottom: 20px;">Компания</h3>
@@ -3105,7 +3064,7 @@
                         <i class="fas fa-truck"></i>
                         Способ получения:
                     </div>
-
+                    
                     <div class="delivery-options">
                         <!-- Pickup -->
                         <div class="delivery-option" id="pickupOption">
@@ -3116,7 +3075,7 @@
                                     <div class="delivery-subtext">Заберите заказ из одного из наших пунктов выдачи</div>
                                 </div>
                             </label>
-
+                            
                             <!-- Pickup locations -->
                             <div class="pickup-locations" id="pickupLocations">
                                 <div class="pickup-option">
@@ -3129,7 +3088,7 @@
                                         </div>
                                     </label>
                                 </div>
-
+                                
                                 <div class="pickup-option">
                                     <input type="radio" id="pickup_budav" name="pickupLocation" value="budav">
                                     <label for="pickup_budav" class="location-label">
@@ -3140,7 +3099,7 @@
                                         </div>
                                     </label>
                                 </div>
-
+                                
                                 <div class="pickup-option">
                                     <input type="radio" id="pickup_minsk" name="pickupLocation" value="minsk">
                                     <label for="pickup_minsk" class="location-label">
@@ -3153,7 +3112,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <!-- Delivery -->
                         <div class="delivery-option">
                             <input type="radio" id="delivery" name="delivery" value="delivery">
@@ -3550,7 +3509,7 @@
         });
 
         // ===== DELIVERY FORM FUNCTIONALITY =====
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Delivery form elements
             const deliveryOptions = document.querySelectorAll('input[name="delivery"]');
             const pickupLocations = document.getElementById('pickupLocations');
@@ -3559,13 +3518,13 @@
             const orderModal = document.getElementById('orderModal');
             const modalClose = document.getElementById('modalClose');
             const openOrderModal = document.getElementById('openOrderModal');
-
+            
             // Initially show pickup locations (since pickup is selected by default)
             pickupLocations.style.display = 'grid';
-
+            
             // Handle delivery method selection
             deliveryOptions.forEach(option => {
-                option.addEventListener('change', function () {
+                option.addEventListener('change', function() {
                     if (this.value === 'pickup') {
                         // Show pickup locations with animation
                         pickupLocations.style.display = 'grid';
@@ -3581,11 +3540,11 @@
                     }
                 });
             });
-
+            
             // Handle form submission
-            orderForm.addEventListener('submit', function (e) {
+            orderForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-
+                
                 // Collect form data
                 const formData = {
                     name: this.querySelector('input[type="text"]').value,
@@ -3594,13 +3553,13 @@
                     question: this.querySelector('textarea').value,
                     pickupLocation: null
                 };
-
+                
                 // If pickup selected - add selected location
                 if (formData.deliveryMethod === 'pickup') {
                     const selectedLocation = this.querySelector('input[name="pickupLocation"]:checked');
                     if (selectedLocation) {
                         formData.pickupLocation = selectedLocation.value;
-
+                        
                         // Get location text
                         const locationLabels = {
                             'mash': 'г. Молодечно, ул. Машерова 6',
@@ -3610,32 +3569,32 @@
                         formData.pickupLocationText = locationLabels[selectedLocation.value];
                     }
                 }
-
+                
                 // In real app, send to server here
                 console.log('Form data:', formData);
-
+                
                 // Show notification
                 showFormNotification('Заявка отправлена! Менеджер свяжется с вами в течение 15 минут.', 'success');
-
+                
                 // Close modal
                 orderModal.classList.remove('active');
                 document.body.style.overflow = '';
-
+                
                 // Reset form
                 this.reset();
-
+                
                 // Reset delivery to pickup
                 document.getElementById('pickup').checked = true;
                 pickupLocations.style.display = 'grid';
                 pickupLocations.classList.remove('hidden');
                 document.getElementById('pickup_mash').checked = true;
             });
-
+            
             // Open modal
-            openOrderModal.addEventListener('click', function () {
+            openOrderModal.addEventListener('click', function() {
                 orderModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-
+                
                 // Reset form when opening
                 orderForm.reset();
                 document.getElementById('pickup').checked = true;
@@ -3643,37 +3602,37 @@
                 pickupLocations.classList.remove('hidden');
                 document.getElementById('pickup_mash').checked = true;
             });
-
+            
             // Close modal
-            modalClose.addEventListener('click', function () {
+            modalClose.addEventListener('click', function() {
                 orderModal.classList.remove('active');
                 document.body.style.overflow = '';
             });
-
+            
             // Close modal when clicking outside
-            orderModal.addEventListener('click', function (e) {
+            orderModal.addEventListener('click', function(e) {
                 if (e.target === this) {
                     orderModal.classList.remove('active');
                     document.body.style.overflow = '';
                 }
             });
-
+            
             // Close with ESC
-            document.addEventListener('keydown', function (e) {
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && orderModal.classList.contains('active')) {
                     orderModal.classList.remove('active');
                     document.body.style.overflow = '';
                 }
             });
-
+            
             // Form notification function
             function showFormNotification(message, type = 'success') {
                 const notification = document.createElement('div');
                 notification.className = 'notification';
-
+                
                 let icon = 'check-circle';
                 let color = '#10b981';
-
+                
                 if (type === 'error') {
                     icon = 'exclamation-circle';
                     color = '#ef4444';
@@ -3681,12 +3640,12 @@
                     icon = 'info-circle';
                     color = 'var(--accent-orange)';
                 }
-
+                
                 notification.innerHTML = `
                     <i class="fas fa-${icon}"></i>
                     <span>${message}</span>
                 `;
-
+                
                 notification.style.cssText = `
                     position: fixed;
                     top: 100px;
@@ -3707,9 +3666,9 @@
                     gap: 12px;
                     font-size: 0.95rem;
                 `;
-
+                
                 document.body.appendChild(notification);
-
+                
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.3s ease forwards';
                     setTimeout(() => {
@@ -3719,18 +3678,16 @@
                     }, 300);
                 }, 3000);
             }
-
+            
             // Initialize pickup locations animation
             pickupLocations.style.opacity = '0';
             pickupLocations.style.transform = 'translateY(-10px)';
             pickupLocations.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease';
-
+            
             setTimeout(() => {
                 pickupLocations.style.opacity = '1';
                 pickupLocations.style.transform = 'translateY(0)';
             }, 100);
-
-            console.log('Delivery form initialized');
         });
 
         // ===== MAIN SITE FUNCTIONALITY =====
@@ -3742,10 +3699,9 @@
             const purchaseTypeBtns = document.querySelectorAll('.purchase-type-btn');
             const categoryToggles = document.querySelectorAll('.category-toggle');
             const categorySections = document.querySelectorAll('.category-section');
-
+            
             // New elements for categories grid
             const categoryCards = document.querySelectorAll('.category-grid-card');
-            const productSections = document.getElementById('productSections');
 
             let isMenuOpen = false;
             let currentPriceType = 'retail';
@@ -3769,66 +3725,150 @@
                 });
             });
 
-            // ===== КАТЕГОРИИ В ГРИДЕ - ОТКРЫТИЕ СЕКЦИЙ =====
-            categoryCards.forEach(card => {
-                card.addEventListener('click', function () {
-                    const categoryId = this.getAttribute('data-category');
+            // ===== КАТЕГОРИИ В ГРИДЕ - ОТКРЫТИЕ СЕКЦИЙ (ТОЛЬКО НА ДЕСКТОПЕ) =====
+            function setupCategoryGridLogic() {
+                // Только на десктопе
+                if (window.innerWidth > 768) {
+                    categoryCards.forEach(card => {
+                        card.addEventListener('click', function() {
+                            const categoryId = this.getAttribute('data-category');
+                            
+                            // Убираем выделение со всех карточек
+                            categoryCards.forEach(c => c.classList.remove('active'));
+                            // Выделяем текущую карточку
+                            this.classList.add('active');
+                            
+                            // Скрываем все секции
+                            categorySections.forEach(section => {
+                                section.classList.remove('active');
+                                section.classList.add('collapsed');
+                                const toggle = section.querySelector('.category-toggle');
+                                const productsGrid = section.querySelector('.products-grid');
+                                
+                                if (toggle) {
+                                    toggle.classList.add('collapsed');
+                                    toggle.querySelector('i').style.transform = 'rotate(0deg)';
+                                }
+                                
+                                if (productsGrid) {
+                                    productsGrid.style.display = 'none';
+                                    productsGrid.style.opacity = '0';
+                                }
+                            });
+                            
+                            // Показываем выбранную секцию
+                            const targetSection = document.getElementById(categoryId);
+                            if (targetSection) {
+                                targetSection.classList.add('active');
+                                targetSection.classList.remove('collapsed');
+                                
+                                const toggle = targetSection.querySelector('.category-toggle');
+                                const productsGrid = targetSection.querySelector('.products-grid');
+                                
+                                if (toggle) {
+                                    toggle.classList.remove('collapsed');
+                                    toggle.querySelector('i').style.transform = 'rotate(90deg)';
+                                }
+                                
+                                if (productsGrid) {
+                                    productsGrid.style.display = 'grid';
+                                    setTimeout(() => {
+                                        productsGrid.style.opacity = '1';
+                                    }, 10);
+                                }
+                                
+                                // Скроллим к секции
+                                const headerHeight = document.querySelector('header').offsetHeight;
+                                const sectionPosition = targetSection.offsetTop - headerHeight - 20;
+                                
+                                window.scrollTo({
+                                    top: sectionPosition,
+                                    behavior: 'smooth'
+                                });
+                                
+                                // Загружаем товары если еще не загружены
+                                setTimeout(loadProductsFromStorage, 100);
+                                
+                                activeCategory = categoryId;
+                            }
+                        });
+                    });
+                    
+                    console.log('Category grid logic enabled (desktop)');
+                } else {
+                    // На мобильных - обычная логика с toggle
+                    categoryToggles.forEach(toggle => {
+                        toggle.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            const categorySection = this.closest('.category-section');
+                            const isCollapsed = categorySection.classList.contains('collapsed');
 
-                    // Close all other sections first
-                    document.querySelectorAll('.category-section').forEach(section => {
-                        if (section.id !== categoryId) {
-                            section.classList.add('collapsed');
-                            const toggle = section.querySelector('.category-toggle');
-                            const productsGrid = section.querySelector('.products-grid');
+                            // Toggle state
+                            categorySection.classList.toggle('collapsed');
+                            this.classList.toggle('collapsed');
 
-                            toggle.classList.add('collapsed');
-                            toggle.querySelector('i').style.transform = 'rotate(0deg)';
-                            productsGrid.style.opacity = '0';
-                            setTimeout(() => {
-                                productsGrid.style.display = 'none';
-                            }, 300);
-                        }
+                            // Get products grid
+                            const productsGrid = categorySection.querySelector('.products-grid');
+
+                            // Rotate arrow and show/hide products
+                            const icon = this.querySelector('i');
+                            if (isCollapsed) {
+                                // Expand
+                                icon.style.transform = 'rotate(90deg)';
+                                productsGrid.style.display = 'grid';
+                                setTimeout(() => {
+                                    productsGrid.style.opacity = '1';
+                                }, 10);
+                            } else {
+                                // Collapse
+                                icon.style.transform = 'rotate(0deg)';
+                                productsGrid.style.opacity = '0';
+                                setTimeout(() => {
+                                    productsGrid.style.display = 'none';
+                                }, 300);
+                            }
+                        });
                     });
 
-                    // Get the target section
-                    const targetSection = document.getElementById(categoryId);
-                    if (!targetSection) return;
+                    // Category headers are also clickable
+                    document.querySelectorAll('.category-header').forEach(header => {
+                        header.addEventListener('click', function (e) {
+                            if (e.target.closest('.category-toggle')) return;
 
-                    // Toggle the target section
-                    const isCollapsed = targetSection.classList.contains('collapsed');
-                    const toggle = targetSection.querySelector('.category-toggle');
-                    const productsGrid = targetSection.querySelector('.products-grid');
+                            const toggle = this.querySelector('.category-toggle');
+                            const categorySection = this.closest('.category-section');
+                            const isCollapsed = categorySection.classList.contains('collapsed');
 
-                    if (isCollapsed) {
-                        // Open the section
-                        targetSection.classList.remove('collapsed');
-                        toggle.classList.remove('collapsed');
-                        toggle.querySelector('i').style.transform = 'rotate(90deg)';
-                        productsGrid.style.display = 'grid';
-                        setTimeout(() => {
-                            productsGrid.style.opacity = '1';
+                            // Toggle state
+                            categorySection.classList.toggle('collapsed');
+                            toggle.classList.toggle('collapsed');
 
-                            // Scroll to the section with offset for header
-                            const headerHeight = document.querySelector('header').offsetHeight;
-                            const sectionPosition = targetSection.offsetTop - headerHeight - 20;
+                            // Get products grid
+                            const productsGrid = categorySection.querySelector('.products-grid');
 
-                            window.scrollTo({
-                                top: sectionPosition,
-                                behavior: 'smooth'
-                            });
-
-                            // Load products if not loaded
-                            setTimeout(loadProductsFromStorage, 100);
-
-                            // Highlight the category card
-                            categoryCards.forEach(c => c.classList.remove('active'));
-                            this.classList.add('active');
-                            activeCategory = categoryId;
-
-                        }, 10);
-                    }
-                });
-            });
+                            // Rotate arrow and show/hide products
+                            const icon = toggle.querySelector('i');
+                            if (isCollapsed) {
+                                // Expand
+                                icon.style.transform = 'rotate(90deg)';
+                                productsGrid.style.display = 'grid';
+                                setTimeout(() => {
+                                    productsGrid.style.opacity = '1';
+                                }, 10);
+                            } else {
+                                // Collapse
+                                icon.style.transform = 'rotate(0deg)';
+                                productsGrid.style.opacity = '0';
+                                setTimeout(() => {
+                                    productsGrid.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    });
+                    
+                    console.log('Category toggle logic enabled (mobile)');
+                }
+            }
 
             // Price type buttons (retail/wholesale)
             purchaseTypeBtns.forEach(btn => {
@@ -3860,76 +3900,6 @@
 
                     // Show notification
                     showNotification(type === 'retail' ? 'Переключены розничные цены' : 'Переключены оптовые цены (от 10 шт)', 'info');
-                });
-            });
-
-            // Category toggle (for original sections)
-            categoryToggles.forEach(toggle => {
-                toggle.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const categorySection = this.closest('.category-section');
-                    const isCollapsed = categorySection.classList.contains('collapsed');
-
-                    // Toggle state
-                    categorySection.classList.toggle('collapsed');
-                    this.classList.toggle('collapsed');
-
-                    // Get products grid
-                    const productsGrid = categorySection.querySelector('.products-grid');
-
-                    // Rotate arrow and show/hide products
-                    const icon = this.querySelector('i');
-                    if (isCollapsed) {
-                        // Expand
-                        icon.style.transform = 'rotate(90deg)';
-                        productsGrid.style.display = 'grid';
-                        setTimeout(() => {
-                            productsGrid.style.opacity = '1';
-                        }, 10);
-                    } else {
-                        // Collapse
-                        icon.style.transform = 'rotate(0deg)';
-                        productsGrid.style.opacity = '0';
-                        setTimeout(() => {
-                            productsGrid.style.display = 'none';
-                        }, 300);
-                    }
-                });
-            });
-
-            // Category headers are also clickable
-            document.querySelectorAll('.category-header').forEach(header => {
-                header.addEventListener('click', function (e) {
-                    if (e.target.closest('.category-toggle')) return;
-
-                    const toggle = this.querySelector('.category-toggle');
-                    const categorySection = this.closest('.category-section');
-                    const isCollapsed = categorySection.classList.contains('collapsed');
-
-                    // Toggle state
-                    categorySection.classList.toggle('collapsed');
-                    toggle.classList.toggle('collapsed');
-
-                    // Get products grid
-                    const productsGrid = categorySection.querySelector('.products-grid');
-
-                    // Rotate arrow and show/hide products
-                    const icon = toggle.querySelector('i');
-                    if (isCollapsed) {
-                        // Expand
-                        icon.style.transform = 'rotate(90deg)';
-                        productsGrid.style.display = 'grid';
-                        setTimeout(() => {
-                            productsGrid.style.opacity = '1';
-                        }, 10);
-                    } else {
-                        // Collapse
-                        icon.style.transform = 'rotate(0deg)';
-                        productsGrid.style.opacity = '0';
-                        setTimeout(() => {
-                            productsGrid.style.display = 'none';
-                        }, 300);
-                    }
                 });
             });
 
@@ -4086,9 +4056,14 @@
                 observer.observe(card);
             });
 
+            // Инициализируем логику категорий
+            setupCategoryGridLogic();
+            
+            // Переинициализируем при изменении размера окна
+            window.addEventListener('resize', setupCategoryGridLogic);
+
             console.log('Meditab catalog with grid categories loaded!');
         });
     </script>
 </body>
-
 </html>
