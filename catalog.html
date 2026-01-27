@@ -2473,27 +2473,104 @@ header {
         </div>
     </footer>
 
-    <!-- ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== -->
-    <div class="modal-overlay" id="orderModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <h2 style="margin-bottom: 20px;">Заказать звонок</h2>
-            <p style="margin-bottom: 25px; color: var(--text-gray);">Заполните форму, и наш менеджер свяжется с вами в
-                течение 15 минут</p>
+    <!-- Находим модальное окно заказа и заменяем его содержимое на: -->
+<div class="modal-overlay" id="orderModal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <h2 style="margin-bottom: 20px;">Заказать звонок</h2>
+        <p style="margin-bottom: 25px; color: var(--text-gray);">Заполните форму, и наш менеджер свяжется с вами в течение 15 минут</p>
 
-            <form id="orderForm" style="display: grid; gap: 20px;">
-                <input type="text" placeholder="Ваше имя" required
-                    style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; transition: var(--transition);">
-                <input type="tel" placeholder="Номер телефона" required
-                    style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; transition: var(--transition);">
-                <textarea placeholder="Ваш вопрос (необязательно)"
-                    style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; min-height: 100px; transition: var(--transition); resize: vertical;"></textarea>
-                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">
-                    <i class="fas fa-paper-plane"></i> Отправить заявку
-                </button>
-            </form>
-        </div>
+        <form id="orderForm" style="display: grid; gap: 20px;">
+            <input type="text" placeholder="Ваше имя" required style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; transition: var(--transition);">
+            
+            <input type="tel" placeholder="Номер телефона" required style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; transition: var(--transition);">
+            
+            <!-- Выбор способа получения -->
+            <div class="delivery-method" style="margin-bottom: 10px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 15px; color: var(--bg-dark);">
+                    <i class="fas fa-truck" style="margin-right: 8px; color: var(--accent-orange);"></i>
+                    Способ получения:
+                </label>
+                
+                <div style="display: grid; gap: 12px;">
+                    <!-- Самовывоз -->
+                    <div class="delivery-option">
+                        <input type="radio" id="pickup" name="delivery" value="pickup" checked style="display: none;">
+                        <label for="pickup" class="delivery-label" style="display: block; cursor: pointer; padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); transition: var(--transition);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="radio-circle" style="width: 20px; height: 20px; border: 2px solid var(--border-gray); border-radius: 50%; position: relative; flex-shrink: 0;">
+                                    <div class="radio-inner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--accent-orange); border-radius: 50%; opacity: 0; transition: var(--transition);"></div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 5px; color: var(--bg-dark);">Самовывоз</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-gray);">Выберите точку выдачи:</div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <!-- Выпадающий список пунктов выдачи -->
+                        <div class="pickup-locations" style="margin-top: 10px; margin-left: 32px; display: grid; gap: 8px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                            <label class="pickup-option" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition);">
+                                <input type="radio" name="pickupLocation" value="mash" style="display: none;">
+                                <div class="location-radio" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-gray); position: relative; flex-shrink: 0;">
+                                    <div class="location-inner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--accent-orange); border-radius: 50%; opacity: 0; transition: var(--transition);"></div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">г. Молодечно, ул. Машерова 6</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">Пн-Пт: 9:00-18:00</div>
+                                </div>
+                            </label>
+                            
+                            <label class="pickup-option" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition);">
+                                <input type="radio" name="pickupLocation" value="budav" style="display: none;">
+                                <div class="location-radio" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-gray); position: relative; flex-shrink: 0;">
+                                    <div class="location-inner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--accent-orange); border-radius: 50%; opacity: 0; transition: var(--transition);"></div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">г. Молодечно, ул. Будавников 15А</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">Пн-Сб: 9:00-19:00</div>
+                                </div>
+                            </label>
+                            
+                            <label class="pickup-option" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition);">
+                                <input type="radio" name="pickupLocation" value="minsk" style="display: none;" checked>
+                                <div class="location-radio" style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-gray); position: relative; flex-shrink: 0;">
+                                    <div class="location-inner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--accent-orange); border-radius: 50%; opacity: 1; transition: var(--transition);"></div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">г. Минск, ул. Леонида Беды 36</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">Пн-Пт: 10:00-20:00</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Доставка -->
+                    <div class="delivery-option">
+                        <input type="radio" id="delivery" name="delivery" value="delivery" style="display: none;">
+                        <label for="delivery" class="delivery-label" style="display: block; cursor: pointer; padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); transition: var(--transition);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="radio-circle" style="width: 20px; height: 20px; border: 2px solid var(--border-gray); border-radius: 50%; position: relative; flex-shrink: 0;">
+                                    <div class="radio-inner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--accent-orange); border-radius: 50%; opacity: 0; transition: var(--transition);"></div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 5px; color: var(--bg-dark);">Доставка</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-gray);">Только по г. Молодечно </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <textarea placeholder="Ваш вопрос (необязательно)" style="padding: 15px; border: 2px solid var(--border-gray); border-radius: var(--radius-sm); font-family: 'Montserrat', sans-serif; font-size: 1rem; min-height: 100px; transition: var(--transition); resize: vertical;"></textarea>
+            
+            <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">
+                <i class="fas fa-paper-plane"></i> Отправить заявку
+            </button>
+        </form>
     </div>
+</div>
 
 <script>
 // ===== КОРЗИНА =====
@@ -3217,6 +3294,113 @@ window.addEventListener('resize', function() {
 
             console.log('Каталог Meditab загружен!');
         });
+
+
+            // ===== ФУНКЦИОНАЛ ВЫБОРА ДОСТАВКИ =====
+    // Добавляем обработку выбора способа получения
+    function initDeliverySelection() {
+        const deliveryOptions = document.querySelectorAll('input[name="delivery"]');
+        const pickupLocations = document.querySelector('.pickup-locations');
+        
+        if (!deliveryOptions.length || !pickupLocations) return;
+        
+        // Показываем/скрываем пункты выдачи при выборе самовывоза
+        deliveryOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                const labels = document.querySelectorAll('.delivery-label');
+                labels.forEach(label => {
+                    label.style.borderColor = 'var(--border-gray)';
+                    label.style.background = 'transparent';
+                });
+                
+                const currentLabel = this.closest('.delivery-option').querySelector('.delivery-label');
+                currentLabel.style.borderColor = 'var(--accent-orange)';
+                currentLabel.style.background = 'rgba(207, 121, 17, 0.05)';
+                
+                // Обновляем радиокнопки
+                document.querySelectorAll('.radio-inner').forEach(inner => {
+                    inner.style.opacity = '0';
+                });
+                const currentInner = currentLabel.querySelector('.radio-inner');
+                if (currentInner) currentInner.style.opacity = '1';
+                
+                // Показываем/скрываем список пунктов выдачи
+                if (this.value === 'pickup') {
+                    pickupLocations.style.maxHeight = pickupLocations.scrollHeight + 'px';
+                    setTimeout(() => {
+                        pickupLocations.style.overflow = 'visible';
+                    }, 300);
+                } else {
+                    pickupLocations.style.maxHeight = '0';
+                    pickupLocations.style.overflow = 'hidden';
+                }
+            });
+        });
+        
+        // Выбор пункта выдачи
+        const locationOptions = document.querySelectorAll('input[name="pickupLocation"]');
+        locationOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                document.querySelectorAll('.location-inner').forEach(inner => {
+                    inner.style.opacity = '0';
+                });
+                const currentLabel = this.closest('.pickup-option');
+                currentLabel.querySelector('.location-inner').style.opacity = '1';
+                
+                // Подсвечиваем выбранный пункт
+                document.querySelectorAll('.pickup-option').forEach(opt => {
+                    opt.style.background = 'transparent';
+                    opt.style.border = 'none';
+                });
+                currentLabel.style.background = 'rgba(207, 121, 17, 0.05)';
+                currentLabel.style.border = '1px solid rgba(207, 121, 17, 0.2)';
+            });
+        });
+        
+        // Инициализация по умолчанию
+        const defaultPickup = document.querySelector('input[name="delivery"][value="pickup"]');
+        const defaultLocation = document.querySelector('input[name="pickupLocation"][value="minsk"]');
+        
+        if (defaultPickup && defaultLocation) {
+            defaultPickup.checked = true;
+            defaultLocation.checked = true;
+            
+            const pickupLabel = document.querySelector('label[for="pickup"]');
+            if (pickupLabel) {
+                pickupLabel.style.borderColor = 'var(--accent-orange)';
+                pickupLabel.style.background = 'rgba(207, 121, 17, 0.05)';
+                const radioInner = pickupLabel.querySelector('.radio-inner');
+                if (radioInner) radioInner.style.opacity = '1';
+            }
+            
+            // Инициализация пункта выдачи
+            const minskOption = defaultLocation.closest('.pickup-option');
+            if (minskOption) {
+                const locationInner = minskOption.querySelector('.location-inner');
+                if (locationInner) locationInner.style.opacity = '1';
+                minskOption.style.background = 'rgba(207, 121, 17, 0.05)';
+                minskOption.style.border = '1px solid rgba(207, 121, 17, 0.2)';
+            }
+            
+            // Показываем список пунктов выдачи
+            if (pickupLocations) {
+                pickupLocations.style.maxHeight = pickupLocations.scrollHeight + 'px';
+                setTimeout(() => {
+                    pickupLocations.style.overflow = 'visible';
+                }, 300);
+            }
+        }
+    }
+    
+    // Вызываем инициализацию при открытии модального окна
+    document.getElementById('openOrderModal').addEventListener('click', function() {
+        setTimeout(initDeliverySelection, 50);
+    });
+    
+    // Также при загрузке страницы, если модальное окно уже было открыто
+    if (document.getElementById('orderModal').classList.contains('active')) {
+        setTimeout(initDeliverySelection, 50);
+    }
     </script>
 </body>
 </html>
