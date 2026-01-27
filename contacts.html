@@ -13,7 +13,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
     
     <style>
-         @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
         /* ===== CSS RESET & VARIABLES ===== */
         :root {
             --white: #ffffff;
@@ -42,11 +41,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        .mt {
-            display:  inline-flex;
-            font-family: "Poiret One";
         }
 
         html {
@@ -534,7 +528,7 @@
             }
         }
 
-        /* ===== CONTACT CARDS ENHANCEMENTS ===== */
+        /* ===== ОБНОВЛЕННАЯ СЕКЦИЯ КОНТАКТОВ ===== */
         .contact-info-section {
             padding: 80px 0;
             background: var(--white);
@@ -542,16 +536,17 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-top: 50px;
         }
 
+        /* Стили для десктопа (анимация при наведении) */
         .contact-card {
             background: var(--white);
             border-radius: var(--radius);
             padding: 40px 30px;
-            transition: var(--transition);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border: 2px solid transparent;
             text-align: center;
             position: relative;
@@ -560,8 +555,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100%;
-            min-height: 280px;
+            justify-content: center;
+            height: 380px;
+            cursor: pointer;
             opacity: 0;
             transform: translateY(30px);
         }
@@ -595,15 +591,140 @@
         }
 
         .contact-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--accent-orange);
             box-shadow: var(--shadow-dark);
+            height: 580px;
+            padding: 30px;
         }
 
+        /* Основной заголовок (виден всегда) */
+        .card-main-title {
+            font-family: 'Prata', serif;
+            font-size: 2rem;
+            color: var(--bg-dark);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-card:hover .card-main-title {
+            margin-top: 6;
+            transform: translateY(-20px);
+        }
+
+        /* Контент карточки (скрыт по умолчанию на десктопе) */
+        .card-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.2s;
+            width: 100%;
+            text-align: left;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .contact-card:hover .card-content {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 500px;
+        }
+
+        /* Стили для информации о контактах */
+        .contact-details {
+            list-style: none;
+            width: 100%;
+        }
+
+        .contact-details li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(217, 217, 217, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .contact-details li:last-child {
+            border-bottom: none;
+        }
+
+        .contact-location {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--bg-dark);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-address {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .contact-phone {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-email {
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-email:hover {
+            color: var(--accent-orange);
+            text-decoration: underline;
+        }
+
+        .delivery-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(217, 217, 217, 0.3);
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .delivery-info strong {
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+
+        .delivery-info ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        .delivery-info li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .delivery-info li:before {
+            content: "•";
+            color: var(--accent-orange);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Иконка в центре карточки */
         .contact-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 25px;
+            margin: 0 auto 20px;
             background: var(--gradient-blue);
             border-radius: 50%;
             display: flex;
@@ -648,50 +769,6 @@
 
         .contact-card:hover .contact-icon i {
             transform: scale(1.1);
-        }
-
-        /* Специальный стиль для карточки с двумя адресами */
-        .contact-card.double-address {
-            min-height: 320px;
-        }
-
-        .address-list {
-            list-style: none;
-            text-align: left;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .address-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(217, 217, 217, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .address-list li:last-child {
-            border-bottom: none;
-        }
-
-        .address-name {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            color: var(--bg-dark);
-            font-size: 1rem;
-        }
-
-        .address-details {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .address-phone {
-            color: var(--accent-orange);
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            margin-top: 5px;
         }
 
         /* ===== MAP & FORM ENHANCEMENTS ===== */
@@ -1269,24 +1346,7 @@
             }
         }
 
-        /* ===== FIXED: RESPONSIVE ENHANCEMENTS ===== */
-        @media (max-width: 992px) {
-            .map-form-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .map-container {
-                min-height: 400px;
-                order: 2;
-            }
-            
-            .contact-form-container {
-                order: 1;
-            }
-        }
-
-        /* FIXED: Mobile menu styles */
+        /* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
         @media (max-width: 868px) {
             .mobile-menu-btn {
                 display: flex;
@@ -1389,16 +1449,47 @@
                 font-size: 2.4rem;
             }
             
+            /* Мобильная версия для контактных карточек */
             .contact-grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
             }
             
             .contact-card {
-                min-height: 250px;
+                height: auto !important;
+                min-height: 300px;
+                padding: 30px 25px !important;
+                cursor: default;
             }
             
-            .contact-card.double-address {
-                min-height: 320px;
+            /* На мобилке сразу показываем весь контент */
+            .card-main-title {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+                margin-bottom: 30px;
+            }
+            
+            .contact-icon {
+                display: none;
+            }
+            
+            .card-content {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+                max-height: 500px !important;
+                margin-top: 20px;
+            }
+            
+            .contact-details li {
+                padding: 15px 0;
+            }
+            
+            .contact-location {
+                font-size: 1.1rem;
+            }
+            
+            .contact-phone {
+                font-size: 1.05rem;
             }
             
             .form-row {
@@ -1457,18 +1548,25 @@
             }
             
             .contact-card {
-                padding: 30px 20px;
-                min-height: 230px;
+                padding: 25px 20px !important;
+                min-height: 280px;
             }
             
-            .contact-card.double-address {
-                min-height: 300px;
+            .card-main-title {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
             }
             
-            .contact-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
+            .contact-details li {
+                padding: 12px 0;
+            }
+            
+            .contact-location {
+                font-size: 1rem;
+            }
+            
+            .contact-phone, .contact-email {
+                font-size: 0.95rem;
             }
             
             .map-placeholder {
@@ -1578,54 +1676,64 @@
             </div>
         </section>
 
-        <!-- ===== CONTACT INFO ===== -->
+        <!-- ===== ОБНОВЛЕННАЯ СЕКЦИЯ КОНТАКТОВ ===== -->
         <section class="contact-info-section section-spacing">
             <div class="container">
                 <h2>Свяжитесь с нами</h2>
                 <p class="section-subtitle">Посетите наши магазины в Молодечно или пункт самовывоза в Минске</p>
                 
                 <div class="contact-grid">
-                    <!-- Объединенная карточка с двумя адресами -->
-                    <div class="contact-card double-address">
+                    <!-- Карточка Самовывоз -->
+                    <div class="contact-card pickup-card">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h3>Магазины Молодечно</h3>
-                        <ul class="address-list">
-                            <li>
-                                <div class="address-name">ул. Будавников 15А (Дом Быта)</div>
-                                <div class="address-phone">+375(17)53-02-04, +375(44)546-71-77</div>
-                            </li>
-                            <li>
-                                <div class="address-name">ул. Машерова 6</div>
-                                <div class="address-phone">+375(17)53-77-43, +375(25)963-14-48</div>
-                            </li>
-                        </ul>
+                        <h3 class="card-main-title">Самовывоз</h3>
+                        
+                        <div class="card-content">
+                            <ul class="contact-details">
+                                <li>
+                                    <div class="contact-location">г. Минск</div>
+                                    <div class="contact-address">ул. Леонида Беды 36 (вход со двора, дверь с молекулами)</div>
+                                    <div class="contact-phone">+375(хх)ххх-хх-хх</div>
+                                </li>
+                                <li>
+                                    <div class="contact-location">г. Молодечно</div>
+                                    <div class="contact-address">ул. Будавников 15А (Дом Быта)</div>
+                                    <div class="contact-phone">+375(44)546-71-77</div>
+                                </li>
+                                <li>
+                                    <div class="contact-location">г. Молодечно</div>
+                                    <div class="contact-address">ул. Машерова 6</div>
+                                    <div class="contact-phone">+375(25)963-14-48</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="contact-card">
+                    <!-- Карточка Доставка -->
+                    <div class="contact-card delivery-card">
                         <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
+                            <i class="fas fa-truck"></i>
                         </div>
-                        <h3>Самовывоз Минск</h3>
-                        <ul class="address-list">
-                            <li>
-                                <div class="address-name">ул. Леонида Беды 36</div>
-                                <div class="address-details">(вход со двора, дверь с молекулами)</div>
-                                <div class="address-phone">+375(хх)ххх-хх-хх</div>
-                            </li>
-                        </ul>
-                    </div>  
-                    
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
+                        <h3 class="card-main-title">Доставка</h3>   
+                        
+                        <div class="card-content">
+                            <div class="delivery-info">
+                                <p style="margin-top: 10px;"><strong>Доставка осуществляется только по г. Молодечно.</strong></p>
+                            </div>
+                            
+                            <ul class="contact-details" style="margin-top: 20px;">
+                                <li>
+                                    <div class="contact-location">Связь для заказа доставки</div>
+                                    <div class="contact-phone">+375(хх)ххх-хх-хх</div>
+                                </li>
+                                <li>
+                                    <div class="contact-location">Электронная почта</div>
+                                    <a href="mailto:xxxxx@gmail.com" class="contact-email">xxxxx@gmail.com</a>
+                                </li>
+                            </ul>
                         </div>
-                        <h3>Электронная почта</h3>
-                        <p>Быстрая связь с нашими специалистами</p>
-                        <p style="margin-top: 10px; color: var(--accent-orange); font-weight: 600;">
-                            xxxxx@gmail.com
-                        </p>
                     </div>
                 </div>
             </div>
@@ -1718,7 +1826,7 @@
                                 <span class="time">13:00 - 14:00</span>
                             </li>
                             <li>
-                                <span class="day">Саббота - Воскресенье</span>
+                                <span class="day">Суббота - Воскресенье</span>
                                 <span class="time">Выходные</span>
                             </li>
                         </ul>
@@ -1791,7 +1899,7 @@
         <div class="container">
             <div class="footer-content">
                 <div>
-                    <a href="index.html" class="footer-logo"><div class="mt">МЕДИТАБ</div></a>
+                    <a href="index.html" class="footer-logo">Meditab</a>
                     <p>Прямые поставки медицинского оборудования и расходных материалов. Качество, проверенное временем и сотнями клиентов.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Telegram">
@@ -1832,7 +1940,7 @@
             </div>
             
             <div class="copyright">
-                <p><div class="mt">© 2026 МЕДИТАБ</div>. Медицинское оборудование и расходные материалы. Все права защищены.</p>
+                <p>© 2026 Meditab. Медицинское оборудование и расходные материалы. Все права защищены.</p>
                 <p class="nexus-credit">Создано командой <a href="https://nexus.by" target="_blank" rel="noopener">Nexus</a></p>
             </div>
         </div>
