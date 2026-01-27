@@ -761,7 +761,108 @@
             border-radius: 2px;
         }
 
-        /* ===== CATEGORIES ===== */
+        /* ===== CATEGORIES GRID (НОВАЯ СЕКЦИЯ) ===== */
+        .categories-section {
+            margin-bottom: 80px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .category-grid-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+
+        .category-grid-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-dark);
+            border-color: var(--accent-orange);
+        }
+
+        .category-grid-card-header {
+            padding: 25px;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .category-grid-card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-orange);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .category-grid-card:hover .category-grid-card-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .category-grid-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--bg-dark);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .category-grid-card-body {
+            padding: 20px 25px 25px;
+        }
+
+        .category-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(217, 217, 217, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .category-count {
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+
+        .category-action {
+            color: var(--primary-blue);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== PRODUCT SECTIONS (ОРИГИНАЛЬНЫЕ СЕКЦИИ ТОВАРОВ) ===== */
         .category-section {
             margin-bottom: 25px;
             position: relative;
@@ -1131,37 +1232,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        /* ===== CATEGORIES CONTROL ===== */
-        .categories-control {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .category-control-btn {
-            padding: 12px 24px;
-            background: var(--white);
-            border: 2px solid var(--border-gray);
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--text-gray);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .category-control-btn:hover {
-            border-color: var(--accent-orange);
-            color: var(--accent-orange);
-            transform: translateY(-2px);
         }
 
         /* ===== CTA SECTION ===== */
@@ -1568,7 +1638,7 @@
         .delivery-section {
             margin-bottom: 25px;
         }
-        
+
         .delivery-title {
             font-weight: 600;
             margin-bottom: 15px;
@@ -1577,27 +1647,27 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .delivery-title i {
             color: var(--accent-orange);
         }
-        
+
         .delivery-options {
             display: grid;
             gap: 12px;
         }
-        
+
         .delivery-option {
             position: relative;
         }
-        
+
         .delivery-option input[type="radio"] {
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
         }
-        
+
         .delivery-label {
             display: block;
             cursor: pointer;
@@ -1610,20 +1680,20 @@
             padding-left: 55px;
             min-height: 70px;
         }
-        
+
         .delivery-label:hover {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.03);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
-        
-        .delivery-option input[type="radio"]:checked + .delivery-label {
+
+        .delivery-option input[type="radio"]:checked+.delivery-label {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.08);
             box-shadow: 0 4px 15px rgba(207, 121, 17, 0.1);
         }
-        
+
         .delivery-label::before {
             content: '';
             position: absolute;
@@ -1637,8 +1707,8 @@
             background: white;
             transition: all 0.3s ease;
         }
-        
-        .delivery-option input[type="radio"]:checked + .delivery-label::after {
+
+        .delivery-option input[type="radio"]:checked+.delivery-label::after {
             content: '';
             position: absolute;
             left: 25px;
@@ -1649,25 +1719,25 @@
             background: var(--accent-orange);
             border-radius: 50%;
         }
-        
+
         .delivery-label-content {
             display: flex;
             flex-direction: column;
         }
-        
+
         .delivery-main-text {
             font-weight: 600;
             color: var(--bg-dark);
             margin-bottom: 5px;
             font-size: 1rem;
         }
-        
+
         .delivery-subtext {
             font-size: 0.9rem;
             color: var(--text-gray);
             line-height: 1.4;
         }
-        
+
         .pickup-locations {
             margin-top: 15px;
             margin-left: 15px;
@@ -1679,12 +1749,19 @@
             overflow: hidden;
             transition: max-height 0.3s ease, opacity 0.3s ease;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .pickup-locations.hidden {
             max-height: 0;
             opacity: 0;
@@ -1692,18 +1769,18 @@
             margin-bottom: 0;
             overflow: hidden;
         }
-        
+
         .pickup-option {
             position: relative;
         }
-        
+
         .pickup-option input[type="radio"] {
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
         }
-        
+
         .location-label {
             display: block;
             cursor: pointer;
@@ -1714,17 +1791,17 @@
             transition: all 0.2s ease;
             padding-left: 45px;
         }
-        
+
         .location-label:hover {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.03);
         }
-        
-        .pickup-option input[type="radio"]:checked + .location-label {
+
+        .pickup-option input[type="radio"]:checked+.location-label {
             border-color: var(--accent-orange);
             background: rgba(207, 121, 17, 0.08);
         }
-        
+
         .location-label::before {
             content: '';
             position: absolute;
@@ -1738,8 +1815,8 @@
             background: white;
             transition: all 0.3s ease;
         }
-        
-        .pickup-option input[type="radio"]:checked + .location-label::after {
+
+        .pickup-option input[type="radio"]:checked+.location-label::after {
             content: '';
             position: absolute;
             left: 19px;
@@ -1750,19 +1827,19 @@
             background: var(--accent-orange);
             border-radius: 50%;
         }
-        
+
         .location-info {
             display: flex;
             flex-direction: column;
         }
-        
+
         .location-address {
             font-weight: 500;
             color: var(--bg-dark);
             margin-bottom: 3px;
             font-size: 0.95rem;
         }
-        
+
         .location-hours {
             font-size: 0.85rem;
             color: var(--text-gray);
@@ -1882,6 +1959,10 @@
             .products-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         @media (max-width: 1200px) {
@@ -1896,6 +1977,10 @@
             .steps-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 30px;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -1916,6 +2001,11 @@
 
             .category-header h2 {
                 font-size: 1.3rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
         }
 
@@ -2036,17 +2126,6 @@
                 width: 90%;
             }
 
-            .categories-control {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .category-control-btn {
-                width: 100%;
-                max-width: 250px;
-                justify-content: center;
-            }
-
             .catalog-cta {
                 padding: 70px 0;
                 margin-top: 50px;
@@ -2137,51 +2216,71 @@
             .container {
                 padding: 0 15px;
             }
-            
+
+            /* Categories grid mobile */
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .category-grid-card-header {
+                padding: 20px;
+            }
+
+            .category-grid-card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .category-grid-card-title {
+                font-size: 1.2rem;
+            }
+
             /* Delivery form mobile */
             .delivery-label {
                 padding: 15px;
                 padding-left: 50px;
                 min-height: 65px;
             }
-            
+
             .delivery-label::before {
                 left: 15px;
             }
-            
-            .delivery-option input[type="radio"]:checked + .delivery-label::after {
+
+            .delivery-option input[type="radio"]:checked+.delivery-label::after {
                 left: 20px;
             }
-            
+
             .delivery-main-text {
                 font-size: 0.95rem;
             }
-            
+
             .delivery-subtext {
                 font-size: 0.85rem;
             }
-            
+
             .pickup-locations {
                 margin-left: 10px;
             }
-            
+
             .location-label {
                 padding: 12px;
                 padding-left: 40px;
             }
-            
+
             .location-label::before {
                 left: 12px;
             }
-            
-            .pickup-option input[type="radio"]:checked + .location-label::after {
+
+            .pickup-option input[type="radio"]:checked+.location-label::after {
                 left: 16px;
             }
-            
+
             .location-address {
                 font-size: 0.9rem;
             }
-            
+
             .location-hours {
                 font-size: 0.8rem;
             }
@@ -2269,59 +2368,82 @@
                 font-size: 0.95rem;
                 min-width: 180px;
             }
-            
+
+            /* Categories grid small mobile */
+            .categories-grid {
+                gap: 15px;
+            }
+
+            .category-grid-card-header {
+                padding: 15px;
+            }
+
+            .category-grid-card-body {
+                padding: 15px;
+            }
+
+            .category-grid-card-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
+            .category-grid-card-title {
+                font-size: 1.1rem;
+            }
+
             /* Delivery form small mobile */
             .delivery-label {
                 padding: 12px;
                 padding-left: 45px;
                 min-height: 60px;
             }
-            
+
             .delivery-label::before {
                 left: 12px;
                 width: 18px;
                 height: 18px;
             }
-            
-            .delivery-option input[type="radio"]:checked + .delivery-label::after {
+
+            .delivery-option input[type="radio"]:checked+.delivery-label::after {
                 left: 17px;
                 width: 8px;
                 height: 8px;
             }
-            
+
             .delivery-main-text {
                 font-size: 0.9rem;
             }
-            
+
             .delivery-subtext {
                 font-size: 0.8rem;
             }
-            
+
             .pickup-locations {
                 margin-left: 8px;
             }
-            
+
             .location-label {
                 padding: 10px;
                 padding-left: 35px;
             }
-            
+
             .location-label::before {
                 left: 10px;
                 width: 14px;
                 height: 14px;
             }
-            
-            .pickup-option input[type="radio"]:checked + .location-label::after {
+
+            .pickup-option input[type="radio"]:checked+.location-label::after {
                 left: 14px;
                 width: 6px;
                 height: 6px;
             }
-            
+
             .location-address {
                 font-size: 0.85rem;
             }
-            
+
             .location-hours {
                 font-size: 0.75rem;
             }
@@ -2347,7 +2469,11 @@
         .product-card {
             animation: fadeInUp 0.4s ease forwards;
         }
-        
+
+        .category-grid-card {
+            animation: fadeInUp 0.4s ease forwards;
+        }
+
         /* Notification styles */
         .notification {
             position: fixed;
@@ -2369,15 +2495,37 @@
             gap: 12px;
             font-size: 0.95rem;
         }
-        
+
         @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        
+
         @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100px); opacity: 0; }
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* ===== СКРЫВАЕМ ГРИД КАТЕГОРИЙ НА МОБИЛЬНЫХ ===== */
+            .categories-grid {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -2453,172 +2601,347 @@
                     товары сертифицированы и соответствуют стандартам качества.</p>
             </div>
 
-            <!-- Category 1: Medical clothing -->
-            <section class="category-section collapsed" id="clothing">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-user-md"></i>
+            <!-- ===== КАТЕГОРИИ В ГРИДЕ ===== -->
+            <section class="categories-section">
+                <h2 style="text-align: center; margin-bottom: 20px;">Выберите категорию</h2>
+                <p class="section-subtitle" style="text-align: center; margin-bottom: 40px; color: var(--text-gray);">
+                    Нажмите на категорию, чтобы увидеть товары
+                </p>
+
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Category 1: Medical clothing -->
+                    <div class="category-grid-card" data-category="clothing">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="category-grid-card-title">Медицинская одежда</div>
                         </div>
-                        <h2>Медицинская одежда</h2>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Халаты, костюмы, шапочки и другая профессиональная одежда
+                                для медицинских работников</p>
+                            <div class="category-stats">
+                                <span class="category-count">15+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
+
+                    <!-- Category 2: Tonometers -->
+                    <div class="category-grid-card" data-category="tonometers">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="category-grid-card-title">Тонометры</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Автоматические, механические и полуавтоматические тонометры
+                                для измерения давления</p>
+                            <div class="category-stats">
+                                <span class="category-count">8+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 3: Diabetes products -->
+                    <div class="category-grid-card" data-category="diabetes">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <div class="category-grid-card-title">Диабетические товары</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Глюкометры, тест-полоски, ланцеты и другие товары для
+                                диабетиков</p>
+                            <div class="category-stats">
+                                <span class="category-count">12+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 4: Orthopedic products -->
+                    <div class="category-grid-card" data-category="orthopedic">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-bone"></i>
+                            </div>
+                            <div class="category-grid-card-title">Ортопедические изделия</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Корсеты, бандажи, ортопедические стельки и другие
+                                поддерживающие изделия</p>
+                            <div class="category-stats">
+                                <span class="category-count">18+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 5: Gynecology products -->
+                    <div class="category-grid-card" data-category="gynecology">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-female"></i>
+                            </div>
+                            <div class="category-grid-card-title">Гинекологические товары</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Специализированные товары для женского здоровья и
+                                гинекологии</p>
+                            <div class="category-stats">
+                                <span class="category-count">10+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 6: Compression stockings -->
+                    <div class="category-grid-card" data-category="compression">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-socks"></i>
+                            </div>
+                            <div class="category-grid-card-title">Компрессионный трикотаж</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Чулки, гольфы и колготки для профилактики и лечения варикоза
+                            </p>
+                            <div class="category-stats">
+                                <span class="category-count">14+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 7: Optics -->
+                    <div class="category-grid-card" data-category="optics">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="category-grid-card-title">Оптика</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Очки, лупы, средства для ухода за очками и другие оптические
+                                товары</p>
+                            <div class="category-stats">
+                                <span class="category-count">9+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 8: Tests -->
+                    <div class="category-grid-card" data-category="tests">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <div class="category-grid-card-title">Экспресс-тесты</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Тесты на COVID-19, беременность, наркотики и другие
+                                экспресс-диагностические системы</p>
+                            <div class="category-stats">
+                                <span class="category-count">20+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 9: Other -->
+                    <div class="category-grid-card" data-category="other">
+                        <div class="category-grid-card-header">
+                            <div class="category-grid-card-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="category-grid-card-title">Другое</div>
+                        </div>
+                        <div class="category-grid-card-body">
+                            <p class="category-description">Товары для дома, аптечки, расходные материалы и другие
+                                медицинские товары</p>
+                            <div class="category-stats">
+                                <span class="category-count">25+ товаров</span>
+                                <span class="category-action">Смотреть <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Category 2: Tonometers -->
-            <section class="category-section collapsed" id="tonometers">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-heartbeat"></i>
+            <!-- ===== ОРИГИНАЛЬНЫЕ СЕКЦИИ С ТОВАРАМИ (СКРЫТЫ ДО НАЖАТИЯ) ===== -->
+            <div class="product-sections-container" id="productSections" style="margin-top: 80px;">
+                <!-- Category 1: Medical clothing -->
+                <section class="category-section collapsed" id="clothing">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h2>Медицинская одежда</h2>
                         </div>
-                        <h2>Тонометры</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 3: Diabetes products -->
-            <section class="category-section collapsed" id="diabetes">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-syringe"></i>
+                <!-- Category 2: Tonometers -->
+                <section class="category-section collapsed" id="tonometers">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h2>Тонометры</h2>
                         </div>
-                        <h2>Диабетические товары</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 4: Orthopedic products -->
-            <section class="category-section collapsed" id="orthopedic">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-bone"></i>
+                <!-- Category 3: Diabetes products -->
+                <section class="category-section collapsed" id="diabetes">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <h2>Диабетические товары</h2>
                         </div>
-                        <h2>Ортопедические изделия</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 5: Gynecology products -->
-            <section class="category-section collapsed" id="gynecology">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-female"></i>
+                <!-- Category 4: Orthopedic products -->
+                <section class="category-section collapsed" id="orthopedic">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-bone"></i>
+                            </div>
+                            <h2>Ортопедические изделия</h2>
                         </div>
-                        <h2>Гинекологические товары</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 6: Compression stockings -->
-            <section class="category-section collapsed" id="compression">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-socks"></i>
+                <!-- Category 5: Gynecology products -->
+                <section class="category-section collapsed" id="gynecology">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-female"></i>
+                            </div>
+                            <h2>Гинекологические товары</h2>
                         </div>
-                        <h2>Компрессионный трикотаж</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 7: Optics -->
-            <section class="category-section collapsed" id="optics">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-eye"></i>
+                <!-- Category 6: Compression stockings -->
+                <section class="category-section collapsed" id="compression">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-socks"></i>
+                            </div>
+                            <h2>Компрессионный трикотаж</h2>
                         </div>
-                        <h2>Оптика</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 8: Tests -->
-            <section class="category-section collapsed" id="tests">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-vial"></i>
+                <!-- Category 7: Optics -->
+                <section class="category-section collapsed" id="optics">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h2>Оптика</h2>
                         </div>
-                        <h2>Экспресс-тесты</h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <!-- Products loaded from LocalStorage -->
-                </div>
-            </section>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
+                    </div>
+                </section>
 
-            <!-- Category 9: Other -->
-            <section class="category-section collapsed" id="other">
-                <div class="category-header">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="category-icon">
-                            <i class="fas fa-box"></i>
+                <!-- Category 8: Tests -->
+                <section class="category-section collapsed" id="tests">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <h2>Экспресс-тесты</h2>
                         </div>
-                        <h2>Другое <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">
-                                (Товары не вошедшие в основные категории)
-                            </span></h2>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" style="display: none;">
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
-                        <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
-                        <p>Товаров в этой категории пока нет</p>
+                    <div class="products-grid" style="display: none;">
+                        <!-- Products loaded from LocalStorage -->
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <!-- Category 9: Other -->
+                <section class="category-section collapsed" id="other">
+                    <div class="category-header">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="category-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <h2>Другое <span style="font-size: 0.9rem; color: var(--text-gray); font-weight: normal;">
+                                    (Товары не вошедшие в основные категории)
+                                </span></h2>
+                        </div>
+                        <button class="category-toggle collapsed" aria-label="Раскрыть/скрыть товары">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="products-grid" style="display: none;">
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-gray);">
+                            <i class="fas fa-box-open fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i>
+                            <p>Товаров в этой категории пока нет</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 
@@ -2782,7 +3105,7 @@
                         <i class="fas fa-truck"></i>
                         Способ получения:
                     </div>
-                    
+
                     <div class="delivery-options">
                         <!-- Pickup -->
                         <div class="delivery-option" id="pickupOption">
@@ -2793,7 +3116,7 @@
                                     <div class="delivery-subtext">Заберите заказ из одного из наших пунктов выдачи</div>
                                 </div>
                             </label>
-                            
+
                             <!-- Pickup locations -->
                             <div class="pickup-locations" id="pickupLocations">
                                 <div class="pickup-option">
@@ -2806,7 +3129,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                
+
                                 <div class="pickup-option">
                                     <input type="radio" id="pickup_budav" name="pickupLocation" value="budav">
                                     <label for="pickup_budav" class="location-label">
@@ -2817,7 +3140,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                
+
                                 <div class="pickup-option">
                                     <input type="radio" id="pickup_minsk" name="pickupLocation" value="minsk">
                                     <label for="pickup_minsk" class="location-label">
@@ -2830,7 +3153,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Delivery -->
                         <div class="delivery-option">
                             <input type="radio" id="delivery" name="delivery" value="delivery">
@@ -3227,7 +3550,7 @@
         });
 
         // ===== DELIVERY FORM FUNCTIONALITY =====
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Delivery form elements
             const deliveryOptions = document.querySelectorAll('input[name="delivery"]');
             const pickupLocations = document.getElementById('pickupLocations');
@@ -3236,13 +3559,13 @@
             const orderModal = document.getElementById('orderModal');
             const modalClose = document.getElementById('modalClose');
             const openOrderModal = document.getElementById('openOrderModal');
-            
+
             // Initially show pickup locations (since pickup is selected by default)
             pickupLocations.style.display = 'grid';
-            
+
             // Handle delivery method selection
             deliveryOptions.forEach(option => {
-                option.addEventListener('change', function() {
+                option.addEventListener('change', function () {
                     if (this.value === 'pickup') {
                         // Show pickup locations with animation
                         pickupLocations.style.display = 'grid';
@@ -3258,11 +3581,11 @@
                     }
                 });
             });
-            
+
             // Handle form submission
-            orderForm.addEventListener('submit', function(e) {
+            orderForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 // Collect form data
                 const formData = {
                     name: this.querySelector('input[type="text"]').value,
@@ -3271,13 +3594,13 @@
                     question: this.querySelector('textarea').value,
                     pickupLocation: null
                 };
-                
+
                 // If pickup selected - add selected location
                 if (formData.deliveryMethod === 'pickup') {
                     const selectedLocation = this.querySelector('input[name="pickupLocation"]:checked');
                     if (selectedLocation) {
                         formData.pickupLocation = selectedLocation.value;
-                        
+
                         // Get location text
                         const locationLabels = {
                             'mash': 'г. Молодечно, ул. Машерова 6',
@@ -3287,32 +3610,32 @@
                         formData.pickupLocationText = locationLabels[selectedLocation.value];
                     }
                 }
-                
+
                 // In real app, send to server here
                 console.log('Form data:', formData);
-                
+
                 // Show notification
                 showFormNotification('Заявка отправлена! Менеджер свяжется с вами в течение 15 минут.', 'success');
-                
+
                 // Close modal
                 orderModal.classList.remove('active');
                 document.body.style.overflow = '';
-                
+
                 // Reset form
                 this.reset();
-                
+
                 // Reset delivery to pickup
                 document.getElementById('pickup').checked = true;
                 pickupLocations.style.display = 'grid';
                 pickupLocations.classList.remove('hidden');
                 document.getElementById('pickup_mash').checked = true;
             });
-            
+
             // Open modal
-            openOrderModal.addEventListener('click', function() {
+            openOrderModal.addEventListener('click', function () {
                 orderModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                
+
                 // Reset form when opening
                 orderForm.reset();
                 document.getElementById('pickup').checked = true;
@@ -3320,37 +3643,37 @@
                 pickupLocations.classList.remove('hidden');
                 document.getElementById('pickup_mash').checked = true;
             });
-            
+
             // Close modal
-            modalClose.addEventListener('click', function() {
+            modalClose.addEventListener('click', function () {
                 orderModal.classList.remove('active');
                 document.body.style.overflow = '';
             });
-            
+
             // Close modal when clicking outside
-            orderModal.addEventListener('click', function(e) {
+            orderModal.addEventListener('click', function (e) {
                 if (e.target === this) {
                     orderModal.classList.remove('active');
                     document.body.style.overflow = '';
                 }
             });
-            
+
             // Close with ESC
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && orderModal.classList.contains('active')) {
                     orderModal.classList.remove('active');
                     document.body.style.overflow = '';
                 }
             });
-            
+
             // Form notification function
             function showFormNotification(message, type = 'success') {
                 const notification = document.createElement('div');
                 notification.className = 'notification';
-                
+
                 let icon = 'check-circle';
                 let color = '#10b981';
-                
+
                 if (type === 'error') {
                     icon = 'exclamation-circle';
                     color = '#ef4444';
@@ -3358,12 +3681,12 @@
                     icon = 'info-circle';
                     color = 'var(--accent-orange)';
                 }
-                
+
                 notification.innerHTML = `
                     <i class="fas fa-${icon}"></i>
                     <span>${message}</span>
                 `;
-                
+
                 notification.style.cssText = `
                     position: fixed;
                     top: 100px;
@@ -3384,9 +3707,9 @@
                     gap: 12px;
                     font-size: 0.95rem;
                 `;
-                
+
                 document.body.appendChild(notification);
-                
+
                 setTimeout(() => {
                     notification.style.animation = 'slideOut 0.3s ease forwards';
                     setTimeout(() => {
@@ -3396,17 +3719,17 @@
                     }, 300);
                 }, 3000);
             }
-            
+
             // Initialize pickup locations animation
             pickupLocations.style.opacity = '0';
             pickupLocations.style.transform = 'translateY(-10px)';
             pickupLocations.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease';
-            
+
             setTimeout(() => {
                 pickupLocations.style.opacity = '1';
                 pickupLocations.style.transform = 'translateY(0)';
             }, 100);
-            
+
             console.log('Delivery form initialized');
         });
 
@@ -3420,8 +3743,13 @@
             const categoryToggles = document.querySelectorAll('.category-toggle');
             const categorySections = document.querySelectorAll('.category-section');
 
+            // New elements for categories grid
+            const categoryCards = document.querySelectorAll('.category-grid-card');
+            const productSections = document.getElementById('productSections');
+
             let isMenuOpen = false;
             let currentPriceType = 'retail';
+            let activeCategory = null;
 
             // Mobile menu
             mobileMenuBtn.addEventListener('click', function () {
@@ -3437,6 +3765,67 @@
                 link.addEventListener('click', () => {
                     if (isMenuOpen) {
                         mobileMenuBtn.click();
+                    }
+                });
+            });
+
+            // ===== КАТЕГОРИИ В ГРИДЕ - ОТКРЫТИЕ СЕКЦИЙ =====
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    const categoryId = this.getAttribute('data-category');
+
+                    // Close all other sections first
+                    document.querySelectorAll('.category-section').forEach(section => {
+                        if (section.id !== categoryId) {
+                            section.classList.add('collapsed');
+                            const toggle = section.querySelector('.category-toggle');
+                            const productsGrid = section.querySelector('.products-grid');
+
+                            toggle.classList.add('collapsed');
+                            toggle.querySelector('i').style.transform = 'rotate(0deg)';
+                            productsGrid.style.opacity = '0';
+                            setTimeout(() => {
+                                productsGrid.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+
+                    // Get the target section
+                    const targetSection = document.getElementById(categoryId);
+                    if (!targetSection) return;
+
+                    // Toggle the target section
+                    const isCollapsed = targetSection.classList.contains('collapsed');
+                    const toggle = targetSection.querySelector('.category-toggle');
+                    const productsGrid = targetSection.querySelector('.products-grid');
+
+                    if (isCollapsed) {
+                        // Open the section
+                        targetSection.classList.remove('collapsed');
+                        toggle.classList.remove('collapsed');
+                        toggle.querySelector('i').style.transform = 'rotate(90deg)';
+                        productsGrid.style.display = 'grid';
+                        setTimeout(() => {
+                            productsGrid.style.opacity = '1';
+
+                            // Scroll to the section with offset for header
+                            const headerHeight = document.querySelector('header').offsetHeight;
+                            const sectionPosition = targetSection.offsetTop - headerHeight - 20;
+
+                            window.scrollTo({
+                                top: sectionPosition,
+                                behavior: 'smooth'
+                            });
+
+                            // Load products if not loaded
+                            setTimeout(loadProductsFromStorage, 100);
+
+                            // Highlight the category card
+                            categoryCards.forEach(c => c.classList.remove('active'));
+                            this.classList.add('active');
+                            activeCategory = categoryId;
+
+                        }, 10);
                     }
                 });
             });
@@ -3474,7 +3863,7 @@
                 });
             });
 
-            // Category toggle
+            // Category toggle (for original sections)
             categoryToggles.forEach(toggle => {
                 toggle.addEventListener('click', function (e) {
                     e.stopPropagation();
@@ -3689,8 +4078,17 @@
                 observer.observe(card);
             });
 
-            console.log('Meditab catalog loaded!');
+            // Observe category cards
+            document.querySelectorAll('.category-grid-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+
+            console.log('Meditab catalog with grid categories loaded!');
         });
     </script>
 </body>
+
 </html>
