@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Оптовый каталог | Meditab - Медицинское оборудование оптом</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poiret+One&family=Prata&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --white: #ffffff;
+            --bg-dark: #182231;
+            --accent-blue: #cddce4;
+            --text-gray: #586474;
+            --border-gray: #d9d9d9;
+            --accent-orange: #cf7911;
+            --accent-orange-light: #ff9d3d;
+            --primary-blue: #2a5c9a;
+            --shadow: 0 4px 20px rgba(24, 34, 49, 0.1);
+            --shadow-hover: 0 8px 30px rgba(24, 34, 49, 0.15);
+            --shadow-dark: 0 10px 40px rgba(24, 34, 49, 0.2);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --gradient-orange: linear-gradient(135deg, var(--accent-orange), var(--accent-orange-light));
+            --gradient-blue: linear-gradient(135deg, var(--accent-blue), #e8f0f5);
+            --gradient-dark: linear-gradient(135deg, var(--bg-dark), #2c3e50);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-gray);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            font-weight: 400;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Prata', serif;
+            font-weight: 400;
+            color: var(--bg-dark);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-orange);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--gradient-orange);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(207, 121, 17, 0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--bg-dark);
+            transition: width 0.4s ease;
+            z-index: -1;
+            border-radius: var(--radius);
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-orange);
+            color: var(--accent-orange);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-orange);
+            color: var(--white);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(217, 217, 217, 0.3);
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 270px;
+            height: 90px;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 8px 0;
+            position: relative;
+            font-size: 1.05rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-orange);
+            transition: width 0.4s ease;
+            border-radius: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent-orange);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* ===== БУРГЕР МЕНЮ ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            background: var(--gradient-orange);
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px auto;
+            transition: var(--transition);
+            border-radius: 1px;
+        }
+
+        .mobile-menu-btn.active {
+            background: var(--bg-dark);
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* ===== ГЕРОЙ СЕКЦИЯ ===== */
+        .wholesale-hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f0f7ff 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wholesale-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .wholesale-hero h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            font-family: 'Prata', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--bg-dark);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            opacity: 0.9;
+        }
+
+        /* ===== КАРТОЧКИ ===== */
+        .info-cards {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            border: 2px solid rgba(217, 217, 217, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .info-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-orange);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .info-card:hover .card-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        /* ===== ВЫДЕЛЕННЫЙ ТЕКСТ ===== */
+        .highlight-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            text-align: center;
+        }
+
+        .benefits-box {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 50px 40px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(207, 121, 17, 0.2);
+            background-clip: padding-box;
+        }
+
+        .benefits-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-orange);
+        }
+
+        .main-benefit {
+            font-size: 1.5rem;
+            color: var(--bg-dark);
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .main-benefit::before {
+            content: '⚕';
+            position: absolute;
+            left: -10px;
+            color: var(--accent-orange);
+        }
+
+        .benefit-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(207, 121, 17, 0.05);
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--accent-orange);
+            transition: var(--transition);
+            border: 1px solid rgba(207, 121, 17, 0.1);
+        }
+
+        .benefit-item:hover {
+            background: rgba(207, 121, 17, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .benefit-item i {
+            font-size: 0.9rem;
+        }
+
+        /* ===== КЛИЕНТЫ ===== */
+        .clients-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .client-item {
+            text-align: center;
+            min-width: 140px;
+            padding: 20px;
+            border-radius: var(--radius);
+            background: white;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+        }
+
+        .client-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-orange);
+        }
+
+        .client-item i {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .client-item:hover i {
+            transform: scale(1.2);
+        }
+
+        /* ===== ФОРМА ===== */
+        .contact-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .contact-section h2 {
+            text-align: center;
+        }
+
+        .contact-section h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 40px auto 0;
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--border-gray);
+            border-radius: var(--radius);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(248, 250, 252, 0.5);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(207, 121, 17, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input:hover {
+            border-color: var(--accent-orange);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .wholesale-cta {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wholesale-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,100 L50,0 L100,100 Z" fill="white" opacity="0.03"/></svg>');
+            background-size: cover;
+            z-index: 0;
+        }
+
+        .wholesale-cta h2 {
+            color: white;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wholesale-cta h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .contact-info:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            background: var(--bg-dark);
+            padding: 80px 0 30px;
+            color: white;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-orange);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            font-family: 'Poiret One', cursive;
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-orange);
+            transform: translateY(-3px) rotate(5deg);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        /* ===== КНОПКА "ВВЕРХ" ===== */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: none;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(30px) scale(0.9);
+            box-shadow: 0 6px 20px rgba(207, 121, 17, 0.4);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(207, 121, 17, 0.6);
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(24, 34, 49, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.5s ease;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--border-gray);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--bg-dark);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-orange);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* ===== МЕДИАЗАПРОСЫ ===== */
+        @media (max-width: 768px) {
+            /* Мобильная версия навбара */
+            .header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            /* Убираем корзину на мобилке */
+            .cart-container {
+                display: none;
+            }
+            
+            /* Бургер справа */
+            .mobile-menu-btn {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                order: 3;
+                margin-left: auto;
+            }
+            
+            /* Лого по центру */
+            .logo {
+                order: 2;
+                width: 150px;
+                height: 60px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            nav {
+                display: contents;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(25px);
+                flex-direction: column;
+                padding: 120px 40px 40px;
+                gap: 20px;
+                transition: right 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+                box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+                border-left: 1px solid rgba(217, 217, 217, 0.3);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 15px 0;
+                border-bottom: 1px solid rgba(217, 217, 217, 0.5);
+                width: 100%;
+                display: block;
+                font-weight: 700;
+            }
+
+            .wholesale-hero {
+                padding: 140px 0 60px;
+            }
+
+            .wholesale-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .benefits-box {
+                padding: 30px 20px;
+                margin: 30px auto;
+            }
+
+            .main-benefit {
+                font-size: 1.3rem;
+                padding-left: 15px;
+            }
+
+            .benefit-items {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .benefit-item {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+
+            .clients-grid {
+                gap: 15px;
+            }
+
+            .client-item {
+                min-width: 120px;
+                padding: 15px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .scroll-to-top {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wholesale-hero h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+            }
+
+            .logo {
+                width: 130px;
+            }
+
+            .info-card {
+                padding: 30px 20px;
+            }
+
+            .contact-info {
+                padding: 20px;
+            }
+
+            .client-item {
+                min-width: 100px;
+                padding: 12px;
+            }
+
+            .client-item i {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== КНОПКА НАВЕРХ ===== -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Вернуться наверх">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <img src="logo-meditab.svg" class="logo">
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Открыть меню" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Розничный каталог</a></li>
+                    <li><a href="wholesale.html" class="active">Оптовый каталог</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+                
+                <!-- Корзина только на ПК -->
+                <div class="cart-container">
+                    <button class="cart-btn" id="cartBtn" aria-label="Открыть корзину">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== ГЕРОЙ СЕКЦИЯ ===== -->
+    <section class="wholesale-hero">
+        <div class="container">
+            <h1>МЕДИТАБ ОПТ</h1>
+            <p class="hero-subtitle">Медицинское оборудование и расходные материалы для аптек, клиник и больниц. Работаем напрямую с производителями.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn">
+                    <i class="fas fa-handshake"></i> Обсудить опт
+                </a>
+                <a href="catalog.html" class="btn btn-secondary">
+                    <i class="fas fa-box-open"></i> Смотреть каталог
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== КАРТОЧКИ ===== -->
+    <section class="info-cards">
+        <div class="container">
+            <h2 style="text-align: center;">Оптовые закупки</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px;">Работаем напрямую с производителями, предлагаем лучшие условия на рынке</p>
+            
+            <div class="cards-grid">
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Цены обсуждаем</h3>
+                    <p>Оптовые условия обсуждаем индивидуально с каждым клиентом. Чем больше заказ — тем лучше условия.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3>Все документы</h3>
+                    <p>Предоставляем полный пакет документов: сертификаты, накладные, регистрационные удостоверения.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Гарантия качества</h3>
+                    <p>Все товары сертифицированы. Техническая поддержка и консультации специалистов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ВЫДЕЛЕННЫЙ ТЕКСТ ===== -->
+    <section class="highlight-section">
+        <div class="container">
+            <h2>Почему мы?</h2>
+            <p style="max-width: 700px; margin: 0 auto 30px;">Нам доверяют крупные поставки медицинского оборудования по всей стране</p>
+            
+            <div class="clients-grid">
+                <div class="client-item">
+                    <i class="fas fa-pills"></i>
+                    <p style="font-weight: 600; margin: 0;">Аптеки и сети</p>
+                </div>
+                <div class="client-item">
+                    <i class="fas fa-hospital"></i>
+                    <p style="font-weight: 600; margin: 0;">Клиники</p>
+                </div>
+                <div class="client-item">
+                    <i class="fas fa-user-md"></i>
+                    <p style="font-weight: 600; margin: 0;">Больницы</p>
+                </div>
+                <div class="client-item">
+                    <i class="fas fa-warehouse"></i>
+                    <p style="font-weight: 600; margin: 0;">Оптовики</p>
+                </div>
+            </div>
+            
+            <div class="benefits-box">
+                <p class="main-benefit">Закажите технику разом у нас оптом — получите максимум выгоды!</p>
+                <div class="benefit-items">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Минимальная партия обсуждается</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Доставка по всей стране</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Все документы предоставляем</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ПРОСТАЯ СВЯЗЬ ===== -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Свяжитесь для обсуждения опта</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 20px;">Оставьте заявку — перезвоним для обсуждения условий</p>
+            
+            <form class="contact-form" id="contactForm">
+                <input type="text" class="form-input" placeholder="Ваше имя" required>
+                <input type="tel" class="form-input" placeholder="Номер телефона" required>
+                <textarea class="form-input" placeholder="Что интересует?" rows="4"></textarea>
+                <button type="submit" class="btn">
+                    <i class="fas fa-paper-plane"></i> Обсудить опт
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="wholesale-cta">
+        <div class="container">
+            <h2>Есть вопросы по опту?</h2>
+            <p style="max-width: 700px; margin: 0 auto 30px; opacity: 0.9;">Свяжитесь с отделом оптовых продаж — обсудим ваши потребности и предложим оптимальные условия</p>
+
+            <div class="cta-buttons">
+                <button class="btn" id="openWholesaleModal">
+                    <i class="fas fa-file-signature"></i> Оставить заявку
+                </button>
+                <a href="tel:+375291234567" class="btn btn-secondary">
+                    <i class="fas fa-phone-alt"></i> Позвонить
+                </a>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-user-tie"></i>
+                    <div>
+                        <p style="font-weight: 600; margin-bottom: 5px;">Отдел оптовых продаж</p>
+                        <p style="opacity: 0.9;">Иванов Александр</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <p style="font-weight: 600; margin-bottom: 5px;">Телефон</p>
+                        <p><a href="tel:+375291234567" style="color: white; text-decoration: underline;">+375 (29) 123-45-67</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <p style="font-weight: 600; margin-bottom: 5px;">Email</p>
+                        <p><a href="mailto:wholesale@meditab.by" style="color: white; text-decoration: underline;">ххх@meditab.by</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ФУТЕР ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <a href="index.html" class="footer-logo">МЕДИТАБ</a>
+                    <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.7;">Медицинское оборудование оптом и в розницу. Работаем с 2010 года.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" aria-label="Viber">
+                            <i class="fab fa-viber"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: white; font-size: 1.2rem; margin-bottom: 20px;">Каталоги</h3>
+                    <ul class="footer-links">
+                        <li><a href="catalog.html">Розничный каталог</a></li>
+                        <li><a href="wholesale.html">Оптовый каталог</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 style="color: white; font-size: 1.2rem; margin-bottom: 20px;">Контакты</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                        <li><a href="tel:+375291234567">+375 (29) 123-45-67</a></li>
+                        <li><a href="mailto:info@meditab.by">info@meditab.by</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>© 2026 МЕДИТАБ. Все права защищены.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem; opacity: 0.8;">
+                    <i class="fas fa-shield-alt"></i> Все товары сертифицированы
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+    <div class="modal-overlay" id="wholesaleModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 style="margin-bottom: 20px;">Заявка на опт</h2>
+            <p style="margin-bottom: 25px; color: var(--text-gray);">Оставьте контакты, перезвоним для обсуждения</p>
+
+            <form id="wholesaleForm" style="display: grid; gap: 20px;">
+                <input type="text" class="form-input" placeholder="Ваше имя" required>
+                <input type="tel" class="form-input" placeholder="Номер телефона" required>
+                <textarea class="form-input" placeholder="Что интересует? (необязательно)" rows="3"></textarea>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-paper-plane"></i> Отправить
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            const scrollToTop = document.getElementById('scrollToTop');
+            const wholesaleModal = document.getElementById('wholesaleModal');
+            const modalClose = document.getElementById('modalClose');
+            const openWholesaleModal = document.getElementById('openWholesaleModal');
+            const wholesaleForm = document.getElementById('wholesaleForm');
+            const contactForm = document.getElementById('contactForm');
+
+            let isMenuOpen = false;
+
+            // Бургер меню
+            mobileMenuBtn.addEventListener('click', function () {
+                isMenuOpen = !isMenuOpen;
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                this.setAttribute('aria-expanded', isMenuOpen);
+                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+            });
+
+            // Закрытие меню при клике на ссылку
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (isMenuOpen) {
+                        mobileMenuBtn.click();
+                    }
+                });
+            });
+
+            // Модальное окно
+            openWholesaleModal.addEventListener('click', () => {
+                wholesaleModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            modalClose.addEventListener('click', () => {
+                wholesaleModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            wholesaleForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                showNotification('Заявка отправлена! Перезвоним для обсуждения.', 'success');
+                wholesaleModal.classList.remove('active');
+                document.body.style.overflow = '';
+                this.reset();
+            });
+
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                showNotification('Заявка отправлена! Менеджер свяжется с вами.', 'success');
+                this.reset();
+            });
+
+            // Закрытие модального окна
+            wholesaleModal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    wholesaleModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Кнопка "наверх"
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    scrollToTop.classList.add('visible');
+                } else {
+                    scrollToTop.classList.remove('visible');
+                }
+            });
+
+            scrollToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Плавный скролл
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Добавляем немного интерактива карточкам
+            const cards = document.querySelectorAll('.info-card, .client-item, .benefit-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if(this.classList.contains('info-card')) {
+                        this.style.transform = 'translateY(-10px)';
+                    } else {
+                        this.style.transform = 'translateY(-3px)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Уведомления
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                const colors = {
+                    success: '#10b981',
+                    error: '#ef4444',
+                    info: 'var(--accent-orange)'
+                };
+
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: white;
+                    color: ${colors[type] || colors.info};
+                    padding: 15px 20px;
+                    border-radius: var(--radius);
+                    border: 1px solid ${colors[type] || colors.info}20;
+                    z-index: 3000;
+                    animation: slideIn 0.3s ease;
+                    max-width: 300px;
+                    box-shadow: var(--shadow);
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 600;
+                `;
+
+                notification.innerHTML = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease forwards';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+
+            // Стили для анимаций
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+
+            // Закрытие по Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (isMenuOpen) mobileMenuBtn.click();
+                    if (wholesaleModal.classList.contains('active')) {
+                        wholesaleModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+
+            console.log('Оптовый каталог MediTab загружен!');
+        });
+    </script>
+</body>
+</html>
